@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Transforms a YAML file into XML.
  */
-class Transformer {
+class Jade {
 
-  private static final Logger LOG = LoggerFactory.getLogger(Transformer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Jade.class);
 
-  String transform(String filename) throws IOException {
+  String transformToXml(String filename) throws IOException {
     LOG.debug("transforming a file: '{}'", filename);
     URL templateUrl = getClass().getClassLoader().getResource(filename);
     return Jade4J.render(templateUrl, null, true);

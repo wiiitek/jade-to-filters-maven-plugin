@@ -6,14 +6,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.IOException;
 import org.junit.Test;
 
-public class TransformerTest {
+public class JadeTest {
 
   @Test
   public void test() throws IOException {
-    Transformer tested = new Transformer();
+    Jade tested = new Jade();
 
-    String actual = tested.transform("./sample.jade");
-
+    String actual = tested.transformToXml("./sample.jade");
     String expected = "\n"
         + "<workspaceFilter version=\"1.0\">\n"
         + "  <filter root=\"/content/test\"></filter>\n"
