@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>pl.kubiczak.maven</groupId>
+  <artifactId>sling-filters-maven-plugin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Maven Quick Start Archetype</name>
+  <url>http://maven.apache.org</url>
+
+  <!-- maven prerequisites for plugins versions check by versions-maven-plugin -->
+  <prerequisites>
+    <maven>${version.required.maven}</maven>
+  </prerequisites>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <version.required.maven>3.0.4</version.required.maven>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.ekryd.sortpom</groupId>
+          <artifactId>sortpom-maven-plugin</artifactId>
+          <version>2.8.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>extra-enforcer-rules</artifactId>
+              <version>1.0-beta-6</version>
+            </dependency>
+            <dependency>
+              <groupId>com.github.ferstl</groupId>
+              <artifactId>pedantic-pom-enforcers</artifactId>
+              <version>1.3.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sort-pom</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+            <configuration>
+              <keepBlankLines>true</keepBlankLines>
+              <createBackupFile>false</createBackupFile>
+              <expandEmptyElements>false</expandEmptyElements>
+              <nrOfIndentSpace>2</nrOfIndentSpace>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-plugins-versions</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>display-plugin-updates</goal>
+            </goals>
+            <configuration>
+              <logOutput>false</logOutput>
+              <outputFile>${project.basedir}/src/main/resources/plugins-report.txt</outputFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>dependencies</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>display-dependency-updates</goal>
+            </goals>
+            <configuration>
+              <logOutput>false</logOutput>
+              <outputFile>${project.basedir}/src/main/resources/dependencies-report.txt</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- This plugin validates maven configuration and environment -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-modules-and-environment</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <!-- default rules -->
+                <dependencyConvergence />
+                <requireMavenVersion>
+                  <version>${version.required.maven}</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <!-- JAVA 1.8.0 is required by sortpom-maven-plugin:2.5.0 -->
+                  <version>1.8.0</version>
+                </requireJavaVersion>
+                <!-- Mojo extra-enforcer-rules -->
+                <banCircularDependencies />
+                <!-- pedantic-pom-enforcers rules -->
+                <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer" />
+                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer" />
+                <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer" />
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+        <inherited>true</inherited>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-google-style</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <!-- predefined -->
+              <failsOnError>true</failsOnError>
+              <configLocation>google_checks.xml</configLocation>
+              <violationSeverity>info</violationSeverity>
+              <encoding>UTF-8</encoding>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
