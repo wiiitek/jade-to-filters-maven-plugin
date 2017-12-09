@@ -23,7 +23,7 @@ public class GenerateMojo extends AbstractMojo {
    */
   @Parameter(
       property = "sling.filters.outputFile",
-      defaultValue = "${project.basedir}/src/main/resources/filters.xml",
+      defaultValue = "${project.basedir}/src/main/content/META-INF/vault/filter.xml",
       required = true
   )
   private File outputFile;
