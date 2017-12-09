@@ -1,7 +1,8 @@
 
 # IntelliJ
-/.idea/
 /sling-filters-maven-plugin.iml
+/.idea/
+!/.idea/codeStyles/
 
 # Maven
 /target/
