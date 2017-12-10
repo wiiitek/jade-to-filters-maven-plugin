@@ -1,6 +1,8 @@
 Sling Filters Maven Plugin
 ==========================
 
+[![Build Status](https://travis-ci.org/wiiitek/sling-filters-maven-plugin.svg?branch=master)](https://travis-ci.org/wiiitek/sling-filters-maven-plugin)
+
 This plugin reads [Jade] files and creates [filter.xml] file for [content package].
 
 It removes code duplication if you are using same filters in different Maven modules.
