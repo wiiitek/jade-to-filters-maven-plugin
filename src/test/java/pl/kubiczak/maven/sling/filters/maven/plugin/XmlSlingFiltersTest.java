@@ -82,7 +82,7 @@ public class XmlSlingFiltersTest {
   }
 
   @Test
-  public void addFromFile_shouldAddAdvancedFilterFromFilename() throws IOException {
+  public void addFromFile_shouldAddFiltersFromTwoFiles() throws IOException {
     String filter = getClass().getClassLoader().getResource("test-filter.jade").getPath();
     String damFilter = getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
 
