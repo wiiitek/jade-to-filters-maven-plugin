@@ -4,3 +4,6 @@ jdk:
   - openjdk8
   - oraclejdk8
   - oraclejdk9
+
+script:
+  - mvn clean install -B -Prun-its
