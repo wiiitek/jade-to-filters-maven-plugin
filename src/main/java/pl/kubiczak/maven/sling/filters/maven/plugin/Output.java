@@ -11,6 +11,9 @@ import java.io.Writer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
+/**
+ * Creates output file.
+ */
 class Output {
 
   private final Log mavenLog;

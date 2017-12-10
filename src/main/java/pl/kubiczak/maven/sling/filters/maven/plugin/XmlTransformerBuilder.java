@@ -7,6 +7,9 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import org.apache.maven.plugin.logging.Log;
 
+/**
+ * Builds transformer for XML formatter.
+ */
 class XmlTransformerBuilder {
 
   private final Log mavenLog;

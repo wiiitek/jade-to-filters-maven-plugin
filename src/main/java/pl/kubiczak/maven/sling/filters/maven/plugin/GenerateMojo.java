@@ -11,7 +11,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Says "Hi" to the user.
+ * Generates filter file for content package from Jade files.
  */
 @Mojo(
     name = "generate",
