@@ -13,6 +13,7 @@ assert xml.equals('''<?xml version="1.0" encoding="UTF-8"?>
   <filter root="/content/dam/test">
     <exclude pattern="/content/dam/test(/.*)?/renditions(/.*)?"/>
     <include pattern="/content/dam/test(/.*)?/renditions/original"/>
+    <!-- exclude QA content from DAM -->
     <exclude pattern="/content/dam/test(/.*)?/qa(/.*)?"/>
   </filter>
 </workspaceFilter>

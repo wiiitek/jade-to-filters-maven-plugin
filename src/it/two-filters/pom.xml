@@ -26,7 +26,7 @@
             </goals>
             <configuration>
               <inputFiles>
-                <file>${project.basedir}/filters/filter.jade</file>
+                <file>${project.basedir}/filters/filters.jade</file>
               </inputFiles>
               <outputFile>${project.basedir}/filters/filter.xml</outputFile>
             </configuration>
