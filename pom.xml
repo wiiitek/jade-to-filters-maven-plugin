@@ -12,6 +12,13 @@
   <url>https://github.com/wiiitek/sling-filters-maven-plugin</url>
   <inceptionYear>2013</inceptionYear>
 
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
   <!-- maven prerequisites for plugins versions check by versions-maven-plugin -->
   <prerequisites>
     <maven>${version.required.maven}</maven>
