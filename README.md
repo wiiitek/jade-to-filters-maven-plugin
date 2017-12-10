@@ -32,7 +32,7 @@ Add plugin in your pom.xml:
 <build>
   <plugin>
     <groupId>pl.kubiczak</groupId>
-      <artifactId>jade-to-filters-maven-plugin</artifactId>
+    <artifactId>jade-to-filters-maven-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
       <executions>
         <execution>
