@@ -15,7 +15,7 @@ public class JadeTest {
   public final ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void test() throws IOException {
+  public void transformToXml_shouldTransformSimpleFilter() throws IOException {
     Jade tested = new Jade();
 
     String actual = tested.transformToXml("./simple-filter.jade");
@@ -28,7 +28,7 @@ public class JadeTest {
   }
 
   @Test
-  public void shouldThrowExceptionForIncorrectSyntax() throws IOException {
+  public void transformToXml_shouldThrowExceptionForIncorrectSyntax() throws IOException {
     Jade tested = new Jade();
     exception.expect(JadeLexerException.class);
     tested.transformToXml("./incorrect.jade");
