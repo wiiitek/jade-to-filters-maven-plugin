@@ -17,7 +17,7 @@ class Output {
 
   private final Log log;
 
-  public Output(File file, Log log) {
+  Output(File file, Log log) {
     this.file = file;
     this.log = log;
   }

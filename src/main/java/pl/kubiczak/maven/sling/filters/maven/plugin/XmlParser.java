@@ -26,11 +26,11 @@ class XmlParser {
     } catch (ParserConfigurationException pce) {
       LOG.error("error while creating XML document builder", pce);
     } catch (SAXException saxe) {
-      LOG.error("error while parsinx XML: {}:\n{}", saxe.getMessage(), xml, saxe);
+      LOG.error("error while parsing XML: {}:\n{}", saxe.getMessage(), xml, saxe);
     } catch (UnsupportedEncodingException uee) {
       LOG.error("Unsupported encoding: UTF-8");
     } catch (IOException ioe) {
-      LOG.error("error while parsinx XML: {}:\n{}", ioe.getMessage(), xml, ioe);
+      LOG.error("error while parsing XML: {}:\n{}", ioe.getMessage(), xml, ioe);
     }
     return document;
   }
