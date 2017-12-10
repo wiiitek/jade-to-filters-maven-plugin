@@ -30,9 +30,7 @@ public class JadeReaderTest {
     URL jadeFilterUrl = getClass().getClassLoader().getResource("simple-filter.jade");
     String actual = tested.transformToXml(jadeFilterUrl);
     String expected = "\n"
-        + "<workspaceFilter version=\"1.0\">\n"
-        + "  <filter root=\"/content/test\"></filter>\n"
-        + "</workspaceFilter>";
+        + "<filter root=\"/content/test\"></filter>";
 
     assertThat(actual, equalTo(expected));
   }
