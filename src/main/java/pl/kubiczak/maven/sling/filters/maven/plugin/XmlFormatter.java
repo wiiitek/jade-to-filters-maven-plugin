@@ -1,6 +1,5 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
-import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import java.io.StringWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -41,7 +40,7 @@ class XmlFormatter {
   private Transformer createTransformer() throws TransformerConfigurationException {
     Integer indentNumber = 2;
     return new XmlTransformerBuilder()
-        .addFactoryAttribute(TransformerFactoryImpl.INDENT_NUMBER, indentNumber)
+        .addFactoryAttribute("indent-number", indentNumber)
         .addOutputProperty(OutputKeys.METHOD, "xml")
         .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
         .addOutputProperty(OutputKeys.INDENT, "yes")
