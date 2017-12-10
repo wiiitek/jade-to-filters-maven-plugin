@@ -1,5 +1,6 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import org.slf4j.Logger;
@@ -26,6 +27,13 @@ class XmlSlingFilters {
 
   String prettyXml() {
     return new XmlFormatter().format(filters);
+  }
+
+  XmlSlingFilters addFromFile(String jadeFile) throws IOException {
+    URL jadeFileUrl = new File(jadeFile).toURI().toURL();
+    String xml = new JadeReader().transformToXml(jadeFileUrl);
+    this.addFromXml(xml);
+    return this;
   }
 
   XmlSlingFilters addFromFile(URL jadeFilterUrl) throws IOException {

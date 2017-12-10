@@ -3,7 +3,6 @@ package pl.kubiczak.maven.sling.filters.maven.plugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URL;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -49,8 +48,8 @@ public class GenerateMojo extends AbstractMojo {
     XmlSlingFilters slingFilters = new XmlSlingFilters();
     for (String jadeFilename : inputFiles) {
       try {
-        URL jadeFilterUrl = new File(jadeFilename).toURI().toURL();
-        slingFilters.addFromFile(jadeFilterUrl);
+
+        slingFilters.addFromFile(jadeFilename);
       } catch (IOException e) {
         getLog().error("error while adding filter from '" + jadeFilename + "'");
       }

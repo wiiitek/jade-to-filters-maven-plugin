@@ -41,4 +41,10 @@ public class XmlSlingFiltersTest {
     assertThat(actual, equalTo(SIMPLE_XML));
   }
 
+  @Test
+  public void addFromFile_shouldAddElementFromFilename() throws IOException {
+    String filePath = getClass().getClassLoader().getResource("test.jade").getPath();
+    String actual = new XmlSlingFilters().addFromFile(filePath).prettyXml();
+    assertThat(actual, equalTo(SIMPLE_XML));
+  }
 }
