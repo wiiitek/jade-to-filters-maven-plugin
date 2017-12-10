@@ -62,6 +62,17 @@ You could use more Jade files. They will be all converted into filters:
 </configuration>
 ```
 
+### Comments in Jade files
+
+You could add [comments in Jade files] i.e.:
+
+```yaml
+filter(root="/content/project")
+  // let's exclude qa content from package
+  exclude(pattern="/content/project(/.*)?/qa(/.*)?")
+```
+
 [Jade]: http://jade-lang.com/
 [filter.xml]: http://jackrabbit.apache.org/filevault/filter.html
 [content package]: https://helpx.adobe.com/experience-manager/6-3/sites/administering/using/package-manager.html
+[comments in Jade files]: http://jade-lang.com/reference/comments
