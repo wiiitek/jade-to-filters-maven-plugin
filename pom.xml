@@ -23,6 +23,11 @@
     <maven.compiler.target>1.6</maven.compiler.target>
 
     <version.required.maven>3.0.4</version.required.maven>
+
+    <!--
+      this property should be overwritten from commandline during release
+    -->
+    <gpg.keyname>9A105524</gpg.keyname>
   </properties>
 
   <dependencyManagement>
@@ -156,6 +161,42 @@
             </dependency>
           </dependencies>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+          <!--
+            configured here in order to enable signing artifacts by specifying goal:
+            mvn gpg:sign
+          -->
+          <configuration>
+            <!--
+              this should be overwritten during signing AET artifacts
+              with -Dgpg.keyname
+              but when used with maven-release-plugin
+              -Darguments="-Dgpg.keyname" should be used
+              see http://maven.apache.org/plugins/maven-gpg-plugin/sign-mojo.html#keyname
+              and http://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#arguments
+            -->
+            <keyname>${gpg.keyname}</keyname>
+            <executable>gpg2</executable>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.4</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -273,7 +314,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
-            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>integration-test</id>
@@ -298,6 +338,57 @@
                 <goal>test-compile</goal>
               </goals>
             </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
