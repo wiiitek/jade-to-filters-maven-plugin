@@ -5,10 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import de.neuland.jade4j.exceptions.JadeLexerException;
 import java.io.IOException;
+import java.net.URL;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import pl.kubiczak.maven.sling.filters.maven.plugin.JadeReader;
 
 public class JadeReaderTest {
 
@@ -19,7 +19,8 @@ public class JadeReaderTest {
   public void transformToXml_shouldTransformSimpleFilter() throws IOException {
     JadeReader tested = new JadeReader();
 
-    String actual = tested.transformToXml("./simple-filter.jade");
+    URL jadeFilterUrl = getClass().getClassLoader().getResource("simple-filter.jade");
+    String actual = tested.transformToXml(jadeFilterUrl);
     String expected = "\n"
         + "<workspaceFilter version=\"1.0\">\n"
         + "  <filter root=\"/content/test\"></filter>\n"
@@ -31,7 +32,8 @@ public class JadeReaderTest {
   @Test
   public void transformToXml_shouldThrowExceptionForIncorrectSyntax() throws IOException {
     JadeReader tested = new JadeReader();
+    URL jadeFilterUrl = getClass().getClassLoader().getResource("incorrect.jade");
     exception.expect(JadeLexerException.class);
-    tested.transformToXml("./incorrect.jade");
+    tested.transformToXml(jadeFilterUrl);
   }
 }

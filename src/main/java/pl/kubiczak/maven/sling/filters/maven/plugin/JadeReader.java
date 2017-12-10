@@ -13,17 +13,10 @@ class JadeReader {
 
   private static final Logger LOG = LoggerFactory.getLogger(JadeReader.class);
 
-  String transformToXml(String filename) throws IOException {
+  String transformToXml(URL jadeFilterUrl) throws IOException {
     final String result;
-    LOG.debug("transforming a file: '{}'", filename);
-    URL templateUrl = getClass().getClassLoader().getResource(filename);
-    if (templateUrl == null) {
-      LOG.warn("the resource: '{}' could not be found", filename);
-      result = "<!-- the resource '" + filename + "' could not be found -->";
-    } else {
-      result = Jade4J.render(templateUrl, null, true);
-    }
-    return result;
+    LOG.debug("transforming a template with URL: '{}'", jadeFilterUrl);
+    return Jade4J.render(jadeFilterUrl, null, true);
   }
 
 }

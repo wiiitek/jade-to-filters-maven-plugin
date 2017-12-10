@@ -3,6 +3,8 @@ package pl.kubiczak.maven.sling.filters.maven.plugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
+import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -19,7 +21,16 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class GenerateMojo extends AbstractMojo {
 
   /**
-   * Location of the file.
+   * Location of the Jade input files.
+   */
+  @Parameter(
+      required = true,
+      property = "sling.filters.inputFiles"
+  )
+  private List<String> inputFiles;
+
+  /**
+   * Location of the output file.
    */
   @Parameter(
       property = "sling.filters.outputFile",
@@ -35,8 +46,19 @@ public class GenerateMojo extends AbstractMojo {
 
     Output fo = new Output(outputFile, getLog());
 
+    XmlSlingFilters slingFilters = new XmlSlingFilters();
+    for (String jadeFilename : inputFiles) {
+      try {
+        URL jadeFilterUrl = new File(jadeFilename).toURI().toURL();
+        slingFilters.addFilter(jadeFilterUrl);
+      } catch (IOException e) {
+        getLog().error("error while adding filter from '" + jadeFilename + "'");
+      }
+    }
+
     Writer writer = fo.createWriter();
     try {
+      writer.write(slingFilters.prettyXml());
       writer.close();
     } catch (IOException ioe) {
       getLog().error("Error while closing output file");
