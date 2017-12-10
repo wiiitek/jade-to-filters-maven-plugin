@@ -3,6 +3,7 @@ package pl.kubiczak.maven.sling.filters.maven.plugin;
 import de.neuland.jade4j.Jade4J;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import org.apache.maven.plugin.logging.Log;
 
 /**
@@ -20,7 +21,7 @@ class JadeReader {
     String result = null;
     mavenLog.debug("transforming a template with URL: '" + jadeFilterUrl + "'");
     try {
-      result = Jade4J.render(jadeFilterUrl, null, true);
+      result = Jade4J.render(jadeFilterUrl, new HashMap<String, Object>(), true);
       // we don't want to have any whitespaces here because they are parsed later into XML
       result = "<filters>" + result + "</filters>";
     } catch (IOException e) {

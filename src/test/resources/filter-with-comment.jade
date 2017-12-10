@@ -1,0 +1,8 @@
+filter(root="/content/project/dam")
+  //- the comments that follows '//-' will not be transferred into final markup
+  // let's exclude all renditions for DAM nodes
+  exclude(pattern="/content/project/dam(/.*)?/renditions(/.*)?")
+  //
+    but we want to to include original rendition
+    so that others could be regenerated
+  include(pattern="/content/project/dam(/.*)?/renditions/original")

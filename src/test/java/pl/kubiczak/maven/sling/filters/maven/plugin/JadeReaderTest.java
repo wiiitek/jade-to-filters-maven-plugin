@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import de.neuland.jade4j.exceptions.JadeLexerException;
-import java.io.IOException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.Rule;
@@ -24,7 +23,7 @@ public class JadeReaderTest {
   private Log mavenLogMock;
 
   @Test
-  public void transformToXml_shouldTransformSimpleFilter() throws IOException {
+  public void transformToXml_shouldTransformSimpleFilter() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
     URL jadeFilterUrl = getClass().getClassLoader().getResource("simple-filter.jade");
@@ -38,7 +37,7 @@ public class JadeReaderTest {
   }
 
   @Test
-  public void transformToXml_shouldReadTwoFilters() throws IOException {
+  public void transformToXml_shouldReadTwoFilters() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
     URL jadeFilterUrl = getClass().getClassLoader().getResource("two-filters.jade");
@@ -53,7 +52,29 @@ public class JadeReaderTest {
   }
 
   @Test
-  public void transformToXml_shouldThrowExceptionForIncorrectSyntax() throws IOException {
+  public void transformToXml_shouldReadComments() {
+    JadeReader tested = new JadeReader(mavenLogMock);
+
+    URL jadeFilterUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
+    String actual = tested.transformToXml(jadeFilterUrl);
+    String expected = ""
+        + "<filters>\n"
+        + "<filter root=\"/content/project/dam\">\n"
+        + "  <!-- let's exclude all renditions for DAM nodes-->\n"
+        + "  <exclude pattern=\"/content/project/dam(/.*)?/renditions(/.*)?\"></exclude>\n"
+        + "  <!--\n"
+        + "  but we want to to include original rendition\n"
+        + "  so that others could be regenerated\n"
+        + "  -->\n"
+        + "  <include pattern=\"/content/project/dam(/.*)?/renditions/original\"></include>\n"
+        + "</filter>"
+        + "</filters>";
+
+    assertThat(actual, equalTo(expected));
+  }
+
+  @Test
+  public void transformToXml_shouldThrowExceptionForIncorrectSyntax() {
     JadeReader tested = new JadeReader(mavenLogMock);
     URL jadeFilterUrl = getClass().getClassLoader().getResource("incorrect.jade");
     exception.expect(JadeLexerException.class);
