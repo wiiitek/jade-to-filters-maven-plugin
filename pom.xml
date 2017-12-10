@@ -203,7 +203,7 @@
                 </requireMavenVersion>
                 <requireJavaVersion>
                   <!-- JAVA 1.8.0 is required by sortpom-maven-plugin:2.5.0 -->
-                  <version>1.8.0</version>
+                  <version>1.6.0</version>
                 </requireJavaVersion>
                 <!-- Mojo extra-enforcer-rules -->
                 <banCircularDependencies />
