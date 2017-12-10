@@ -2,6 +2,7 @@ package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import pl.kubiczak.maven.sling.filters.maven.plugin.xml.Parser;
@@ -25,10 +26,17 @@ class FiltersXml {
 
   void addFilter(String filterXml) {
     Document filterDoc = new Parser().parse(filterXml);
-    Node copy = filterDoc.getDocumentElement().cloneNode(true);
+    if (filterDoc == null) {
+      LOG.warn("XML could not be parsed");
+      Comment comment = filters.createComment(" filter could not be parsed ");
+      filters.appendChild(comment);
+    } else {
+      LOG.debug("including '{}' in filters", filterDoc);
+      Node copy = filterDoc.getDocumentElement().cloneNode(true);
+      filters.adoptNode(copy);
+      filters.getDocumentElement().appendChild(copy);
+    }
 
-    filters.adoptNode(copy);
-    filters.getDocumentElement().appendChild(copy);
   }
 
   String prettyXml() {
