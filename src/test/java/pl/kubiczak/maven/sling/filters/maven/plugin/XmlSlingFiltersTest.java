@@ -21,6 +21,19 @@ public class XmlSlingFiltersTest {
       + "  <test/>\n"
       + "</workspaceFilter>\n";
 
+  private static final String XML = ""
+      + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+      + "<workspaceFilter version=\"1.0\">\n"
+      + "  <filter root=\"/content/test\">\n"
+      + "    <exclude pattern=\"/content/test(/.*)?/qa(/.*)?\"/>\n"
+      + "  </filter>\n"
+      + "  <filter root=\"/content/dam/test\">\n"
+      + "    <exclude pattern=\"/content/dam/test(/.*)?/renditions(/.*)?\"/>\n"
+      + "    <include pattern=\"/content/dam/test(/.*)?/renditions/original\"/>\n"
+      + "    <exclude pattern=\"/content/dam/test(/.*)?/qa(/.*)?\"/>\n"
+      + "  </filter>\n"
+      + "</workspaceFilter>\n";
+
   @Mock
   private Log mavenLogMock;
 
@@ -66,5 +79,17 @@ public class XmlSlingFiltersTest {
         .addFromFile(filePath)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
+  }
+
+  @Test
+  public void addFromFile_shouldAddAdvancedFilterFromFilename() throws IOException {
+    String filter = getClass().getClassLoader().getResource("test-filter.jade").getPath();
+    String damFilter = getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
+
+    String actual = new XmlSlingFilters(mavenLogMock)
+        .addFromFile(filter)
+        .addFromFile(damFilter)
+        .prettyXml();
+    assertThat(actual, equalTo(XML));
   }
 }

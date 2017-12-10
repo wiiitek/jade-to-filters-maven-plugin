@@ -1,7 +1,6 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
@@ -54,7 +53,7 @@ class XmlSlingFilters {
     return this;
   }
 
-  XmlSlingFilters addFromFile(URL jadeFilterUrl) throws IOException {
+  XmlSlingFilters addFromFile(URL jadeFilterUrl) {
     String xml = new JadeReader(mavenLog).transformToXml(jadeFilterUrl);
     this.addFromXml(xml);
     return this;
