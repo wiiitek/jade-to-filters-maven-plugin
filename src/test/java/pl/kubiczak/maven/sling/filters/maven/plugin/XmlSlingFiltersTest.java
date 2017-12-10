@@ -6,7 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import org.junit.Test;
-import pl.kubiczak.maven.sling.filters.maven.plugin.XmlSlingFilters;
 
 public class XmlSlingFiltersTest {
 
@@ -21,6 +20,13 @@ public class XmlSlingFiltersTest {
     String actual = new XmlSlingFilters().addFilter("<test></test>").prettyXml();
 
     assertThat(actual, equalTo(SIMPLE_XML));
+  }
+
+  @Test
+  public void addFilter_shouldAddNestedElement() {
+    String actual = new XmlSlingFilters().addFilter("<test><sub-test/></test>").prettyXml();
+
+    assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
   }
 
   @Test
