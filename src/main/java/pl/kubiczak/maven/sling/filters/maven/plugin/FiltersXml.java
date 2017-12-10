@@ -45,26 +45,7 @@ class FiltersXml {
     filters.getDocumentElement().appendChild(copy);
   }
 
-  private Document parse(String xml) {
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    Document document = null;
-    try {
-      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-      InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-      document = docBuilder.parse(in);
-    } catch (ParserConfigurationException pce) {
-      LOG.error("error while creating XML document builder", pce);
-    } catch (SAXException saxe) {
-      LOG.error("error while parsinx XML: {}:\n{}", saxe.getMessage(), xml, saxe);
-    } catch (UnsupportedEncodingException uee) {
-      LOG.error("Unsupported encoding: UTF-8");
-    } catch (IOException ioe) {
-      LOG.error("error while parsinx XML: {}:\n{}", ioe.getMessage(), xml, ioe);
-    }
-    return document;
-  }
-
-  public String prettyXml() {
+  String prettyXml() {
     String xml = null;
     try {
       DOMSource domSource = new DOMSource(filters);
@@ -82,6 +63,25 @@ class FiltersXml {
     }
     // always change to linux newlines
     return xml.replace("\r\n", "\n");
+  }
+
+  private Document parse(String xml) {
+    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    Document document = null;
+    try {
+      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+      InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+      document = docBuilder.parse(in);
+    } catch (ParserConfigurationException pce) {
+      LOG.error("error while creating XML document builder", pce);
+    } catch (SAXException saxe) {
+      LOG.error("error while parsinx XML: {}:\n{}", saxe.getMessage(), xml, saxe);
+    } catch (UnsupportedEncodingException uee) {
+      LOG.error("Unsupported encoding: UTF-8");
+    } catch (IOException ioe) {
+      LOG.error("error while parsinx XML: {}:\n{}", ioe.getMessage(), xml, ioe);
+    }
+    return document;
   }
 
   private Transformer createTransformer() throws TransformerConfigurationException {
