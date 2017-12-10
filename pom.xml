@@ -19,6 +19,15 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <name>Jakub Kubiczak</name>
+      <email>jakub.kubiczak@cognifide.com</email>
+      <organization>Cognifide</organization>
+      <organizationUrl>http://www.cognifide.com</organizationUrl>
+    </developer>
+  </developers>
+
   <!-- maven prerequisites for plugins versions check by versions-maven-plugin -->
   <prerequisites>
     <maven>${version.required.maven}</maven>
