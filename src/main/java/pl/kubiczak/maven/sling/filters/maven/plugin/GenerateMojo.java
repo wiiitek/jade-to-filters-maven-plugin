@@ -33,6 +33,8 @@ public class GenerateMojo extends AbstractMojo {
    */
   @Parameter(
       property = "sling.filters.outputFile",
+      // the default value is in sync with maven project created from this archetype
+      // https://github.com/Adobe-Marketing-Cloud/aem-project-archetype
       defaultValue = "${project.basedir}/src/main/content/META-INF/vault/filter.xml",
       required = true
   )
