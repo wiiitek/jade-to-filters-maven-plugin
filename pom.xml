@@ -185,7 +185,7 @@
         <executions>
           <execution>
             <id>check-plugins-versions</id>
-            <phase>verify</phase>
+            <phase>validate</phase>
             <goals>
               <goal>display-plugin-updates</goal>
             </goals>
