@@ -2,6 +2,7 @@ Sling Filters Maven Plugin
 ==========================
 
 [![Build Status](https://travis-ci.org/wiiitek/sling-filters-maven-plugin.svg?branch=master)](https://travis-ci.org/wiiitek/sling-filters-maven-plugin)
+[![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/cognifide/aet.svg?label=License)](http://www.apache.org/licenses/)
 
 This plugin reads [Jade] files and creates [filter.xml] file for [content package].
 
