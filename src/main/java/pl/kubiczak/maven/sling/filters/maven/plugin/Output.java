@@ -11,13 +11,13 @@ import java.io.Writer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
-class FileOperations {
+class Output {
 
   private final File file;
 
   private final Log log;
 
-  FileOperations(File file, Log log) {
+  Output(File file, Log log) {
     this.file = file;
     this.log = log;
   }

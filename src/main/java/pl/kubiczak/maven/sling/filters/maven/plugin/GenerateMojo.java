@@ -33,7 +33,7 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    FileOperations fo = new FileOperations(outputFile, getLog());
+    Output fo = new Output(outputFile, getLog());
 
     Writer writer = fo.createWriter();
     try {
