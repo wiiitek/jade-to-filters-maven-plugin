@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-public class Pretty {
+class Pretty {
 
   private static final Logger LOG = LoggerFactory.getLogger(Pretty.class);
 
@@ -22,7 +22,7 @@ public class Pretty {
    * @param document w3c DOM document
    * @return pretty formatted XML string
    */
-  public String format(Document document) {
+  String format(Document document) {
     String xml;
     try {
       DOMSource domSource = new DOMSource(document);

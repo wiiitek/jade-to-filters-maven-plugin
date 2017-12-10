@@ -11,23 +11,27 @@ import pl.kubiczak.maven.sling.filters.maven.plugin.jade.Jade;
 /**
  * Manipulations on XML file for filters.
  */
-class Filters {
+public class Filters {
 
   private static final Logger LOG = LoggerFactory.getLogger(Filters.class);
 
   private final Document filters;
 
-  Filters() {
+  public Filters() {
     String xml = "<workspaceFilter version=\"1.0\"/>";
     this.filters = new Parser().parse(xml);
     // for formatting - https://stackoverflow.com/a/8438236
     this.filters.setXmlStandalone(true);
   }
 
-  Filters addFilterFromJadeFile(String filename) throws IOException {
+  public Filters addFilterFromJadeFile(String filename) throws IOException {
     String xml = new Jade().transformToXml(filename);
     this.addFilter(xml);
     return this;
+  }
+
+  public String prettyXml() {
+    return new Pretty().format(filters);
   }
 
   Filters addFilter(String filterXml) {
@@ -44,9 +48,5 @@ class Filters {
       filters.getDocumentElement().appendChild(copy);
     }
     return this;
-  }
-
-  String prettyXml() {
-    return new Pretty().format(filters);
   }
 }

@@ -12,7 +12,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class Parser {
+class Parser {
 
   private static final Logger LOG = LoggerFactory.getLogger(Parser.class);
 
@@ -22,7 +22,7 @@ public class Parser {
    * @param xml a vaild XML string to parse
    * @return @Nullable w3c document or null if there were some errors
    */
-  public Document parse(String xml) {
+  Document parse(String xml) {
     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
     Document document = null;
     try {
