@@ -21,6 +21,8 @@ class JadeReader {
     mavenLog.debug("transforming a template with URL: '" + jadeFilterUrl + "'");
     try {
       result = Jade4J.render(jadeFilterUrl, null, true);
+      // we don't want to have any whitespaces here because they are parsed later into XML
+      result = "<filters>" + result + "</filters>";
     } catch (IOException e) {
       mavenLog.error("error while parsing '" + jadeFilterUrl + "' as Jade file. " + e.getMessage());
     }

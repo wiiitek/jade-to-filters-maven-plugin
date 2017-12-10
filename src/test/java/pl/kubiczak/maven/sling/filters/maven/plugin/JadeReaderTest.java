@@ -29,8 +29,25 @@ public class JadeReaderTest {
 
     URL jadeFilterUrl = getClass().getClassLoader().getResource("simple-filter.jade");
     String actual = tested.transformToXml(jadeFilterUrl);
-    String expected = "\n"
-        + "<filter root=\"/content/test\"></filter>";
+    String expected = ""
+        + "<filters>\n"
+        + "<filter root=\"/content/test\"></filter>"
+        + "</filters>";
+
+    assertThat(actual, equalTo(expected));
+  }
+
+  @Test
+  public void transformToXml_shouldReadTwoFilters() throws IOException {
+    JadeReader tested = new JadeReader(mavenLogMock);
+
+    URL jadeFilterUrl = getClass().getClassLoader().getResource("two-filters.jade");
+    String actual = tested.transformToXml(jadeFilterUrl);
+    String expected = ""
+        + "<filters>\n"
+        + "<filter root=\"/content/test\"></filter>\n"
+        + "<filter root=\"/content/dam/test\"></filter>"
+        + "</filters>";
 
     assertThat(actual, equalTo(expected));
   }
