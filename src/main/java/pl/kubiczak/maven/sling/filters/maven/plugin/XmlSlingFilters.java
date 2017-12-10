@@ -7,6 +7,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Main class for Sling filters creation.
@@ -16,6 +17,8 @@ class XmlSlingFilters {
   private final Log mavenLog;
 
   private final Document filters;
+
+  private static final boolean DEEP = true;
 
   XmlSlingFilters(Log mavenLog) {
     this.mavenLog = mavenLog;
@@ -67,11 +70,17 @@ class XmlSlingFilters {
       Comment comment = filters.createComment(" some filters could not be parsed ");
       filters.appendChild(comment);
     } else {
-      mavenLog.debug("including '" + filterDoc + "' in filters");
-      Node copy = filterDoc.getDocumentElement().cloneNode(true);
-      filters.adoptNode(copy);
-      mavenLog.debug("adding '" + copy.getNodeValue() + "' to filters");
-      filters.getDocumentElement().appendChild(copy);
+      mavenLog.debug("adding filters from XML:\n" + filterXml);
+      NodeList filtersToAdd = filterDoc.getDocumentElement().getChildNodes();
+      if (filtersToAdd.getLength() == 0) {
+        mavenLog.warn("no filters to add from XML:\n" + filterXml);
+      } else {
+        for (int i = 0; i < filtersToAdd.getLength(); i++) {
+          Node copy = filtersToAdd.item(i).cloneNode(DEEP);
+          filters.adoptNode(copy);
+          filters.getDocumentElement().appendChild(copy);
+        }
+      }
     }
     return this;
   }

@@ -40,7 +40,7 @@ public class XmlSlingFiltersTest {
   @Test
   public void addFromXml_shouldAddSimpleElement() {
     String actual = new XmlSlingFilters(mavenLogMock)
-        .addFromXml("<test></test>")
+        .addFromXml("<filters><test></test></filters>")
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
@@ -48,7 +48,7 @@ public class XmlSlingFiltersTest {
   @Test
   public void addFromXml_shouldAddNestedElement() {
     String actual = new XmlSlingFilters(mavenLogMock)
-        .addFromXml("<test><sub-test/></test>")
+        .addFromXml("<filters><test><sub-test/></test></filters>")
         .prettyXml();
     assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
   }
@@ -56,7 +56,7 @@ public class XmlSlingFiltersTest {
   @Test
   public void addFromXml_shouldAddCommentForIncorrectElement() {
     String actual = new XmlSlingFilters(mavenLogMock)
-        .addFromXml("incorrect XML")
+        .addFromXml("<filters>incorrect < XML</filters>")
         .prettyXml();
     assertThat(actual, containsString("<!-- some filters could not be parsed -->"));
   }
