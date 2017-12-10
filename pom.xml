@@ -60,7 +60,7 @@
     <!--
       this property should be overwritten from commandline during release
     -->
-    <gpg.keyname>9A105524</gpg.keyname>
+    <gpg.keyname>4A5EB449</gpg.keyname>
   </properties>
 
   <dependencyManagement>
