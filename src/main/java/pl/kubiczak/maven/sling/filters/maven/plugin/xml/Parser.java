@@ -16,6 +16,12 @@ public class Parser {
 
   private static final Logger LOG = LoggerFactory.getLogger(Parser.class);
 
+  /**
+   * Converts XML string into w3c DOM document.
+   *
+   * @param xml a vaild XML string to parse
+   * @return @Nullable w3c document or null if there were some errors
+   */
   public Document parse(String xml) {
     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
     Document document = null;

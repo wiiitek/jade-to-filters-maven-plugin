@@ -22,6 +22,12 @@ public class Output {
     this.log = log;
   }
 
+  /**
+   * Creates a writer for file output.
+   *
+   * @return an UTF-8 writer
+   * @throws MojoExecutionException if something went wrong with file creation
+   */
   public Writer createWriter() throws MojoExecutionException {
     Writer result = null;
     String path = getPath(file);
@@ -31,7 +37,6 @@ public class Output {
     try {
       FileOutputStream os = new FileOutputStream(path);
       result = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-
     } catch (FileNotFoundException fnfe) {
       log.error("File not found: '" + path + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {

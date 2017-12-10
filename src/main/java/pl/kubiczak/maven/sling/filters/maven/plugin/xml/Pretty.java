@@ -16,6 +16,12 @@ public class Pretty {
 
   private static final Logger LOG = LoggerFactory.getLogger(Pretty.class);
 
+  /**
+   * Creates a string to be saved as XML file.
+   *
+   * @param document w3c DOM document
+   * @return pretty formatted XML string
+   */
   public String format(Document document) {
     String xml;
     try {
