@@ -10,6 +10,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 class XmlParser {
 
@@ -26,6 +27,9 @@ class XmlParser {
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
       InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
       document = docBuilder.parse(in);
+    } catch (SAXParseException spe) {
+      mavenLog.error("error: '" + spe.getMessage() + "'. "
+          + "Incorrect XML being parsed into XML document:\n" + xml, spe);
     } catch (ParserConfigurationException pce) {
       mavenLog.error("error while creating XML document builder", pce);
     } catch (SAXException saxe) {
