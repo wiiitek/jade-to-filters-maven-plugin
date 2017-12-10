@@ -1,10 +1,11 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin;
+package pl.kubiczak.maven.sling.filters.maven.plugin.jade;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import org.junit.Test;
+import pl.kubiczak.maven.sling.filters.maven.plugin.jade.Jade;
 
 public class JadeTest {
 

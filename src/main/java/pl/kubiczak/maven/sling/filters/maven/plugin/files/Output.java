@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin;
+package pl.kubiczak.maven.sling.filters.maven.plugin.files;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,18 +11,18 @@ import java.io.Writer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
-class Output {
+public class Output {
 
   private final File file;
 
   private final Log log;
 
-  Output(File file, Log log) {
+  public Output(File file, Log log) {
     this.file = file;
     this.log = log;
   }
 
-  Writer createWriter() throws MojoExecutionException {
+  public Writer createWriter() throws MojoExecutionException {
     Writer result = null;
     String path = getPath(file);
     createDirectories(file);
@@ -50,7 +50,7 @@ class Output {
     return path;
   }
 
-  void createDirectories(File file) throws MojoExecutionException {
+  private void createDirectories(File file) throws MojoExecutionException {
     boolean notSimpleFile = !file.isFile();
     if (notSimpleFile) {
       if (file.exists()) {
