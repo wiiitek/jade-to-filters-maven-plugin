@@ -43,9 +43,10 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    Output output = new Output(outputFile, getLog());
+    Output output = new Output(getLog(), outputFile);
 
     XmlSlingFilters slingFilters = new XmlSlingFilters(getLog());
+
     for (String jadeFilename : inputFiles) {
       slingFilters.addFromFile(jadeFilename);
     }

@@ -13,13 +13,13 @@ import org.apache.maven.plugin.logging.Log;
 
 class Output {
 
+  private final Log mavenLog;
+
   private final File file;
 
-  private final Log log;
-
-  Output(File file, Log log) {
+  Output(Log mavenLog, File file) {
+    this.mavenLog = mavenLog;
     this.file = file;
-    this.log = log;
   }
 
   Writer createWriter() throws MojoExecutionException {
@@ -27,14 +27,14 @@ class Output {
     String path = getPath(file);
     createDirectories(file);
     file.delete();
-    log.debug("Creating writer for :'" + path + "'");
+    mavenLog.debug("Creating writer for :'" + path + "'");
     try {
       FileOutputStream os = new FileOutputStream(path);
       result = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
     } catch (FileNotFoundException fnfe) {
-      log.error("File not found: '" + path + "'", fnfe);
+      mavenLog.error("File not found: '" + path + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
-      log.error("Unsupported encoding: UTF-8");
+      mavenLog.error("Unsupported encoding: UTF-8");
     }
     return result;
   }
@@ -53,7 +53,7 @@ class Output {
     boolean notSimpleFile = !file.isFile();
     if (notSimpleFile) {
       if (file.exists()) {
-        log.error("Cannot send output to " + file + " as it exists but is not a file.");
+        mavenLog.error("Cannot send output to " + file + " as it exists but is not a file.");
       } else if (!file.getParentFile().isDirectory()) {
         if (!file.getParentFile().mkdirs()) {
           throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
