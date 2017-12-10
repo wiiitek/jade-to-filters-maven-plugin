@@ -17,27 +17,27 @@ public class XmlSlingFiltersTest {
       + "</workspaceFilter>\n";
 
   @Test
-  public void addFilter_shouldAddSimpleElement() {
-    String actual = new XmlSlingFilters().addFilter("<test></test>").prettyXml();
+  public void addFromXml_shouldAddSimpleElement() {
+    String actual = new XmlSlingFilters().addFromXml("<test></test>").prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
 
   @Test
-  public void addFilter_shouldAddNestedElement() {
-    String actual = new XmlSlingFilters().addFilter("<test><sub-test/></test>").prettyXml();
+  public void addFromXml_shouldAddNestedElement() {
+    String actual = new XmlSlingFilters().addFromXml("<test><sub-test/></test>").prettyXml();
     assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
   }
 
   @Test
-  public void addFilter_shouldAddCommentForIncorrectElement() {
-    String actual = new XmlSlingFilters().addFilter("incorrect XML").prettyXml();
+  public void addFromXml_shouldAddCommentForIncorrectElement() {
+    String actual = new XmlSlingFilters().addFromXml("incorrect XML").prettyXml();
     assertThat(actual, containsString("<!-- some filters could not be parsed -->"));
   }
 
   @Test
-  public void addFilterFromJadeFile_shouldAddElementFromFile() throws IOException {
+  public void addFromFile_shouldAddElementFromUrl() throws IOException {
     URL jadeFilterUrl = getClass().getClassLoader().getResource("test.jade");
-    String actual = new XmlSlingFilters().addFilter(jadeFilterUrl).prettyXml();
+    String actual = new XmlSlingFilters().addFromFile(jadeFilterUrl).prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
 

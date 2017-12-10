@@ -50,7 +50,7 @@ public class GenerateMojo extends AbstractMojo {
     for (String jadeFilename : inputFiles) {
       try {
         URL jadeFilterUrl = new File(jadeFilename).toURI().toURL();
-        slingFilters.addFilter(jadeFilterUrl);
+        slingFilters.addFromFile(jadeFilterUrl);
       } catch (IOException e) {
         getLog().error("error while adding filter from '" + jadeFilename + "'");
       }

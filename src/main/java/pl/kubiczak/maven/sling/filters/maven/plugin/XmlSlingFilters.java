@@ -28,13 +28,13 @@ class XmlSlingFilters {
     return new XmlFormatter().format(filters);
   }
 
-  XmlSlingFilters addFilter(URL jadeFilterUrl) throws IOException {
+  XmlSlingFilters addFromFile(URL jadeFilterUrl) throws IOException {
     String xml = new JadeReader().transformToXml(jadeFilterUrl);
-    this.addFilter(xml);
+    this.addFromXml(xml);
     return this;
   }
 
-  XmlSlingFilters addFilter(String filterXml) {
+  XmlSlingFilters addFromXml(String filterXml) {
 
     Document filterDoc = new XmlParser().parse(filterXml);
     if (filterDoc == null) {
