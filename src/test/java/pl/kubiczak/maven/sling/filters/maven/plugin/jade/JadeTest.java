@@ -18,7 +18,7 @@ public class JadeTest {
   public void test() throws IOException {
     Jade tested = new Jade();
 
-    String actual = tested.transformToXml("./sample.jade");
+    String actual = tested.transformToXml("./simple-filter.jade");
     String expected = "\n"
         + "<workspaceFilter version=\"1.0\">\n"
         + "  <filter root=\"/content/test\"></filter>\n"
