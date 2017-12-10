@@ -44,7 +44,7 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    Output fo = new Output(outputFile, getLog());
+    Output output = new Output(outputFile, getLog());
 
     XmlSlingFilters slingFilters = new XmlSlingFilters();
     for (String jadeFilename : inputFiles) {
@@ -56,7 +56,7 @@ public class GenerateMojo extends AbstractMojo {
       }
     }
 
-    Writer writer = fo.createWriter();
+    Writer writer = output.createWriter();
     try {
       writer.write(slingFilters.prettyXml());
       writer.close();
