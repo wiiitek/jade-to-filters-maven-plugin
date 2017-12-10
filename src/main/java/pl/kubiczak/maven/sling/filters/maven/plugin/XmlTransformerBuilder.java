@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin.xml;
+package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

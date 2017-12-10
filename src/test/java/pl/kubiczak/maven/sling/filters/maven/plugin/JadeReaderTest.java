@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin.jade;
+package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -8,15 +8,16 @@ import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import pl.kubiczak.maven.sling.filters.maven.plugin.JadeReader;
 
-public class JadeTest {
+public class JadeReaderTest {
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();
 
   @Test
   public void transformToXml_shouldTransformSimpleFilter() throws IOException {
-    Jade tested = new Jade();
+    JadeReader tested = new JadeReader();
 
     String actual = tested.transformToXml("./simple-filter.jade");
     String expected = "\n"
@@ -29,7 +30,7 @@ public class JadeTest {
 
   @Test
   public void transformToXml_shouldThrowExceptionForIncorrectSyntax() throws IOException {
-    Jade tested = new Jade();
+    JadeReader tested = new JadeReader();
     exception.expect(JadeLexerException.class);
     tested.transformToXml("./incorrect.jade");
   }

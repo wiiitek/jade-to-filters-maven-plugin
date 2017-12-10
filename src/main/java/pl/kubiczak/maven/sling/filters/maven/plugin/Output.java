@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin.files;
+package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,7 +11,7 @@ import java.io.Writer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
-public class Output {
+class Output {
 
   private final File file;
 
@@ -22,13 +22,7 @@ public class Output {
     this.log = log;
   }
 
-  /**
-   * Creates a writer for file output.
-   *
-   * @return an UTF-8 writer
-   * @throws MojoExecutionException if something went wrong with file creation
-   */
-  public Writer createWriter() throws MojoExecutionException {
+  Writer createWriter() throws MojoExecutionException {
     Writer result = null;
     String path = getPath(file);
     createDirectories(file);

@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin.xml;
+package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import java.io.StringWriter;
@@ -12,16 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-class Pretty {
+class XmlFormatter {
 
-  private static final Logger LOG = LoggerFactory.getLogger(Pretty.class);
+  private static final Logger LOG = LoggerFactory.getLogger(XmlFormatter.class);
 
-  /**
-   * Creates a string to be saved as XML file.
-   *
-   * @param document w3c DOM document
-   * @return pretty formatted XML string
-   */
   String format(Document document) {
     String xml;
     try {

@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin.xml;
+package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -12,16 +12,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-class Parser {
+class XmlParser {
 
-  private static final Logger LOG = LoggerFactory.getLogger(Parser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(XmlParser.class);
 
-  /**
-   * Converts XML string into w3c DOM document.
-   *
-   * @param xml a vaild XML string to parse
-   * @return @Nullable w3c document or null if there were some errors
-   */
   Document parse(String xml) {
     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
     Document document = null;
