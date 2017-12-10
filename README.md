@@ -43,6 +43,7 @@ Add plugin in your pom.xml:
             <inputFiles>
               <file>${project.basedir}/src/main/resources/filter.jade</file>
             </inputFiles>
+            <outputFile>${project.basedir}/src/main/resources/META-INF/vault/filter.xml</outputFile>
           </configuration>
         </execution>
       </executions>
