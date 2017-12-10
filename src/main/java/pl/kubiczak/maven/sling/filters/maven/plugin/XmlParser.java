@@ -6,15 +6,18 @@ import java.io.UnsupportedEncodingException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.maven.plugin.logging.Log;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 class XmlParser {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XmlParser.class);
+  private final Log mavenLog;
+
+  XmlParser(Log mavenLog) {
+    this.mavenLog = mavenLog;
+  }
 
   Document parse(String xml) {
     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -24,13 +27,13 @@ class XmlParser {
       InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
       document = docBuilder.parse(in);
     } catch (ParserConfigurationException pce) {
-      LOG.error("error while creating XML document builder", pce);
+      mavenLog.error("error while creating XML document builder", pce);
     } catch (SAXException saxe) {
-      LOG.error("error while parsing XML: {}:\n{}", saxe.getMessage(), xml, saxe);
+      mavenLog.error("error: '" + saxe.getMessage() + "' while parsing XML:\n" + xml, saxe);
     } catch (UnsupportedEncodingException uee) {
-      LOG.error("Unsupported encoding: UTF-8");
+      mavenLog.error("Unsupported encoding: UTF-8");
     } catch (IOException ioe) {
-      LOG.error("error while parsing XML: {}:\n{}", ioe.getMessage(), xml, ioe);
+      mavenLog.error("error: '" + ioe.getMessage() + "' while parsing XML:\n" + xml, ioe);
     }
     return document;
   }

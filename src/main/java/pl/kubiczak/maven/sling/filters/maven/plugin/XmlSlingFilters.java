@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -16,8 +14,6 @@ import org.w3c.dom.Node;
  */
 class XmlSlingFilters {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XmlSlingFilters.class);
-
   private final Log mavenLog;
 
   private final Document filters;
@@ -25,14 +21,14 @@ class XmlSlingFilters {
   XmlSlingFilters(Log mavenLog) {
     this.mavenLog = mavenLog;
     String xml = "<workspaceFilter version=\"1.0\"/>";
-    this.filters = new XmlParser().parse(xml);
+    this.filters = new XmlParser(mavenLog).parse(xml);
     // for formatting - https://stackoverflow.com/a/8438236
     this.filters.setXmlStandalone(true);
   }
 
   String prettyXml() {
     mavenLog.debug("formatting Sling filters XML...");
-    return new XmlFormatter().format(filters);
+    return new XmlFormatter(mavenLog).format(filters);
   }
 
   XmlSlingFilters addFromFile(String jadeFilename) {
@@ -66,15 +62,16 @@ class XmlSlingFilters {
 
   XmlSlingFilters addFromXml(String filterXml) {
 
-    Document filterDoc = new XmlParser().parse(filterXml);
+    Document filterDoc = new XmlParser(mavenLog).parse(filterXml);
     if (filterDoc == null) {
-      LOG.warn("XML could not be parsed");
+      mavenLog.warn("XML could not be parsed");
       Comment comment = filters.createComment(" some filters could not be parsed ");
       filters.appendChild(comment);
     } else {
-      LOG.debug("including '{}' in filters", filterDoc);
+      mavenLog.debug("including '" + filterDoc + "' in filters");
       Node copy = filterDoc.getDocumentElement().cloneNode(true);
       filters.adoptNode(copy);
+      mavenLog.debug("adding '" + copy.getNodeValue() + "' to filters");
       filters.getDocumentElement().appendChild(copy);
     }
     return this;

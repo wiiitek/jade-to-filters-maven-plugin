@@ -55,7 +55,7 @@ public class GenerateMojo extends AbstractMojo {
       writer.write(slingFilters.prettyXml());
       writer.close();
     } catch (IOException ioe) {
-      getLog().error("Error while closing output file");
+      throw new MojoExecutionException("error while writing into output file");
     }
   }
 }

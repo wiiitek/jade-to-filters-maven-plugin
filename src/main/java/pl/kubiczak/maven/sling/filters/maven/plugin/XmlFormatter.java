@@ -7,13 +7,16 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.maven.plugin.logging.Log;
 import org.w3c.dom.Document;
 
 class XmlFormatter {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XmlFormatter.class);
+  private final Log mavenLog;
+
+  public XmlFormatter(Log mavenLog) {
+    this.mavenLog = mavenLog;
+  }
 
   String format(Document document) {
     String xml;
@@ -27,10 +30,10 @@ class XmlFormatter {
       writer.flush();
       xml = writer.toString();
     } catch (TransformerConfigurationException tce) {
-      LOG.error("error while creating new transformer", tce);
+      mavenLog.error("error while creating new transformer", tce);
       xml = "<!-- error while creating new transformer -->\n";
     } catch (TransformerException te) {
-      LOG.error("error while transforming XML document", te);
+      mavenLog.error("error while transforming XML document", te);
       xml = "<!-- error while transforming XML document -->\n";
     }
     // always change to linux newlines
@@ -39,7 +42,7 @@ class XmlFormatter {
 
   private Transformer createTransformer() throws TransformerConfigurationException {
     Integer indentNumber = 2;
-    return new XmlTransformerBuilder()
+    return new XmlTransformerBuilder(mavenLog)
         .addFactoryAttribute("indent-number", indentNumber)
         .addOutputProperty(OutputKeys.METHOD, "xml")
         .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
