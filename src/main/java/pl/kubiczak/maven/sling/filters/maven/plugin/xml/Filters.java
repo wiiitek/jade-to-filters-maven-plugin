@@ -17,6 +17,9 @@ public class Filters {
 
   private final Document filters;
 
+  /**
+   * Creates a class for Sling filters creation.
+   */
   public Filters() {
     String xml = "<workspaceFilter version=\"1.0\"/>";
     this.filters = new Parser().parse(xml);
@@ -24,12 +27,31 @@ public class Filters {
     this.filters.setXmlStandalone(true);
   }
 
+  /*
+   * Adds filter definition from Jade file
+   *
+   * @param filename path to Jade file
+   *
+   */
+
+  /**
+   * Adds filter definition from Jade file.
+   *
+   * @param filename path to Jade file
+   * @return current instance
+   * @throws IOException for errors with reading or parsing Jade file or with XML operations
+   */
   public Filters addFilterFromJadeFile(String filename) throws IOException {
     String xml = new Jade().transformToXml(filename);
     this.addFilter(xml);
     return this;
   }
 
+  /**
+   * Formats XML with indentation and linux newlines.
+   *
+   * @return formatted XML for Sling filters file
+   */
   public String prettyXml() {
     return new Pretty().format(filters);
   }
