@@ -9,11 +9,28 @@
 
   <name>Sling Filters Maven Plugin</name>
   <description>Plugin for generating filter.xml files from PUG templates.</description>
+  <url>https://github.com/wiiitek/sling-filters-maven-plugin</url>
+  <inceptionYear>2013</inceptionYear>
 
   <!-- maven prerequisites for plugins versions check by versions-maven-plugin -->
   <prerequisites>
     <maven>${version.required.maven}</maven>
   </prerequisites>
+
+  <scm>
+    <connection>scm:git:https://github.com/wiiitek/sling-filters-maven-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/wiiitek/sling-filters-maven-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/wiiitek/sling-filters-maven-plugin</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>oss.sonatype.org</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -195,7 +212,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
+          <version>3.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
