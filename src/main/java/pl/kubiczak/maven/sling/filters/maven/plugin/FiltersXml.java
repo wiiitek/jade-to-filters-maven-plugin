@@ -1,5 +1,6 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -11,7 +12,6 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.slf4j.Logger;
@@ -28,15 +28,13 @@ class FiltersXml {
 
   private static final Logger LOG = LoggerFactory.getLogger(FiltersXml.class);
 
-  private static final String LONG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
-
-  private static final String SHORT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
   private final Document filters;
 
   FiltersXml() {
     String xml = "<workspaceFilter version=\"1.0\"/>";
     this.filters = parse(xml);
+    // for formatting - https://stackoverflow.com/a/8438236
+    this.filters.setXmlStandalone(true);
   }
 
   void addFilter(String filterXml) {
@@ -66,14 +64,15 @@ class FiltersXml {
     return document;
   }
 
-  @Override
-  public String toString() {
+  public String prettyXml() {
     String xml = null;
     try {
       DOMSource domSource = new DOMSource(filters);
       StringWriter writer = new StringWriter();
       StreamResult result = new StreamResult(writer);
+
       createTransformer().transform(domSource, result);
+
       writer.flush();
       xml = writer.toString();
     } catch (TransformerConfigurationException tce) {
@@ -81,24 +80,19 @@ class FiltersXml {
     } catch (TransformerException te) {
       LOG.error("error while transforming XML document", te);
     }
-    xml = xml.replace("\r\n", "\n");
-    return xml.replace(LONG, SHORT);
+    // always change to linux newlines
+    return xml.replace("\r\n", "\n");
   }
 
-  private Transformer createTransformer() {
-    TransformerFactory tf = TransformerFactory.newInstance();
-    tf.setAttribute("indent-number", new Integer(2));
-    Transformer transformer = null;
-    try {
-      transformer = tf.newTransformer();
-    } catch (TransformerConfigurationException tce) {
-      LOG.error("error while creating transformer", tce);
-    }
-
-    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-    return transformer;
+  private Transformer createTransformer() throws TransformerConfigurationException {
+    Integer indentNumber = 2;
+    return new XmlTransformerBuilder()
+        .addFactoryAttribute(TransformerFactoryImpl.INDENT_NUMBER, indentNumber)
+        .addOutputProperty(OutputKeys.METHOD, "xml")
+        .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
+        .addOutputProperty(OutputKeys.INDENT, "yes")
+        // for newline after XML declaration - https://stackoverflow.com/a/18251901
+        .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes")
+        .build();
   }
 }

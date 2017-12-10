@@ -12,7 +12,7 @@ public class FiltersXmlTest {
     FiltersXml tested = new FiltersXml();
     tested.addFilter("<test/>");
 
-    String actual = tested.toString();
+    String actual = tested.prettyXml();
     String expected = ""
         + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         + "<workspaceFilter version=\"1.0\">\n"
