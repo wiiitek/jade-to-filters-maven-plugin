@@ -45,14 +45,9 @@ public class GenerateMojo extends AbstractMojo {
 
     Output output = new Output(outputFile, getLog());
 
-    XmlSlingFilters slingFilters = new XmlSlingFilters();
+    XmlSlingFilters slingFilters = new XmlSlingFilters(getLog());
     for (String jadeFilename : inputFiles) {
-      try {
-
-        slingFilters.addFromFile(jadeFilename);
-      } catch (IOException e) {
-        getLog().error("error while adding filter from '" + jadeFilename + "'");
-      }
+      slingFilters.addFromFile(jadeFilename);
     }
 
     Writer writer = output.createWriter();
