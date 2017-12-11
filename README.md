@@ -72,7 +72,20 @@ filter(root="/content/project")
   exclude(pattern="/content/project(/.*)?/qa(/.*)?")
 ```
 
+Release process
+---------------
+
+[Maven release plugin] is used for making a release for this project.
+
+Please execute:
+
+```
+mvn release:prepare -B -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT
+mvn release:perform -Darguments="-Dgpg.keyname=4A5EB449" -Psources,javadoc,sign
+```
+
 [Jade]: http://jade-lang.com/
 [filter.xml]: http://jackrabbit.apache.org/filevault/filter.html
 [content package]: https://helpx.adobe.com/experience-manager/6-3/sites/administering/using/package-manager.html
 [comments in Jade files]: http://jade-lang.com/reference/comments
+[Maven release plugin]: http://maven.apache.org/maven-release/maven-release-plugin/index.html

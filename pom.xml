@@ -235,6 +235,24 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+          <!-- this configuration is for executions performed from command line (on demand) -->
+          <configuration>
+            <tagNameFormat>@{project.version}</tagNameFormat>
+            <!--
+              will test build process with integration tests
+            -->
+            <preparationGoals>clean install -Prun-its</preparationGoals>
+            <!--
+              will skip running tests after new development version is set
+              see: http://maven.apache.org/maven-release/maven-release-plugin/perform-mojo.html#goals
+            -->
+            <goals>deploy -DskipTests</goals>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
