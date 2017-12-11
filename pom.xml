@@ -35,7 +35,7 @@
 
   <scm>
     <connection>scm:git:https://github.com/wiiitek/jade-to-filters-maven-plugin.git</connection>
-    <developerConnection>scm:git:https://github.com/wiiitek/jade-to-filters-maven-plugin.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/wiiitek/jade-to-filters-maven-plugin</url>
   </scm>
