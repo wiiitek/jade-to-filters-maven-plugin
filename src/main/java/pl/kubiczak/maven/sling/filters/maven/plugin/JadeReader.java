@@ -17,15 +17,15 @@ class JadeReader {
     this.mavenLog = mavenLog;
   }
 
-  String transformToXml(URL jadeFilterUrl) {
+  String transformToXml(URL jadeFileUrl) {
     String result = null;
-    mavenLog.debug("transforming a template with URL: '" + jadeFilterUrl + "'");
+    mavenLog.debug("transforming Jade file from URL: '" + jadeFileUrl + "'");
     try {
-      result = Jade4J.render(jadeFilterUrl, new HashMap<String, Object>(), true);
+      result = Jade4J.render(jadeFileUrl, new HashMap<String, Object>(), true);
       // we don't want to have any whitespaces here because they are parsed later into XML
       result = "<filters>" + result + "</filters>";
     } catch (IOException e) {
-      mavenLog.error("error while parsing '" + jadeFilterUrl + "' as Jade file. " + e.getMessage());
+      mavenLog.error("error while parsing '" + jadeFileUrl + "' as Jade file. " + e.getMessage());
     }
     return result;
   }

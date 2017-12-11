@@ -26,8 +26,8 @@ public class JadeReaderTest {
   public void transformToXml_shouldTransformSimpleFilter() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
-    URL jadeFilterUrl = getClass().getClassLoader().getResource("simple-filter.jade");
-    String actual = tested.transformToXml(jadeFilterUrl);
+    URL jadeFileUrl = getClass().getClassLoader().getResource("simple-filter.jade");
+    String actual = tested.transformToXml(jadeFileUrl);
     String expected = ""
         + "<filters>\n"
         + "<filter root=\"/content/test\"></filter>"
@@ -40,8 +40,8 @@ public class JadeReaderTest {
   public void transformToXml_shouldReadTwoFilters() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
-    URL jadeFilterUrl = getClass().getClassLoader().getResource("two-filters.jade");
-    String actual = tested.transformToXml(jadeFilterUrl);
+    URL jadeFileUrl = getClass().getClassLoader().getResource("two-filters.jade");
+    String actual = tested.transformToXml(jadeFileUrl);
     String expected = ""
         + "<filters>\n"
         + "<filter root=\"/content/test\"></filter>\n"
@@ -55,8 +55,8 @@ public class JadeReaderTest {
   public void transformToXml_shouldReadComments() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
-    URL jadeFilterUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
-    String actual = tested.transformToXml(jadeFilterUrl);
+    URL jadeFileUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
+    String actual = tested.transformToXml(jadeFileUrl);
     String expected = ""
         + "<filters>\n"
         + "<filter root=\"/content/project/dam\">\n"
@@ -76,8 +76,8 @@ public class JadeReaderTest {
   @Test
   public void transformToXml_shouldThrowExceptionForIncorrectSyntax() {
     JadeReader tested = new JadeReader(mavenLogMock);
-    URL jadeFilterUrl = getClass().getClassLoader().getResource("incorrect.jade");
+    URL jadeFileUrl = getClass().getClassLoader().getResource("incorrect.jade");
     exception.expect(JadeLexerException.class);
-    tested.transformToXml(jadeFilterUrl);
+    tested.transformToXml(jadeFileUrl);
   }
 }

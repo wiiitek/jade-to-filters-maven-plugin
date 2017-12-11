@@ -56,8 +56,8 @@ class XmlSlingFilters {
     return this;
   }
 
-  XmlSlingFilters addFromFile(URL jadeFilterUrl) {
-    String xml = new JadeReader(mavenLog).transformToXml(jadeFilterUrl);
+  XmlSlingFilters addFromFile(URL jadeFileUrl) {
+    String xml = new JadeReader(mavenLog).transformToXml(jadeFileUrl);
     this.addFromXml(xml);
     return this;
   }

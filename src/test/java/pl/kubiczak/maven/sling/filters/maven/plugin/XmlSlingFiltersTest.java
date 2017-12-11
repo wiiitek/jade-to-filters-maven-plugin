@@ -63,10 +63,10 @@ public class XmlSlingFiltersTest {
 
   @Test
   public void addFromFile_shouldAddElementFromUrl() throws IOException {
-    URL jadeFilterUrl = getClass().getClassLoader().getResource("test.jade");
+    URL jadeFileUrl = getClass().getClassLoader().getResource("test.jade");
 
     String actual = new XmlSlingFilters(mavenLogMock)
-        .addFromFile(jadeFilterUrl)
+        .addFromFile(jadeFileUrl)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
