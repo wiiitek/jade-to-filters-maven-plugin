@@ -4,7 +4,7 @@
 
   <groupId>pl.kubiczak</groupId>
   <artifactId>jade-to-filters-maven-plugin</artifactId>
-  <version>1.0.0-RC1</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Sling Filters Maven Plugin</name>
@@ -36,7 +36,7 @@
   <scm>
     <connection>scm:git:https://github.com/wiiitek/jade-to-filters-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git</developerConnection>
-    <tag>1.0.0-RC1</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/wiiitek/jade-to-filters-maven-plugin</url>
   </scm>
 
