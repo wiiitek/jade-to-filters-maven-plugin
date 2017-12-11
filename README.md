@@ -3,6 +3,7 @@ Jade to Filters Maven Plugin
 
 [![Build Status](https://travis-ci.org/wiiitek/sling-filters-maven-plugin.svg?branch=master)](https://travis-ci.org/wiiitek/sling-filters-maven-plugin)
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/cognifide/aet.svg?label=License)](http://www.apache.org/licenses/)
+[![Maven Central](https://img.shields.io/maven-central/v/pl.kubiczak/jade-to-filters-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22pl.kubiczak%22%20AND%20a%3A%22jade-to-filters-maven-plugin%22)
 
 This plugin reads [Jade] files and creates [filter.xml] file for [content package].
 
