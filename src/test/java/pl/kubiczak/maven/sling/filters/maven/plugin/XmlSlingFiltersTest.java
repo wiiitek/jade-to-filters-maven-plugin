@@ -83,12 +83,14 @@ public class XmlSlingFiltersTest {
 
   @Test
   public void addFromFile_shouldAddFiltersFromTwoFiles() throws IOException {
-    String filter = getClass().getClassLoader().getResource("test-filter.jade").getPath();
-    String damFilter = getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
+    String filterJadeFile =
+        getClass().getClassLoader().getResource("test-filter.jade").getPath();
+    String damFilterJadeFile =
+        getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
 
     String actual = new XmlSlingFilters(mavenLogMock)
-        .addFromFile(filter)
-        .addFromFile(damFilter)
+        .addFromFile(filterJadeFile)
+        .addFromFile(damFilterJadeFile)
         .prettyXml();
     assertThat(actual, equalTo(XML));
   }
