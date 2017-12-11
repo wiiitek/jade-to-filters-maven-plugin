@@ -7,8 +7,8 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Sling Filters Maven Plugin</name>
-  <description>Plugin for generating filter.xml files from PUG templates.</description>
+  <name>Jade to Filters Maven Plugin</name>
+  <description>Plugin for generating filter.xml files from Jade files.</description>
   <url>https://github.com/wiiitek/sling-filters-maven-plugin</url>
   <inceptionYear>2013</inceptionYear>
 
