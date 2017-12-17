@@ -9,9 +9,9 @@ This plugin reads [Jade] files and creates [filter.xml] file for [content packag
 
 It removes code duplication if you are using same filters in different Maven modules.
 
-You may have separate Maven modules for your sample content, assets and application. During development process it is convenient to build ZIP package that contains only application code. The assets and sample content might be built separately - when there is a need to change it.
+During development process it is convenient to build small ZIP packages that contain only the code that is changing. The assets and sample content might be built separately - only when there is a need to redeploy them.
 
-However when making a release you usually want to have one single package with all parts. The filters for this package need to be in sync with the filters for submodules. This is where you can benefit from Sling Filters Maven Plugin.
+However when making a release you usually want to have one single package with all parts. The filters for the release package need to contain all filters from submodules. And they also should be in sync with the filters for submodules. This is where you can benefit from Jade to Filters Maven Plugin.
 
 Usage
 -----
@@ -82,7 +82,7 @@ Please execute:
 
 ```
 mvn release:prepare -B -DreleaseVersion=1.0.0 -DdevelopmentVersion=1.0.1-SNAPSHOT
-mvn release:perform -Darguments="-Dgpg.keyname=4A5EB449" -Psources,javadoc,sign
+mvn release:perform -Psources,javadoc,sign
 ```
 
 [Jade]: http://jade-lang.com/
