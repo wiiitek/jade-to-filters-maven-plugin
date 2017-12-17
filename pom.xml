@@ -65,7 +65,7 @@
     <!--
       this property should be overwritten from commandline during release
     -->
-    <gpg.keyname>4A5EB449</gpg.keyname>
+    <gpg.keyname>01D2F996</gpg.keyname>
   </properties>
 
   <dependencyManagement>
@@ -222,7 +222,7 @@
               and http://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#arguments
             -->
             <keyname>${gpg.keyname}</keyname>
-            <executable>gpg2</executable>
+            <passphraseServerId>gpg.passphrase.server</passphraseServerId>
           </configuration>
         </plugin>
         <plugin>
