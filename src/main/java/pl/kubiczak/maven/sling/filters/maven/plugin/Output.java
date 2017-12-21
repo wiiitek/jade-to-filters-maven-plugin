@@ -31,7 +31,10 @@ class Output {
     Writer writer = null;
     String path = getPath(file);
     createDirectories(file);
-    file.delete();
+    boolean deleted = file.delete();
+    if (deleted) {
+      mavenLog.debug("The old version of '" + path + "' file was deleted.");
+    }
     mavenLog.debug("Creating writer for :'" + path + "'");
     try {
       os = new FileOutputStream(path);
@@ -79,9 +82,13 @@ class Output {
     if (notSimpleFile) {
       if (file.exists()) {
         mavenLog.error("Cannot send output to " + file + " as it exists but is not a file.");
-      } else if (!file.getParentFile().isDirectory()) {
-        if (!file.getParentFile().mkdirs()) {
-          throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
+      } else {
+        boolean parentFolderExists = file.getParentFile().isDirectory();
+        if (!parentFolderExists) {
+          boolean parentFoldersCreated = file.getParentFile().mkdirs();
+          if (!parentFoldersCreated) {
+            throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
+          }
         }
       }
     }

@@ -10,7 +10,6 @@ import org.apache.maven.plugin.logging.Log;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * Parse XML text.
@@ -30,18 +29,21 @@ class XmlParser {
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
       InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
       document = docBuilder.parse(in);
-    } catch (SAXParseException spe) {
-      mavenLog.error("error: '" + spe.getMessage() + "'. "
-          + "Incorrect XML being parsed into XML document:\n" + xml, spe);
     } catch (ParserConfigurationException pce) {
-      mavenLog.error("error while creating XML document builder", pce);
-    } catch (SAXException saxe) {
-      mavenLog.error("error: '" + saxe.getMessage() + "' while parsing XML:\n" + xml, saxe);
+      logXmlException("error while creating XML document builder", pce, xml);
     } catch (UnsupportedEncodingException uee) {
-      mavenLog.error("Unsupported encoding: UTF-8");
+      logXmlException("UTF-8 is unsupported.", uee, xml);
+    } catch (SAXException saxe) {
+      logXmlException("parsing error.", saxe, xml);
     } catch (IOException ioe) {
-      mavenLog.error("error: '" + ioe.getMessage() + "' while parsing XML:\n" + xml, ioe);
+      logXmlException("input stream error in DocumentBuilder.", ioe, xml);
+    } catch (IllegalArgumentException iae) {
+      logXmlException("error with creating input source", iae, xml);
     }
     return document;
+  }
+
+  private void logXmlException(String msg, Exception ex, String xml) {
+    mavenLog.error(msg + " message: '" + ex.getMessage() + "' for XML:\n" + xml, ex);
   }
 }
