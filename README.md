@@ -9,9 +9,9 @@ This plugin reads [Jade] files and creates [filter.xml] file for [content packag
 
 It removes code duplication if you are using same filters in different Maven modules.
 
-During development process it is convenient to build small ZIP packages that contain only the code that is changing. The assets and sample content might be built separately - only when there is a need to redeploy them.
+You may have separate Maven modules for your sample content, assets and application. During development process it is convenient to only build ZIP package that contains application code. The assets and sample content packages need to be built only when they change.
 
-However when making a release you usually want to have one single package with all parts. The filters for the release package need to contain all filters from submodules. And they also should be in sync with the filters for submodules. This is where you can benefit from Jade to Filters Maven Plugin.
+However when making a release you usually want to have one single package with all parts. The filters for this package need to be in sync with the filters for submodules. This is where you can benefit from Jade to Filters Maven Plugin.
 
 Usage
 -----

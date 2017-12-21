@@ -222,7 +222,6 @@
               and http://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#arguments
             -->
             <keyname>${gpg.keyname}</keyname>
-            <passphraseServerId>gpg.passphrase.server</passphraseServerId>
           </configuration>
         </plugin>
         <plugin>
