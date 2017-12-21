@@ -1,6 +1,7 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,21 +26,42 @@ class Output {
     this.file = file;
   }
 
-  Writer createWriter() throws MojoExecutionException {
-    Writer result = null;
+  void write(String fileContent) throws MojoExecutionException {
+    FileOutputStream os = null;
+    Writer writer = null;
     String path = getPath(file);
     createDirectories(file);
     file.delete();
     mavenLog.debug("Creating writer for :'" + path + "'");
     try {
-      FileOutputStream os = new FileOutputStream(path);
-      result = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+      os = new FileOutputStream(path);
+      writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+      writer.write(fileContent);
     } catch (FileNotFoundException fnfe) {
-      mavenLog.error("File not found: '" + path + "'", fnfe);
+      logAndThrow("File not found: '" + path + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
-      mavenLog.error("Unsupported encoding: UTF-8");
+      logAndThrow("Unsupported encoding: UTF-8", uee);
+    } catch (IOException ioe) {
+      logAndThrow("error while writing into output file", ioe);
+    } finally {
+      closeIfNotNull(writer);
+      closeIfNotNull(os);
     }
-    return result;
+  }
+
+  private void logAndThrow(String errorMessage, Exception ex) throws MojoExecutionException {
+    mavenLog.error(errorMessage);
+    throw new MojoExecutionException(errorMessage, ex);
+  }
+
+  private void closeIfNotNull(Closeable output) {
+    if (output != null) {
+      try {
+        output.close();
+      } catch (IOException e) {
+        //
+      }
+    }
   }
 
   private String getPath(File f) {

@@ -1,8 +1,6 @@
 package pl.kubiczak.maven.sling.filters.maven.plugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -45,20 +43,13 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    Output output = new Output(getLog(), outputFile);
-
     XmlSlingFilters slingFilters = new XmlSlingFilters(getLog());
 
     for (String jadeFilename : inputFiles) {
       slingFilters.addFromFile(jadeFilename);
     }
 
-    Writer writer = output.createWriter();
-    try {
-      writer.write(slingFilters.prettyXml());
-      writer.close();
-    } catch (IOException ioe) {
-      throw new MojoExecutionException("error while writing into output file");
-    }
+    Output output = new Output(getLog(), outputFile);
+    output.write(slingFilters.prettyXml());
   }
 }
