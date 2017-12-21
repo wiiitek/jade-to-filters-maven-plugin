@@ -29,7 +29,7 @@ class Output {
   void write(String fileContent) throws MojoExecutionException {
     FileOutputStream os = null;
     Writer writer = null;
-    String path = getPath(file);
+    String path = getPath();
     createDirectories(file);
     boolean deleted = file.delete();
     if (deleted) {
@@ -67,13 +67,23 @@ class Output {
     }
   }
 
-  private String getPath(File f) {
-    String path;
+  private String getPath() {
+    String path = null;
     try {
-      path = f.getCanonicalPath();
+      path = file.getCanonicalPath();
     } catch (IOException e) {
-      path = f.getAbsolutePath();
+      mavenLog.debug("error while getting canonical path. will try to get absolute path.");
     }
+    if (path == null) {
+      try {
+        path = file.getAbsolutePath();
+      } catch (SecurityException se) {
+        String msg = "error while getting absolute path for '" + file + "'.";
+        msg += " do you have the correct permissions for the file?";
+        mavenLog.error(msg);
+      }
+    }
+
     return path;
   }
 
@@ -93,5 +103,4 @@ class Output {
       }
     }
   }
-
 }
