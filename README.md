@@ -34,7 +34,7 @@ Add plugin in your pom.xml:
   <plugin>
     <groupId>pl.kubiczak</groupId>
     <artifactId>jade-to-filters-maven-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-RC2</version>
       <executions>
         <execution>
           <goals>
