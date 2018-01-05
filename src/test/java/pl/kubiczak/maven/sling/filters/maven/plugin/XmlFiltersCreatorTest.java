@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.IOException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class XmlSlingFiltersTest {
+public class XmlFiltersCreatorTest {
 
   private static final String SIMPLE_XML = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -39,7 +38,7 @@ public class XmlSlingFiltersTest {
 
   @Test
   public void addFromXml_shouldAddSimpleElement() {
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromXml("<filters><test></test></filters>")
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
@@ -47,7 +46,7 @@ public class XmlSlingFiltersTest {
 
   @Test
   public void addFromXml_shouldAddNestedElement() {
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromXml("<filters><test><sub-test/></test></filters>")
         .prettyXml();
     assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
@@ -55,40 +54,40 @@ public class XmlSlingFiltersTest {
 
   @Test
   public void addFromXml_shouldAddCommentForIncorrectElement() {
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromXml("<filters>incorrect < XML</filters>")
         .prettyXml();
     assertThat(actual, containsString("<!-- some filters could not be parsed -->"));
   }
 
   @Test
-  public void addFromFile_shouldAddElementFromUrl() throws IOException {
+  public void addFromFile_shouldAddElementFromUrl() {
     URL jadeFileUrl = getClass().getClassLoader().getResource("test.jade");
 
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromFile(jadeFileUrl)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
 
   @Test
-  public void addFromFile_shouldAddElementFromFilename() throws IOException {
+  public void addFromFile_shouldAddElementFromFilename() {
     String filePath = getClass().getClassLoader().getResource("test.jade").getPath();
 
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromFile(filePath)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
   }
 
   @Test
-  public void addFromFile_shouldAddFiltersFromTwoFiles() throws IOException {
+  public void addFromFile_shouldAddFiltersFromTwoFiles() {
     String filterJadeFile =
         getClass().getClassLoader().getResource("test-filter.jade").getPath();
     String damFilterJadeFile =
         getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
 
-    String actual = new XmlSlingFilters(mavenLogMock)
+    String actual = new XmlFiltersCreator(mavenLogMock)
         .addFromFile(filterJadeFile)
         .addFromFile(damFilterJadeFile)
         .prettyXml();

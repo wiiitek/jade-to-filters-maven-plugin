@@ -10,9 +10,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Main class for Sling filters creation.
+ * Main class for filters creation.
  */
-class XmlSlingFilters {
+class XmlFiltersCreator {
 
   private final Log mavenLog;
 
@@ -20,7 +20,7 @@ class XmlSlingFilters {
 
   private static final boolean DEEP = true;
 
-  XmlSlingFilters(Log mavenLog) {
+  XmlFiltersCreator(Log mavenLog) {
     this.mavenLog = mavenLog;
     String xml = "<workspaceFilter version=\"1.0\"/>";
     this.filters = new XmlParser(mavenLog).parse(xml);
@@ -29,11 +29,11 @@ class XmlSlingFilters {
   }
 
   String prettyXml() {
-    mavenLog.debug("formatting Sling filters XML...");
+    mavenLog.debug("formatting filters XML...");
     return new XmlFormatter(mavenLog).format(filters);
   }
 
-  XmlSlingFilters addFromFile(String jadeFilename) {
+  XmlFiltersCreator addFromFile(String jadeFilename) {
     File jadeFile = new File(jadeFilename);
     if (!jadeFile.exists()) {
       mavenLog.error("the input file '" + jadeFilename + "' does not exists");
@@ -47,22 +47,21 @@ class XmlSlingFilters {
         } catch (MalformedURLException e) {
           mavenLog.error("error while getting URL for '" + jadeFilename + "'");
         }
-        String xml = new JadeReader(mavenLog).transformToXml(jadeFileUrl);
-        if (xml != null) {
-          this.addFromXml(xml);
-        }
+        this.addFromFile(jadeFileUrl);
       }
     }
     return this;
   }
 
-  XmlSlingFilters addFromFile(URL jadeFileUrl) {
+  XmlFiltersCreator addFromFile(URL jadeFileUrl) {
     String xml = new JadeReader(mavenLog).transformToXml(jadeFileUrl);
-    this.addFromXml(xml);
+    if (xml != null) {
+      this.addFromXml(xml);
+    }
     return this;
   }
 
-  XmlSlingFilters addFromXml(String filterXml) {
+  XmlFiltersCreator addFromXml(String filterXml) {
 
     Document filterDoc = new XmlParser(mavenLog).parse(filterXml);
     if (filterDoc == null) {

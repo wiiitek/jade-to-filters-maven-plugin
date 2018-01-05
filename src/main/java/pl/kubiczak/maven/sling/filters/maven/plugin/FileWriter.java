@@ -15,13 +15,13 @@ import org.apache.maven.plugin.logging.Log;
 /**
  * Creates output file.
  */
-class Output {
+class FileWriter {
 
   private final Log mavenLog;
 
   private final File file;
 
-  Output(Log mavenLog, File file) {
+  FileWriter(Log mavenLog, File file) {
     this.mavenLog = mavenLog;
     this.file = file;
   }
@@ -39,7 +39,11 @@ class Output {
     try {
       os = new FileOutputStream(path);
       writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      writer.write(fileContent);
+      if (fileContent != null) {
+        writer.write(fileContent);
+      } else {
+        mavenLog.info("Will create empty file for content: null at: '" + file.getPath() + "'");
+      }
     } catch (FileNotFoundException fnfe) {
       logAndThrow("File not found: '" + path + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {

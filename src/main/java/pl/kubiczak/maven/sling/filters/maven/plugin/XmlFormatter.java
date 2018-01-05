@@ -80,7 +80,7 @@ class XmlFormatter {
     } catch (XPathExpressionException e) {
       mavenLog.error("error while compiling XPATH: '" + expression + "'");
     }
-    NodeList blankTextNodes = null;
+    NodeList blankTextNodes;
     if (xpathExpression != null) {
       try {
         blankTextNodes = (NodeList) xpathExpression.evaluate(document, XPathConstants.NODESET);

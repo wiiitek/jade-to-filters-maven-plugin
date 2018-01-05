@@ -43,13 +43,13 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    XmlSlingFilters slingFilters = new XmlSlingFilters(getLog());
+    XmlFiltersCreator filtersCreator = new XmlFiltersCreator(getLog());
 
     for (String jadeFilename : inputFiles) {
-      slingFilters.addFromFile(jadeFilename);
+      filtersCreator.addFromFile(jadeFilename);
     }
 
-    Output output = new Output(getLog(), outputFile);
-    output.write(slingFilters.prettyXml());
+    FileWriter fileWriter = new FileWriter(getLog(), outputFile);
+    fileWriter.write(filtersCreator.prettyXml());
   }
 }
