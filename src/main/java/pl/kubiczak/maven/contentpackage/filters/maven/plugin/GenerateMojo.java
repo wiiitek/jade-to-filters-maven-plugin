@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin;
+package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import java.io.File;
 import java.util.List;
@@ -22,7 +22,7 @@ public class GenerateMojo extends AbstractMojo {
    */
   @Parameter(
       required = true,
-      property = "sling.filters.inputFiles"
+      property = "filters.inputFiles"
   )
   private List<String> inputFiles;
 
@@ -30,7 +30,7 @@ public class GenerateMojo extends AbstractMojo {
    * Location of the output file.
    */
   @Parameter(
-      property = "sling.filters.outputFile",
+      property = "filters.outputFile",
       // the default value is in sync with maven project created from this archetype
       // https://github.com/Adobe-Marketing-Cloud/aem-project-archetype
       defaultValue = "${project.basedir}/src/main/content/META-INF/vault/filter.xml",
@@ -39,7 +39,7 @@ public class GenerateMojo extends AbstractMojo {
   private File outputFile;
 
   /**
-   * Executes the mojo for Sling filters generation.
+   * Executes the mojo for filters generation.
    */
   public void execute() throws MojoExecutionException {
 
@@ -49,7 +49,7 @@ public class GenerateMojo extends AbstractMojo {
       filtersCreator.addFromFile(jadeFilename);
     }
 
-    FileWriter fileWriter = new FileWriter(getLog(), outputFile);
-    fileWriter.write(filtersCreator.prettyXml());
+    OutputFileWriter outputFileWriter = new OutputFileWriter(getLog(), outputFile);
+    outputFileWriter.write(filtersCreator.prettyXml());
   }
 }

@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin;
+package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -26,7 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileWriterTest {
+public class OutputFileWriterTest {
 
   private static final String SPECIAL_CHARS_CONTENT = "źół\n!@#$%^&*()_+ \";\nGrüße\t";
 
@@ -55,7 +55,7 @@ public class FileWriterTest {
   @Test
   public void shouldCreateEmptyFileForNull() throws MojoExecutionException {
 
-    FileWriter tested = new FileWriter(mavenLogMock, outputFile);
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
     tested.write(null);
 
@@ -67,7 +67,7 @@ public class FileWriterTest {
   @Test
   public void shouldCreateFileForEmptyString() throws MojoExecutionException {
 
-    FileWriter tested = new FileWriter(mavenLogMock, outputFile);
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
     tested.write(StringUtils.EMPTY);
 
@@ -79,7 +79,7 @@ public class FileWriterTest {
   @Test
   public void shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
 
-    FileWriter tested = new FileWriter(mavenLogMock, outputFile);
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
     tested.write(SPECIAL_ENDING_CONTENT);
 
@@ -91,7 +91,7 @@ public class FileWriterTest {
   @Test
   public void shouldCreateFileWithSpecialChars() throws MojoExecutionException {
 
-    FileWriter tested = new FileWriter(mavenLogMock, outputFile);
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
     tested.write(SPECIAL_CHARS_CONTENT);
 

@@ -1,4 +1,4 @@
-package pl.kubiczak.maven.sling.filters.maven.plugin;
+package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -15,63 +15,39 @@ import org.apache.maven.plugin.logging.Log;
 /**
  * Creates output file.
  */
-class FileWriter {
+class OutputFileWriter {
 
   private final Log mavenLog;
 
-  private final File file;
+  private final File outputFile;
 
-  FileWriter(Log mavenLog, File file) {
+  OutputFileWriter(Log mavenLog, File outputFile) {
     this.mavenLog = mavenLog;
-    this.file = file;
+    this.outputFile = outputFile;
   }
 
   void write(String fileContent) throws MojoExecutionException {
     FileOutputStream os = null;
     Writer writer = null;
-    String path = getPath();
-    createDirectories(file);
-    boolean deleted = file.delete();
-    if (deleted) {
-      mavenLog.debug("The old version of '" + path + "' file was deleted.");
-    }
-    mavenLog.debug("Creating writer for :'" + path + "'");
+    String outputFilePath = getPath(outputFile);
+    createParentDirectories(outputFile, outputFilePath);
+    deleteIfExists(outputFile, outputFilePath);
+    mavenLog.debug("Creating writer for :'" + outputFilePath + "'");
     try {
-      os = new FileOutputStream(path);
+      os = new FileOutputStream(outputFilePath);
       writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      if (fileContent != null) {
-        writer.write(fileContent);
-      } else {
-        mavenLog.info("Will create empty file for content: null at: '" + file.getPath() + "'");
-      }
+      checkContentAndWrite(fileContent, writer, outputFilePath);
     } catch (FileNotFoundException fnfe) {
-      logAndThrow("File not found: '" + path + "'", fnfe);
+      logAndThrow("File not found: '" + outputFilePath + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
       logAndThrow("Unsupported encoding: UTF-8", uee);
-    } catch (IOException ioe) {
-      logAndThrow("error while writing into output file", ioe);
     } finally {
       closeIfNotNull(writer);
       closeIfNotNull(os);
     }
   }
 
-  private void logAndThrow(String errorMessage, Exception ex) throws MojoExecutionException {
-    mavenLog.error(errorMessage);
-    throw new MojoExecutionException(errorMessage, ex);
-  }
-
-  private void closeIfNotNull(Closeable output) {
-    if (output != null) {
-      try {
-        output.close();
-      } catch (IOException e) {
-        //
-      }
-    }
-  }
-
-  private String getPath() {
+  private String getPath(File file) {
     String path = null;
     try {
       path = file.getCanonicalPath();
@@ -87,11 +63,11 @@ class FileWriter {
         mavenLog.error(msg);
       }
     }
-
     return path;
   }
 
-  private void createDirectories(File file) throws MojoExecutionException {
+  private void createParentDirectories(File file, String path)
+      throws MojoExecutionException {
     boolean notSimpleFile = !file.isFile();
     if (notSimpleFile) {
       if (file.exists()) {
@@ -99,11 +75,50 @@ class FileWriter {
       } else {
         boolean parentFolderExists = file.getParentFile().isDirectory();
         if (!parentFolderExists) {
+          mavenLog.info("Creating directories for path: '" + path + "'.");
           boolean parentFoldersCreated = file.getParentFile().mkdirs();
           if (!parentFoldersCreated) {
             throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
+          } else {
+            mavenLog.debug("Directories created for path: '" + path + "'");
           }
         }
+      }
+    }
+  }
+
+  private void deleteIfExists(File file, String path) {
+    boolean deleted = file.delete();
+    if (deleted) {
+      mavenLog.debug("The old version of '" + path + "' file was deleted.");
+    }
+  }
+
+  private void checkContentAndWrite(String content, Writer writer, String path)
+      throws MojoExecutionException {
+    try {
+      if (content != null) {
+        writer.write(content);
+      } else {
+        String msg = "Will create empty file for content: null at: '" + path + "'";
+        mavenLog.info(msg);
+      }
+    } catch (IOException ioe) {
+      logAndThrow("Error while writing into output file", ioe);
+    }
+  }
+
+  private void logAndThrow(String errorMessage, Exception ex) throws MojoExecutionException {
+    mavenLog.error(errorMessage);
+    throw new MojoExecutionException(errorMessage, ex);
+  }
+
+  private void closeIfNotNull(Closeable output) {
+    if (output != null) {
+      try {
+        output.close();
+      } catch (IOException e) {
+        //
       }
     }
   }
