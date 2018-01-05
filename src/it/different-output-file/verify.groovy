@@ -1,4 +1,4 @@
-File filters = new File( basedir, "target/output" )
+File filters = new File(basedir, "target/output")
 
 assert filters.exists()
 assert filters.isFile()
