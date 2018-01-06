@@ -24,48 +24,53 @@ class OutputFilePath {
   }
 
   void createParentDirectories() throws MojoExecutionException {
-    boolean notSimpleFile = !file.isFile();
-    if (notSimpleFile) {
-      if (file.exists()) {
-        mavenLog.error("Cannot send output to " + file + " as it exists but is not a file.");
-      } else {
-        boolean parentFolderExists = file.getParentFile().isDirectory();
-        if (!parentFolderExists) {
-          mavenLog.info("Creating directories for path: '" + path + "'.");
-          boolean parentFoldersCreated = file.getParentFile().mkdirs();
-          if (!parentFoldersCreated) {
-            throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
-          } else {
-            mavenLog.debug("Directories created for path: '" + path + "'");
-          }
+    if (file.exists()) {
+      if (!file.isFile()) {
+        String msg = "Cannot send output to '" + file + "' as it exists but is not a file.";
+        mavenLog.error(msg);
+      }
+    } else {
+      boolean parentFolderExists = file.getParentFile().isDirectory();
+      if (!parentFolderExists) {
+        mavenLog.info("Creating directories for path: '" + path + "'.");
+        boolean parentFoldersCreated = file.getParentFile().mkdirs();
+        if (!parentFoldersCreated) {
+          throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
+        } else {
+          mavenLog.debug("Directories created for path: '" + path + "'");
         }
       }
     }
   }
 
   void deleteFileIfExists() {
-    boolean deleted = file.delete();
-    if (deleted) {
-      mavenLog.debug("The old version of '" + path + "' file was deleted.");
+    if (file.exists()) {
+      if (!file.isFile()) {
+        String msg = "Cannot delete '" + path + "' as it exists but is not a file.";
+        mavenLog.error(msg);
+      } else {
+        boolean deleted = file.delete();
+        mavenLog.debug("File '" + path + "' was deleted. Success: '" + deleted + "'.");
+      }
     }
   }
 
   private String getPath(File file) {
-    String path = null;
+    String result = null;
     try {
-      path = file.getCanonicalPath();
+      result = file.getCanonicalPath();
     } catch (IOException e) {
-      mavenLog.debug("error while getting canonical path. will try to get absolute path.");
+      mavenLog.debug("Error while getting canonical path. will try to get absolute path.");
     }
-    if (path == null) {
+    if (result == null) {
       try {
-        path = file.getAbsolutePath();
+        result = file.getAbsolutePath();
       } catch (SecurityException se) {
-        String msg = "error while getting absolute path for '" + file + "'.";
+        String msg = "Error while getting absolute path for '" + file + "'.";
         msg += " do you have the correct permissions for the file?";
         mavenLog.error(msg);
       }
     }
-    return path;
+    return result;
   }
 }
