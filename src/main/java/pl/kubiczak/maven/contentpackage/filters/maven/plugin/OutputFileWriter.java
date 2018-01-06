@@ -29,14 +29,16 @@ class OutputFileWriter {
   void write(String fileContent) throws MojoExecutionException {
     FileOutputStream os = null;
     Writer writer = null;
-    String outputFilePath = getPath(outputFile);
-    createParentDirectories(outputFile, outputFilePath);
-    deleteIfExists(outputFile, outputFilePath);
+
+    OutputFilePath outputFilePath = new OutputFilePath(mavenLog, outputFile);
+    outputFilePath.createParentDirectories();
+    outputFilePath.deleteFileIfExists();
+
     mavenLog.debug("Creating writer for :'" + outputFilePath + "'");
     try {
-      os = new FileOutputStream(outputFilePath);
+      os = new FileOutputStream(outputFilePath.get());
       writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      checkContentAndWrite(fileContent, writer, outputFilePath);
+      checkContentAndWrite(fileContent, writer, outputFilePath.get());
     } catch (FileNotFoundException fnfe) {
       logAndThrow("File not found: '" + outputFilePath + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
@@ -44,53 +46,6 @@ class OutputFileWriter {
     } finally {
       closeIfNotNull(writer);
       closeIfNotNull(os);
-    }
-  }
-
-  private String getPath(File file) {
-    String path = null;
-    try {
-      path = file.getCanonicalPath();
-    } catch (IOException e) {
-      mavenLog.debug("error while getting canonical path. will try to get absolute path.");
-    }
-    if (path == null) {
-      try {
-        path = file.getAbsolutePath();
-      } catch (SecurityException se) {
-        String msg = "error while getting absolute path for '" + file + "'.";
-        msg += " do you have the correct permissions for the file?";
-        mavenLog.error(msg);
-      }
-    }
-    return path;
-  }
-
-  private void createParentDirectories(File file, String path)
-      throws MojoExecutionException {
-    boolean notSimpleFile = !file.isFile();
-    if (notSimpleFile) {
-      if (file.exists()) {
-        mavenLog.error("Cannot send output to " + file + " as it exists but is not a file.");
-      } else {
-        boolean parentFolderExists = file.getParentFile().isDirectory();
-        if (!parentFolderExists) {
-          mavenLog.info("Creating directories for path: '" + path + "'.");
-          boolean parentFoldersCreated = file.getParentFile().mkdirs();
-          if (!parentFoldersCreated) {
-            throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
-          } else {
-            mavenLog.debug("Directories created for path: '" + path + "'");
-          }
-        }
-      }
-    }
-  }
-
-  private void deleteIfExists(File file, String path) {
-    boolean deleted = file.delete();
-    if (deleted) {
-      mavenLog.debug("The old version of '" + path + "' file was deleted.");
     }
   }
 

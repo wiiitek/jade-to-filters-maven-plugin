@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Random;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -40,9 +39,13 @@ public class OutputFileWriterTest {
 
   private File outputFile;
 
+  /**
+   * Creates random File instance in tmp folder, but not actual file on filesystem.
+   */
   @Before
   public void createNonExistingOutputFile() {
-    outputFile = new File(folder.getRoot().getAbsolutePath() + getRandomName());
+    String randomFileName = new RandomFilename().getNext("xml");
+    outputFile = new File(folder.getRoot().getAbsolutePath() + "/" + randomFileName);
     assert !outputFile.exists() : "Created file should not exist";
   }
 
@@ -53,7 +56,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateEmptyFileForNull() throws MojoExecutionException {
+  public void write_shouldCreateEmptyFileForNull() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -65,7 +68,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileForEmptyString() throws MojoExecutionException {
+  public void write_shouldCreateFileForEmptyString() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -77,7 +80,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
+  public void write_shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -89,7 +92,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileWithSpecialChars() throws MojoExecutionException {
+  public void write_shouldCreateFileWithSpecialChars() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -100,20 +103,17 @@ public class OutputFileWriterTest {
     verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_CHARS_CONTENT);
   }
 
-  private String getRandomName() {
-    Integer randomInt = new Random(System.currentTimeMillis()).nextInt();
-    long number = Math.abs(randomInt.longValue());
-    return String.format("file-%d.xml", number);
-  }
-
   private void verifyFileContent(String path, String expectedContent) {
     FileInputStream is = null;
+    String actualContent = null;
     try {
       is = new FileInputStream(path);
+      actualContent = read(is);
     } catch (FileNotFoundException e) {
       fail("File " + path + "should be created");
+    } finally {
+      closeInputStream(is);
     }
-    String actualContent = read(is);
     assertThat("File content should be as expected", actualContent, equalTo(expectedContent));
   }
 
@@ -125,5 +125,15 @@ public class OutputFileWriterTest {
       throw new RuntimeException("Unsupported encoding: UTF-8");
     }
     return writer.toString();
+  }
+
+  private void closeInputStream(FileInputStream is) {
+    if (is != null) {
+      try {
+        is.close();
+      } catch (IOException e) {
+        throw new RuntimeException("Error while closing input stream for output file.");
+      }
+    }
   }
 }

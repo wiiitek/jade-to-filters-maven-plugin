@@ -3,6 +3,8 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
@@ -92,5 +94,24 @@ public class XmlFiltersCreatorTest {
         .addFromFile(damFilterJadeFile)
         .prettyXml();
     assertThat(actual, equalTo(XML));
+  }
+
+  @Test
+  public void addFromFile_shouldLogErrorForNonExistingFile() {
+    String filterJadeFile =
+        getClass().getClassLoader().getResource("test-filter.jade").getPath();
+    String nonExistingFile =
+        filterJadeFile + ".non-exisiting";
+    String damFilterJadeFile =
+        getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
+    String actual = new XmlFiltersCreator(mavenLogMock)
+        .addFromFile(filterJadeFile)
+        .addFromFile(nonExistingFile)
+        .addFromFile(damFilterJadeFile)
+        .prettyXml();
+
+    assertThat(actual, equalTo(XML));
+    String expectedMessage = "the input file '" + nonExistingFile + "' does not exists";
+    verify(mavenLogMock, times(1)).error(expectedMessage);
   }
 }
