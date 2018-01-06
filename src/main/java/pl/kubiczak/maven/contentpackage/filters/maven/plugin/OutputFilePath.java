@@ -24,22 +24,11 @@ class OutputFilePath {
   }
 
   void createParentDirectories() throws MojoExecutionException {
-    if (file.exists()) {
-      if (!file.isFile()) {
-        String msg = "Cannot send output to '" + file + "' as it exists but is not a file.";
-        mavenLog.error(msg);
-      }
-    } else {
-      boolean parentFolderExists = file.getParentFile().isDirectory();
-      if (!parentFolderExists) {
-        mavenLog.info("Creating directories for path: '" + path + "'.");
-        boolean parentFoldersCreated = file.getParentFile().mkdirs();
-        if (!parentFoldersCreated) {
-          throw new MojoExecutionException("Can not create folders for a file: '" + file + "'");
-        } else {
-          mavenLog.debug("Directories created for path: '" + path + "'");
-        }
-      }
+    File parent = file.getParentFile();
+    if (!parent.isDirectory()) {
+      mavenLog.info("Creating directories for path: '" + path + "'.");
+      boolean parentFoldersCreated = parent.mkdirs();
+      logDirectoryCreated(parentFoldersCreated);
     }
   }
 
@@ -72,5 +61,13 @@ class OutputFilePath {
       }
     }
     return result;
+  }
+
+  private void logDirectoryCreated(boolean wasCreated) throws MojoExecutionException {
+    if (!wasCreated) {
+      throw new MojoExecutionException("Couldn't create folders for a file: '" + path + "'");
+    } else {
+      mavenLog.debug("Directories created for path: '" + path + "'");
+    }
   }
 }
