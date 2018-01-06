@@ -108,12 +108,15 @@ public class OutputFileWriterTest {
 
   private void verifyFileContent(String path, String expectedContent) {
     FileInputStream is = null;
+    String actualContent = null;
     try {
       is = new FileInputStream(path);
+      actualContent = read(is);
     } catch (FileNotFoundException e) {
       fail("File " + path + "should be created");
+    } finally {
+      closeInputStream(is);
     }
-    String actualContent = read(is);
     assertThat("File content should be as expected", actualContent, equalTo(expectedContent));
   }
 
@@ -125,5 +128,15 @@ public class OutputFileWriterTest {
       throw new RuntimeException("Unsupported encoding: UTF-8");
     }
     return writer.toString();
+  }
+
+  private void closeInputStream(FileInputStream is) {
+    if (is != null) {
+      try {
+        is.close();
+      } catch (IOException e) {
+        throw new RuntimeException("Error while closing input stream for output file.");
+      }
+    }
   }
 }
