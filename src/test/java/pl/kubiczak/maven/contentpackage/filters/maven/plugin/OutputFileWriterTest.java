@@ -42,7 +42,7 @@ public class OutputFileWriterTest {
 
   @Before
   public void createNonExistingOutputFile() {
-    outputFile = new File(folder.getRoot().getAbsolutePath() + getRandomName());
+    outputFile = new File(folder.getRoot().getAbsolutePath() + "/" + getRandomName());
     assert !outputFile.exists() : "Created file should not exist";
   }
 
@@ -53,7 +53,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateEmptyFileForNull() throws MojoExecutionException {
+  public void shouldCreateEmptyFileForNull() throws MojoExecutionException, IOException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -65,7 +65,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileForEmptyString() throws MojoExecutionException {
+  public void shouldCreateFileForEmptyString() throws MojoExecutionException, IOException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -77,7 +77,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
+  public void shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException, IOException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -89,7 +89,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldCreateFileWithSpecialChars() throws MojoExecutionException {
+  public void shouldCreateFileWithSpecialChars() throws MojoExecutionException, IOException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
