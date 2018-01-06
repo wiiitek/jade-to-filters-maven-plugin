@@ -29,17 +29,17 @@ class XmlFiltersCreator {
   }
 
   String prettyXml() {
-    mavenLog.debug("formatting filters XML...");
+    mavenLog.debug("Formatting filters XML...");
     return new XmlFormatter(mavenLog).format(filters);
   }
 
   XmlFiltersCreator addFromFile(String jadeFilename) {
     File jadeFile = new File(jadeFilename);
     if (!jadeFile.exists()) {
-      mavenLog.error("the input file '" + jadeFilename + "' does not exists");
+      mavenLog.error("The input file '" + jadeFilename + "' does not exists!");
     } else {
       if (!jadeFile.isFile()) {
-        mavenLog.error("the input file '" + jadeFilename + "' exist but is not a file");
+        mavenLog.error("The input file '" + jadeFilename + "' exist but is not a file!");
       } else {
         URL jadeFileUrl = fromFile(jadeFile, jadeFilename);
         this.addFromFile(jadeFileUrl);
@@ -64,10 +64,10 @@ class XmlFiltersCreator {
       Comment comment = filters.createComment(" some filters could not be parsed ");
       filters.appendChild(comment);
     } else {
-      mavenLog.debug("adding filters from XML:\n" + filterXml);
+      mavenLog.debug("Adding filters from XML:\n" + filterXml);
       NodeList filtersToAdd = filterDoc.getDocumentElement().getChildNodes();
       if (filtersToAdd.getLength() == 0) {
-        mavenLog.warn("no filters to add from XML:\n" + filterXml);
+        mavenLog.warn("No filters to add from XML:\n" + filterXml);
       } else {
         for (int i = 0; i < filtersToAdd.getLength(); i++) {
           Node copy = filtersToAdd.item(i).cloneNode(DEEP);

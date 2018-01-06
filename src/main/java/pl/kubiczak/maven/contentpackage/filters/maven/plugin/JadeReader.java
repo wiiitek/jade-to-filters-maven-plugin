@@ -19,13 +19,14 @@ class JadeReader {
 
   String transformToXml(URL jadeFileUrl) {
     String result = null;
-    mavenLog.debug("transforming Jade file from URL: '" + jadeFileUrl + "'");
+    mavenLog.debug("Transforming Jade file from URL: '" + jadeFileUrl + "'.");
     try {
       result = Jade4J.render(jadeFileUrl, new HashMap<String, Object>(), true);
       // we don't want to have any whitespaces here because they are parsed later into XML
       result = "<filters>" + result + "</filters>";
     } catch (IOException e) {
-      mavenLog.error("error while parsing '" + jadeFileUrl + "' as Jade file. " + e.getMessage());
+      String msg = "Error while parsing '" + jadeFileUrl + "' as Jade file. " + e.getMessage();
+      mavenLog.error(msg);
     }
     return result;
   }

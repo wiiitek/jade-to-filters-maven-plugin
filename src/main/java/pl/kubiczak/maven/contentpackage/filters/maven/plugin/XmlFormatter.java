@@ -42,10 +42,10 @@ class XmlFormatter {
       writer.flush();
       xml = writer.toString();
     } catch (TransformerConfigurationException tce) {
-      mavenLog.error("error while creating new transformer", tce);
+      mavenLog.error("Error while creating new transformer!", tce);
       xml = "<!-- error while creating new transformer -->\n";
     } catch (TransformerException te) {
-      mavenLog.error("error while transforming XML document", te);
+      mavenLog.error("Error while transforming XML document!", te);
       xml = "<!-- error while transforming XML document -->\n";
     }
     // always change to linux newlines
@@ -78,7 +78,7 @@ class XmlFormatter {
     try {
       xpathExpression = xpath.compile(expression);
     } catch (XPathExpressionException e) {
-      mavenLog.error("error while compiling XPATH: '" + expression + "'");
+      mavenLog.error("Error while compiling XPATH: '" + expression + "'!");
     }
     NodeList blankTextNodes;
     if (xpathExpression != null) {
@@ -91,7 +91,7 @@ class XmlFormatter {
           }
         }
       } catch (XPathExpressionException e) {
-        mavenLog.error("error while evaluating XPATH: '" + xpath + "'");
+        mavenLog.error("Error while evaluating XPATH: '" + xpath + "'!");
       }
     }
   }

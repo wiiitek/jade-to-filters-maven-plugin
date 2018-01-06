@@ -111,7 +111,7 @@ public class XmlFiltersCreatorTest {
         .prettyXml();
 
     assertThat(actual, equalTo(XML));
-    String expectedMessage = "the input file '" + nonExistingFile + "' does not exists";
+    String expectedMessage = "The input file '" + nonExistingFile + "' does not exists.";
     verify(mavenLogMock, times(1)).error(expectedMessage);
   }
 }

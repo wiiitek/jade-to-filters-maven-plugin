@@ -30,15 +30,15 @@ class XmlParser {
       InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
       document = docBuilder.parse(in);
     } catch (ParserConfigurationException pce) {
-      logXmlException("error while creating XML document builder", pce, xml);
+      logXmlException("Error while creating XML document builder.", pce, xml);
     } catch (UnsupportedEncodingException uee) {
       logXmlException("UTF-8 is unsupported.", uee, xml);
     } catch (SAXException saxe) {
-      logXmlException("parsing error.", saxe, xml);
+      logXmlException("Parsing error.", saxe, xml);
     } catch (IOException ioe) {
-      logXmlException("input stream error in DocumentBuilder.", ioe, xml);
+      logXmlException("Input stream error in DocumentBuilder.", ioe, xml);
     } catch (IllegalArgumentException iae) {
-      logXmlException("error with creating input source", iae, xml);
+      logXmlException("Error with creating input source.", iae, xml);
     }
     return document;
   }

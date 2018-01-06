@@ -110,11 +110,11 @@ public class OutputFileWriterTest {
       is = new FileInputStream(path);
       actualContent = read(is);
     } catch (FileNotFoundException e) {
-      fail("File " + path + "should be created");
+      fail("File " + path + "should be created!");
     } finally {
       closeInputStream(is);
     }
-    assertThat("File content should be as expected", actualContent, equalTo(expectedContent));
+    assertThat("File content should be as expected!", actualContent, equalTo(expectedContent));
   }
 
   private String read(InputStream is) {

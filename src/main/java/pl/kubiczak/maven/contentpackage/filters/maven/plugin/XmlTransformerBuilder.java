@@ -42,15 +42,15 @@ class XmlTransformerBuilder {
   private TransformerFactory buildFactory() {
     TransformerFactory factory = TransformerFactory.newInstance();
     // factory attributes entry set is ordered (as the implementation is LinkedHashMap)
-    mavenLog.debug("setting attributes: '" + factoryAttributes
-        + "' for the factory: '" + factory + "'");
+    mavenLog.debug("Setting attributes: '" + factoryAttributes
+        + "' for the factory: '" + factory + "'.");
     for (Map.Entry<String, Object> entry : factoryAttributes.entrySet()) {
       try {
         factory.setAttribute(entry.getKey(), entry.getValue());
       } catch (IllegalArgumentException iae) {
-        mavenLog.error("error while setting attribute '"
+        mavenLog.error("Error while setting attribute '"
             + entry.getKey() + ":" + entry.getValue()
-            + "' for factory: '" + factory + "'", iae);
+            + "' for factory: '" + factory + "'.", iae);
       }
     }
     return factory;
@@ -62,19 +62,19 @@ class XmlTransformerBuilder {
     try {
       transformer = factory.newTransformer();
     } catch (TransformerConfigurationException tce) {
-      mavenLog.error("error while creating transformer with factory: '" + factory
-          + "' and factory attributes: '" + factoryAttributes + "'", tce);
+      mavenLog.error("Error while creating transformer with factory: '" + factory
+          + "' and factory attributes: '" + factoryAttributes + "'.", tce);
       throw tce;
     }
-    mavenLog.debug("setting output properties: '" + outputProperties
-        + "' for the transformer: '" + transformer + "'");
+    mavenLog.debug("Setting output properties: '" + outputProperties
+        + "' for the transformer: '" + transformer + "'.");
     for (Map.Entry<String, String> entry : outputProperties.entrySet()) {
       try {
         transformer.setOutputProperty(entry.getKey(), entry.getValue());
       } catch (IllegalArgumentException iae) {
-        mavenLog.error("error while setting property '"
+        mavenLog.error("Error while setting property '"
             + entry.getKey() + ":" + entry.getValue()
-            + "' for transformer: '" + transformer + "'");
+            + "' for transformer: '" + transformer + "'.");
       }
     }
     return transformer;
