@@ -41,12 +41,7 @@ class XmlFiltersCreator {
       if (!jadeFile.isFile()) {
         mavenLog.error("the input file '" + jadeFilename + "' exist but is not a file");
       } else {
-        URL jadeFileUrl = null;
-        try {
-          jadeFileUrl = jadeFile.toURI().toURL();
-        } catch (MalformedURLException e) {
-          mavenLog.error("error while getting URL for '" + jadeFilename + "'");
-        }
+        URL jadeFileUrl = fromFile(jadeFile, jadeFilename);
         this.addFromFile(jadeFileUrl);
       }
     }
@@ -82,5 +77,15 @@ class XmlFiltersCreator {
       }
     }
     return this;
+  }
+
+  private URL fromFile(File file, String filename) {
+    URL result = null;
+    try {
+      result = file.toURI().toURL();
+    } catch (MalformedURLException e) {
+      mavenLog.error("Error while getting URL for '" + filename + "'.");
+    }
+    return result;
   }
 }
