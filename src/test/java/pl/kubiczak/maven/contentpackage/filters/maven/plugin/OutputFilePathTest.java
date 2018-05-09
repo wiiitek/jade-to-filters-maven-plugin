@@ -79,7 +79,7 @@ public class OutputFilePathTest {
     OutputFilePath tested = new OutputFilePath(mavenLogMock, fileOnFilesystem);
     tested.deleteFileIfExists();
 
-    String filePath = fileOnFilesystem.getPath();
+    String filePath = fileOnFilesystem.getCanonicalPath();
     String expectedMessage = "File '" + filePath + "' was deleted. Success: 'true'.";
     verify(mavenLogMock, times(ONCE)).debug(expectedMessage);
   }
