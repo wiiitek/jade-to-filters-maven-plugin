@@ -9,7 +9,7 @@
 
   <name>Jade to Filters Maven Plugin</name>
   <description>Plugin for generating filter.xml files from Jade files.</description>
-  <url>https://github.com/wiiitek/sling-filters-maven-plugin</url>
+  <url>https://github.com/wiiitek/jade-to-filters-maven-plugin</url>
   <inceptionYear>2013</inceptionYear>
 
   <licenses>
