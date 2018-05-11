@@ -3,7 +3,7 @@ Jade to Filters Maven Plugin
 
 [![Build Status](https://travis-ci.org/wiiitek/jade-to-filters-maven-plugin.svg?branch=master)](https://travis-ci.org/wiiitek/jade-to-filters-maven-plugin)
 [![sonarcloud.io](https://sonarcloud.io/api/project_badges/measure?project=pl.kubiczak%3Ajade-to-filters-maven-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=pl.kubiczak%3Ajade-to-filters-maven-plugin)
-[![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/cognifide/aet.svg?label=License)](http://www.apache.org/licenses/)
+[![Apache License, Version 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/)
 [![Maven Central](https://img.shields.io/maven-central/v/pl.kubiczak/jade-to-filters-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22pl.kubiczak%22%20AND%20a%3A%22jade-to-filters-maven-plugin%22)
 
 This plugin reads [Jade] files and creates [filter.xml] file for [content package].
