@@ -73,7 +73,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.5.2</version>
+        <version>3.5.3</version>
       </dependency>
       <!--
         specifying version for plexus-utils
@@ -87,7 +87,7 @@
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.5</version>
+        <version>3.5.1</version>
         <scope>provided</scope>
       </dependency>
       <!--
@@ -98,7 +98,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-artifact</artifactId>
-        <version>3.5.2</version>
+        <version>3.5.3</version>
       </dependency>
 
       <dependency>
@@ -178,7 +178,7 @@
             <dependency>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>extra-enforcer-rules</artifactId>
-              <version>1.0-beta-6</version>
+              <version>1.0-beta-7</version>
             </dependency>
             <dependency>
               <groupId>com.github.ferstl</groupId>
@@ -190,12 +190,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.17</version>
+          <version>3.0.0</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.7</version>
+              <version>8.10</version>
             </dependency>
           </dependencies>
         </plugin>
