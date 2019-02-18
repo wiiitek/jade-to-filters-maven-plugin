@@ -1,5 +1,6 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -30,11 +31,13 @@ class XmlFormatter {
 
   String format(Document document) {
     String xml;
+
+    StringWriter writer = null;
     try {
       cleanBlankTextNodes(document);
 
       DOMSource domSource = new DOMSource(document);
-      StringWriter writer = new StringWriter();
+      writer = new StringWriter();
       StreamResult result = new StreamResult(writer);
 
       createTransformer().transform(domSource, result);
@@ -47,6 +50,14 @@ class XmlFormatter {
     } catch (TransformerException te) {
       mavenLog.error("Error while transforming XML document!", te);
       xml = "<!-- error while transforming XML document -->\n";
+    } finally {
+      if (writer != null) {
+        try {
+          writer.close();
+        } catch (IOException ioe) {
+          mavenLog.error("Error while closing string writer: " + ioe.getMessage(), ioe);
+        }
+      }
     }
     // always change to linux newlines
     return xml.replace("\r\n", "\n");
@@ -54,16 +65,19 @@ class XmlFormatter {
 
   private Transformer createTransformer() throws TransformerConfigurationException {
     Integer indentNumber = 2;
-    return new XmlTransformerBuilder(mavenLog)
-        .addFactoryAttribute("indent-number", indentNumber)
+    XmlTransformerFactory xmlTransformerFactory = new XmlTransformerFactory(mavenLog)
+        .addFactoryAttribute("indent-number", indentNumber);
+    XmlTransformer xmlTransformer = new XmlTransformer(mavenLog, xmlTransformerFactory)
         .addOutputProperty(OutputKeys.METHOD, "xml")
         .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
         .addOutputProperty(OutputKeys.INDENT, "yes")
         .addOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
         .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2")
         // for newline after XML declaration - https://stackoverflow.com/a/18251901
-        .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes")
-        .build();
+        .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+    Transformer transformer = xmlTransformer.create();
+    mavenLog.debug("Transformer created");
+    return transformer;
   }
 
   /**
