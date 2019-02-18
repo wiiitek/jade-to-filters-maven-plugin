@@ -3,6 +3,7 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,6 +56,8 @@ class XmlParser {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     String feature = null;
     try {
+      // Enable secure processing as proposed by Sonar
+      dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       // This is the PRIMARY defense. If DTDs (doctypes) are disallowed, almost all
       // XML entity attacks are prevented
       // Xerces 2 only - http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl
