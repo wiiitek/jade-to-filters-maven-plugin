@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class XmlFiltersCreatorTest {
+public class FiltersCreatorTest {
 
   private static final String SIMPLE_XML = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -40,7 +40,7 @@ public class XmlFiltersCreatorTest {
 
   @Test
   public void addFromXml_shouldAddSimpleElement() {
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test></test></filters>")
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
@@ -48,7 +48,7 @@ public class XmlFiltersCreatorTest {
 
   @Test
   public void addFromXml_shouldAddNestedElement() {
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test><sub-test/></test></filters>")
         .prettyXml();
     assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
@@ -56,7 +56,7 @@ public class XmlFiltersCreatorTest {
 
   @Test
   public void addFromXml_shouldAddCommentForIncorrectElement() {
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters>incorrect < XML</filters>")
         .prettyXml();
     assertThat(actual, containsString("<!-- some filters could not be parsed -->"));
@@ -66,7 +66,7 @@ public class XmlFiltersCreatorTest {
   public void addFromFile_shouldAddElementFromUrl() {
     URL jadeFileUrl = getClass().getClassLoader().getResource("test.jade");
 
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(jadeFileUrl)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
@@ -76,7 +76,7 @@ public class XmlFiltersCreatorTest {
   public void addFromFile_shouldAddElementFromFilename() {
     String filePath = getClass().getClassLoader().getResource("test.jade").getPath();
 
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(filePath)
         .prettyXml();
     assertThat(actual, equalTo(SIMPLE_XML));
@@ -89,7 +89,7 @@ public class XmlFiltersCreatorTest {
     String damFilterJadeFile =
         getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
 
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(filterJadeFile)
         .addFromFile(damFilterJadeFile)
         .prettyXml();
@@ -104,7 +104,7 @@ public class XmlFiltersCreatorTest {
         filterJadeFile + ".non-exisiting";
     String damFilterJadeFile =
         getClass().getClassLoader().getResource("test-dam-filter.jade").getPath();
-    String actual = new XmlFiltersCreator(mavenLogMock)
+    String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(filterJadeFile)
         .addFromFile(nonExistingFile)
         .addFromFile(damFilterJadeFile)

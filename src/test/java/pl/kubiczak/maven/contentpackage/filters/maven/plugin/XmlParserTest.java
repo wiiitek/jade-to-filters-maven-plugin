@@ -24,9 +24,9 @@ public class XmlParserTest {
 
   private static final String XML = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-      + "<workspaceFilter version=\"1.0\">\n"
+      + "<zażółć version=\"1.0\">\n"
       + "  <test/>\n"
-      + "</workspaceFilter>\n";
+      + "</zażółć>\n";
 
   @Mock
   private Log mavenLogMock;
@@ -42,7 +42,7 @@ public class XmlParserTest {
     Document actual = new XmlParser(mavenLogMock).parse(XML);
 
     Element rootElement = actual.getDocumentElement();
-    assertThat(rootElement.getTagName(), equalTo("workspaceFilter"));
+    assertThat(rootElement.getTagName(), equalTo("zażółć"));
     assertThat(rootElement.getAttribute("version"), equalTo("1.0"));
   }
 }
