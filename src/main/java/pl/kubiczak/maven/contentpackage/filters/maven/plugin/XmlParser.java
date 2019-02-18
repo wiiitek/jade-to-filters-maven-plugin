@@ -57,7 +57,8 @@ class XmlParser {
     String feature = null;
     try {
       // Enable secure processing as proposed by Sonar
-      dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+      feature = XMLConstants.FEATURE_SECURE_PROCESSING;
+      dbf.setFeature(feature, true);
       // This is the PRIMARY defense. If DTDs (doctypes) are disallowed, almost all
       // XML entity attacks are prevented
       // Xerces 2 only - http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl
