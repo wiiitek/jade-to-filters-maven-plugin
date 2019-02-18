@@ -2,6 +2,7 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
@@ -39,8 +40,10 @@ class XmlTransformerBuilder {
     return buildTransformer(factory);
   }
 
-  private TransformerFactory buildFactory() {
+  private TransformerFactory buildFactory()
+      throws TransformerConfigurationException {
     TransformerFactory factory = TransformerFactory.newInstance();
+    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     // factory attributes entry set is ordered (as the implementation is LinkedHashMap)
     mavenLog.debug("Setting attributes: '" + factoryAttributes
         + "' for the factory: '" + factory + "'.");

@@ -24,6 +24,8 @@ class XmlParser {
 
   Document parse(String xml) {
     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    // disables external entity references for security reason
+    docFactory.setExpandEntityReferences(false);
     Document document = null;
     try {
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
