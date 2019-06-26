@@ -1,10 +1,10 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -19,7 +19,7 @@ public class XmlParserTest {
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
       + "<!DOCTYPE root [<!ENTITY insecure SYSTEM 'file:///etc/passwd'>]><root>&insecure;</root>"
       + "<workspaceFilter version=\"1.0\">\n"
-      + "  <test/>\n"
+      + "  <value>&insecure;</value>\n"
       + "</workspaceFilter>\n";
 
   private static final String XML = ""
@@ -32,9 +32,9 @@ public class XmlParserTest {
   private Log mavenLogMock;
 
   @Test
-  @Ignore("This test is only for manual execution to see error for external entities in XML")
-  public void parse() {
-    new XmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
+  public void shouldNotParseInsecureXml() {
+    Document parsed = new XmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
+    assertThat(parsed, nullValue());
   }
 
   @Test
