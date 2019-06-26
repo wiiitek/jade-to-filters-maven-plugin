@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 /**
  * Main class for filters creation.
  */
-class XmlFiltersCreator {
+class FiltersCreator {
 
   private final Log mavenLog;
 
@@ -20,7 +20,7 @@ class XmlFiltersCreator {
 
   private static final boolean DEEP = true;
 
-  XmlFiltersCreator(Log mavenLog) {
+  FiltersCreator(Log mavenLog) {
     this.mavenLog = mavenLog;
     String xml = "<workspaceFilter version=\"1.0\"/>";
     this.filters = new XmlParser(mavenLog).parse(xml);
@@ -33,7 +33,7 @@ class XmlFiltersCreator {
     return new XmlFormatter(mavenLog).format(filters);
   }
 
-  XmlFiltersCreator addFromFile(String jadeFilename) {
+  FiltersCreator addFromFile(String jadeFilename) {
     File jadeFile = new File(jadeFilename);
     if (!jadeFile.exists()) {
       mavenLog.error("The input file '" + jadeFilename + "' does not exists!");
@@ -48,7 +48,7 @@ class XmlFiltersCreator {
     return this;
   }
 
-  XmlFiltersCreator addFromFile(URL jadeFileUrl) {
+  FiltersCreator addFromFile(URL jadeFileUrl) {
     String xml = new JadeReader(mavenLog).transformToXml(jadeFileUrl);
     if (xml != null) {
       this.addFromXml(xml);
@@ -56,7 +56,7 @@ class XmlFiltersCreator {
     return this;
   }
 
-  XmlFiltersCreator addFromXml(String filterXml) {
+  FiltersCreator addFromXml(String filterXml) {
 
     Document filterDoc = new XmlParser(mavenLog).parse(filterXml);
     if (filterDoc == null) {

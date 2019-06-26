@@ -43,7 +43,7 @@ public class GenerateMojo extends AbstractMojo {
    */
   public void execute() throws MojoExecutionException {
 
-    XmlFiltersCreator filtersCreator = new XmlFiltersCreator(getLog());
+    FiltersCreator filtersCreator = new FiltersCreator(getLog());
 
     for (String jadeFilename : inputFiles) {
       filtersCreator.addFromFile(jadeFilename);
