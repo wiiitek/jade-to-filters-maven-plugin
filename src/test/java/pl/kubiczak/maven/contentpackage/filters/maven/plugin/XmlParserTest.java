@@ -32,7 +32,7 @@ public class XmlParserTest {
   private Log mavenLogMock;
 
   @Test
-  @Ignore("This test is only for manual execution to see error for external entites in XML")
+  @Ignore("This test is only for manual execution to see error for external entities in XML")
   public void parse() {
     new XmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
   }
