@@ -3,7 +3,6 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.xml.XMLConstants;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import org.apache.maven.plugin.logging.Log;
