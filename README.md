@@ -8,6 +8,12 @@ Jade to Filters Maven Plugin
 
 This plugin reads [Jade] files and creates [filter.xml] file for [content package].
 
+To read more about the Jackrabbit Vault filters see:
+
+* [Adobe AEM documentation about package filters](https://helpx.adobe.com/pl/experience-manager/6-3/sites/administering/using/package-manager.html#PackageFilters)
+* [Stackoverflow explanation](https://stackoverflow.com/a/25267312) of how filters work
+* Documentation for [plugin that generates Vault packages](http://jackrabbit.apache.org/filevault-package-maven-plugin/index.html)
+
 It removes code duplication if you are using same filters in different Maven modules.
 
 You may have separate Maven modules for your sample content, assets and application. During development process it is convenient to only build ZIP package that contains application code. The assets and sample content packages need to be built only when they change.
