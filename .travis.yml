@@ -8,9 +8,9 @@ script:
 
 addons:
   sonarcloud:
-    organization: "wiiitek-github"
+    organization: 'wiiitek-github'
     token:
-      secure: JF5pFnDiXM3ySW8afQupNL2QP4N7ymI+BUYC4Q++1qfvp1kI+/sO0ew3qqL8MPvVjRl3+FLx+/3XNZL3yUkBPjvS9Dmrb0XG+cEWXTrgunzHpgARTBw58l7vZvos1ry0BCWZwrFV3NZROlSEqzWl1CYsKPHxWP3/f9QN+9+1gMXN8s7PUAEEQZhAOXPGHKodaDE5moeA0LgFUfn/5zNhiagruBS/Xukwhe3RVRROyIassSHxAzAjTqWCnKQLlhFOQQGOi40BvMh0TlPdNHY7Mx3Z8yenlav3/Xkw3frKsXey8qfgM2sjjr/7VsArw+unZ+Qq4tniKcOdRHMsdVTbefozYGqVj5EGHxRSiFzERS6dbUYZ7H390ND36UsOsWsWUBGRnXOJDpyq765GPCIInPDwAETpoSVTqV4tXRs8KGUMfQFYhUNcoyjrXdxHV7PKZxm71Al6CB+++UxgrGOihyBCYQ5sqOLDgzKJCBTyHGZubBHBm3p2HvkvmIf7Go38O3BmWcKqaXhUku0IfadmQBeVnPi8LEJ6eluTbvmH3jDOPNqkRXv7KYOcNBTVtNrOZ/g0mLLo19VY6iPykJBe5V+ewK9nU9Lgod/XtR55bc9y2APUscL84TQZ0h3chTx5LJSX7Q9LonQB1FWnC4RBtzX8zrV6ZIph+4zhrfGUngk=
+      secure: 'EQN51imuWCsPDDZCG2cd/4TzhCpK1pRUJQl09vZaWyAxujvRppiP9HREN1QQUxpEeKFso2hVXIh6cfa4CXnUb1PJPmJSVS/z8+LXJC9M3e0xk6AxkDWc3cJYyfa7Ga2BKESVhVZlinskxQxk2LXeQAFWux2z4huYfk2Rq97ApPPIf7OrxyMAIiPHYc4n/IdOUG5tlVmTG8T+YxVCzKGEF+iuITp7rPj7Dvr4uqwm4+g1962S8ONLMZZ4n0kQUYiP+viPd5Myr4z7QuHrUln8YRKhVtvJnKX5Ing15dNPg/Yt0WKlETeXHdyw4KI76C92lpsNgF1IAEfNGrrOM+9TG/rtjl/vNX/OE1912z5y+bpmQf0UQ2+dkcS0JsMWcVEMlvUR+h5t2RBxQj7jGXq1blJIP6xs32wmnBg1wb8muvUsPULN45zFaTBZyEDMG9Q23pGPdGkTURuHnqRuDUL6R0H1k2l0yXecHPmcDNq/eP9IDqH5PJJW6W9dT3/Hr7Y8u1bqSrEB/tyzzz9TbuGtAMn04eziKX7nxUOql+fgXvt0BxTqiu+Chd7XMtNeWt5LlTlsPWxS/ALXYwHw8Pkyy4L7Gp/ZqSr2owTDrGcLcCjYrTO0+JoiyqTK4ipGOwUx5e4HvTFCof59Dum5tQQgF7rFCQkPa0sTEJGxKUQWUp8='
 
 # see
 # https://docs.travis-ci.com/user/build-stages#Build-Stages-and-Build-Matrix-Expansion
@@ -18,4 +18,6 @@ jobs:
   include:
     - stage: sonar
       jdk: openjdk11
-      script: mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+      script:
+        - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report
+        - mvn sonar:sonar -Dsonar.projectKey=pl.kubiczak:jade-to-filters-maven-plugin
