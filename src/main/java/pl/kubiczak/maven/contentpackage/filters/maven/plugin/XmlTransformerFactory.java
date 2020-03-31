@@ -12,6 +12,8 @@ import org.apache.maven.plugin.logging.Log;
  */
 class XmlTransformerFactory {
 
+  private static final String EXTERNAL_REFERENCES_DENIED = "";
+
   private final Log mavenLog;
 
   private final Map<String, Object> factoryAttributes;
@@ -30,6 +32,8 @@ class XmlTransformerFactory {
       throws TransformerConfigurationException {
     TransformerFactory factory = TransformerFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, EXTERNAL_REFERENCES_DENIED);
+    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, EXTERNAL_REFERENCES_DENIED);
     // factory attributes entry set is ordered (as the implementation is LinkedHashMap)
     mavenLog.debug("Setting attributes: '" + factoryAttributes
         + "' for the factory: '" + factory + "'.");
