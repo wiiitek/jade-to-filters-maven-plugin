@@ -1,9 +1,13 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,8 +55,8 @@ public class OutputFileWriterTest {
 
   @After
   public void deleteCreatedFileIfExists() {
-    boolean deleted = outputFile.delete();
-    assert deleted : "Test should clean-up (delete) the output file!";
+    boolean isNoThere = !outputFile.exists() || outputFile.delete();
+    assert isNoThere : "The output file should cleaned-up (deleted) after test!";
   }
 
   @Test
@@ -101,6 +105,43 @@ public class OutputFileWriterTest {
     assertThat("Output fle should exist", outputFile.exists(), is(true));
     assertThat("Output file should be a file", outputFile.isFile(), is(true));
     verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_CHARS_CONTENT);
+  }
+
+  @Test
+  public void shouldLogMessageWhenFileIsNotFound() {
+    String folderPath = folder.getRoot().getAbsolutePath();
+    File existingDirectory = new File(folderPath);
+
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
+
+    try {
+      tested.write(SPECIAL_CHARS_CONTENT);
+      fail("Expected exception to be thrown");
+    } catch (MojoExecutionException e) {
+      // ignore exception in this test
+    }
+    verify(mavenLogMock).error(
+        eq("Cannot delete '" + folderPath + "' as it exists but is not a file.")
+    );
+    verify(mavenLogMock).error(
+        eq("File not found or is a folder: '" + folderPath + "'")
+    );
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenFileIsNotFound() {
+    String folderPath = folder.getRoot().getAbsolutePath();
+    File existingDirectory = new File(folderPath);
+
+    OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
+
+    try {
+      tested.write(SPECIAL_CHARS_CONTENT);
+      fail("Expected exception to be thrown");
+    } catch (Exception e) {
+      assertThat(e, instanceOf(MojoExecutionException.class));
+      assertThat(e.getMessage(), containsString("File not found or is a folder"));
+    }
   }
 
   private void verifyFileContent(String path, String expectedContent) {

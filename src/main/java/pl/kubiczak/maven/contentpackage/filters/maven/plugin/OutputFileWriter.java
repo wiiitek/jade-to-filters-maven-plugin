@@ -40,7 +40,7 @@ class OutputFileWriter {
       writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
       checkContentAndWrite(fileContent, writer, outputFilePath.get());
     } catch (FileNotFoundException fnfe) {
-      logAndThrow("File not found: '" + outputFilePath + "'", fnfe);
+      logAndThrow("File not found or is a folder: '" + outputFilePath.get() + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
       logAndThrow("Unsupported encoding: UTF-8", uee);
     } finally {
