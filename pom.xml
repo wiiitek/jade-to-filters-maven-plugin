@@ -21,10 +21,9 @@
 
   <developers>
     <developer>
-      <name>Jakub Kubiczak</name>
-      <email>jakub.kubiczak@cognifide.com</email>
-      <organization>Cognifide</organization>
-      <organizationUrl>http://www.cognifide.com</organizationUrl>
+      <name>Wiiitek</name>
+      <email>wiiitek@kubiczak.pl</email>
+      <organizationUrl>https://www.kubiczak.pl</organizationUrl>
     </developer>
   </developers>
 
@@ -57,15 +56,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
 
-    <version.required.maven>3.0.5</version.required.maven>
+    <version.required.maven>3.8.1</version.required.maven>
 
     <!--
       this property should be overwritten from commandline during release
     -->
-    <gpg.keyname>01D2F996</gpg.keyname>
+    <gpg.keyname>88888888</gpg.keyname>
   </properties>
 
   <dependencyManagement>
