@@ -1,19 +1,17 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FiltersCreatorTest {
 
   private static final String SIMPLE_XML = ""
@@ -43,7 +41,7 @@ public class FiltersCreatorTest {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test></test></filters>")
         .prettyXml();
-    assertThat(actual, equalTo(SIMPLE_XML));
+    assertThat(actual).isEqualTo(SIMPLE_XML);
   }
 
   @Test
@@ -51,7 +49,7 @@ public class FiltersCreatorTest {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test><sub-test/></test></filters>")
         .prettyXml();
-    assertThat(actual, containsString("  <test>\n    <sub-test/>\n  </test>\n"));
+    assertThat(actual).contains("  <test>\n    <sub-test/>\n  </test>\n");
   }
 
   @Test
@@ -59,7 +57,7 @@ public class FiltersCreatorTest {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters>incorrect < XML</filters>")
         .prettyXml();
-    assertThat(actual, containsString("<!-- some filters could not be parsed -->"));
+    assertThat(actual).contains("<!-- some filters could not be parsed -->");
   }
 
   @Test
@@ -69,7 +67,7 @@ public class FiltersCreatorTest {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(jadeFileUrl)
         .prettyXml();
-    assertThat(actual, equalTo(SIMPLE_XML));
+    assertThat(actual).isEqualTo(SIMPLE_XML);
   }
 
   @Test
@@ -79,7 +77,7 @@ public class FiltersCreatorTest {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromFile(filePath)
         .prettyXml();
-    assertThat(actual, equalTo(SIMPLE_XML));
+    assertThat(actual).isEqualTo(SIMPLE_XML);
   }
 
   @Test
@@ -93,7 +91,7 @@ public class FiltersCreatorTest {
         .addFromFile(filterJadeFile)
         .addFromFile(damFilterJadeFile)
         .prettyXml();
-    assertThat(actual, equalTo(XML));
+    assertThat(actual).isEqualTo(XML);
   }
 
   @Test
@@ -110,7 +108,7 @@ public class FiltersCreatorTest {
         .addFromFile(damFilterJadeFile)
         .prettyXml();
 
-    assertThat(actual, equalTo(XML));
+    assertThat(actual).isEqualTo(XML);
     String expectedMessage = "The input file '" + nonExistingFile + "' does not exists!";
     verify(mavenLogMock, times(1)).error(expectedMessage);
   }

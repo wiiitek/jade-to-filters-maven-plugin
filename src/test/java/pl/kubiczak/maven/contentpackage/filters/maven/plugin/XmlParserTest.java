@@ -1,18 +1,17 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class XmlParserTest {
 
   private static final String XML_WITH_EXTERNAL_ENTITIES = ""
@@ -34,7 +33,7 @@ public class XmlParserTest {
   @Test
   public void shouldNotParseInsecureXml() {
     Document parsed = new XmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
-    assertThat(parsed, nullValue());
+    assertThat(parsed).isNull();
   }
 
   @Test
@@ -42,7 +41,7 @@ public class XmlParserTest {
     Document actual = new XmlParser(mavenLogMock).parse(XML);
 
     Element rootElement = actual.getDocumentElement();
-    assertThat(rootElement.getTagName(), equalTo("zażółć"));
-    assertThat(rootElement.getAttribute("version"), equalTo("1.0"));
+    assertThat(rootElement.getTagName()).isEqualTo("zażółć");
+    assertThat(rootElement.getAttribute("version")).isEqualTo("1.0");
   }
 }

@@ -1,10 +1,9 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.startsWith;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,39 +11,38 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OutputFilePathTest {
 
   private static final String LONG_PATH_TO_FILE = "/some/path/to/a/file.xml";
 
   private static final int ONCE = 1;
-  @Rule
-  public TemporaryFolder folder = new TemporaryFolder();
 
   @Mock
   private Log mavenLogMock;
 
   @Test
-  public void createParentDirectories_shouldNotCreateAFile() throws MojoExecutionException {
-    String tmpFolderPath = folder.getRoot().getPath();
+  public void createParentDirectories_shouldNotCreateAFile(@TempDir Path tempDir)
+      throws MojoExecutionException {
+    String tmpFolderPath = tempDir.toAbsolutePath().toString();
     String nestedFilePath = tmpFolderPath + LONG_PATH_TO_FILE;
     File outputFile = new File(nestedFilePath);
 
     OutputFilePath tested = new OutputFilePath(mavenLogMock, outputFile);
     tested.createParentDirectories();
 
-    assertFalse("File should not be created on filesystem", outputFile.exists());
-    assertTrue("Parent should be created", outputFile.getParentFile().exists());
-    assertTrue("Parent should be a folder", outputFile.getParentFile().isDirectory());
+    assertFalse(outputFile.exists(), "File should not be created on filesystem");
+    assertTrue(outputFile.getParentFile().exists(), "Parent should be created");
+    assertTrue(outputFile.getParentFile().isDirectory(), "Parent should be a folder");
 
     File[] created = {
         new File(tmpFolderPath + "/some/path/to/a"),
@@ -73,8 +71,11 @@ public class OutputFilePathTest {
   }
 
   @Test
-  public void deleteFileIfExists_shouldLogIfPreviousFileWasDeleted() throws IOException {
-    File fileOnFilesystem = folder.newFile();
+  public void deleteFileIfExists_shouldLogIfPreviousFileWasDeleted(@TempDir Path tempDir)
+      throws IOException {
+    File fileOnFilesystem = tempDir.resolve("sample.xml").toFile();
+    boolean created = fileOnFilesystem.createNewFile();
+    assertThat(created).isTrue();
 
     OutputFilePath tested = new OutputFilePath(mavenLogMock, fileOnFilesystem);
     tested.deleteFileIfExists();
@@ -93,7 +94,7 @@ public class OutputFilePathTest {
 
     OutputFilePath tested = new OutputFilePath(mavenLogMock, fileMock);
 
-    assertThat(tested.get(), equalTo("/path.xml"));
+    assertThat(tested.get()).isEqualTo("/path.xml");
   }
 
   @Test

@@ -1,23 +1,20 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import de.neuland.jade4j.exceptions.JadeLexerException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class JadeReaderTest {
 
-  @Rule
-  public final ExpectedException exception = ExpectedException.none();
 
   @Mock
   private Log mavenLogMock;
@@ -33,7 +30,7 @@ public class JadeReaderTest {
         + "<filter root=\"/content/test\"></filter>"
         + "</filters>";
 
-    assertThat(actual, equalTo(expected));
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
@@ -48,7 +45,7 @@ public class JadeReaderTest {
         + "<filter root=\"/content/dam/test\"></filter>"
         + "</filters>";
 
-    assertThat(actual, equalTo(expected));
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
@@ -70,14 +67,17 @@ public class JadeReaderTest {
         + "</filter>"
         + "</filters>";
 
-    assertThat(actual, equalTo(expected));
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
   public void transformToXml_shouldThrowExceptionForIncorrectSyntax() {
     JadeReader tested = new JadeReader(mavenLogMock);
     URL jadeFileUrl = getClass().getClassLoader().getResource("incorrect.jade");
-    exception.expect(JadeLexerException.class);
-    tested.transformToXml(jadeFileUrl);
+
+    assertThatExceptionOfType(JadeLexerException.class)
+        .isThrownBy(() -> {
+          tested.transformToXml(jadeFileUrl);
+        }).withMessageMatching("The end of the string was reached with no closing bracket found.*");
   }
 }
