@@ -110,6 +110,7 @@ public class OutputFileWriterTest {
   @Test
   public void shouldLogMessageWhenFileIsNotFound() {
     String folderPath = folder.getRoot().getAbsolutePath();
+    String expectedCanonicalPath = "/private" + folderPath;
     File existingDirectory = new File(folderPath);
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
@@ -121,10 +122,10 @@ public class OutputFileWriterTest {
       // ignore exception in this test
     }
     verify(mavenLogMock).error(
-        eq("Cannot delete '" + folderPath + "' as it exists but is not a file.")
+        eq("Cannot delete '" + expectedCanonicalPath + "' as it exists but is not a file.")
     );
     verify(mavenLogMock).error(
-        eq("File not found or is a folder: '" + folderPath + "'")
+        eq("File not found or is a folder: '" + expectedCanonicalPath + "'")
     );
   }
 

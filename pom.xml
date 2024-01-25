@@ -72,20 +72,20 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.6.3</version>
+        <version>3.9.6</version>
       </dependency>
       <!--
         specifying version for plexus-utils
-        * maven-plugin-api:3.6.1 uses both: 3.2.0 and 3.0.17
+        * maven-plugin-api:3.9.6 uses both: 3.3.0 and 3.5.1
       -->
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
-        <version>3.3.0</version>
+        <version>3.5.1</version>
       </dependency>
       <!--
         specifying version for plexus-classworlds
-        * maven-plugin-api:3.6.1 uses both: 2.5.2 and 2.6.0
+        * maven-plugin-api:3.9.6 uses both: 2.6.0 and 2.7.0
       -->
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
@@ -95,18 +95,8 @@
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.6.0</version>
+        <version>3.11.0</version>
         <optional>true</optional>
-      </dependency>
-      <!--
-        specifying version for maven-artifact
-        * maven-plugin-annotations:3.6.0 uses version 3.0
-        * maven-plugin-api:3.6.1 uses version 3.6.1
-      -->
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-artifact</artifactId>
-        <version>3.6.3</version>
       </dependency>
 
       <dependency>
@@ -122,7 +112,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.10</version>
+        <version>3.14.0</version>
       </dependency>
 
       <dependency>
