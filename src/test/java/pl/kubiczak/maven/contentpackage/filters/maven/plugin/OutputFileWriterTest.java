@@ -1,13 +1,7 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.endsWith;
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -17,31 +11,28 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OutputFileWriterTest {
 
   private static final String SPECIAL_CHARS_CONTENT = "źół\n!@#$%^&*()_+ \";\nGrüße\t";
 
   private static final String SPECIAL_ENDING_CONTENT = "\nHi\nThere\n";
-
-  @Rule
-  public TemporaryFolder folder = new TemporaryFolder();
 
   @Mock
   private Log mavenLogMock;
@@ -54,14 +45,14 @@ public class OutputFileWriterTest {
   /**
    * Creates random File instance in tmp folder, but not actual file on filesystem.
    */
-  @Before
-  public void createNonExistingOutputFile() {
+  @BeforeEach
+  public void createNonExistingOutputFile(@TempDir Path tempDir) throws IOException {
     String randomFileName = new RandomFilename().getNext("xml");
-    outputFile = new File(folder.getRoot().getAbsolutePath() + "/" + randomFileName);
+    outputFile = tempDir.resolve(randomFileName).toFile();
     assert !outputFile.exists() : "Created file should not exist";
   }
 
-  @After
+  @AfterEach
   public void deleteCreatedFileIfExists() {
     boolean isNoThere = !outputFile.exists() || outputFile.delete();
     assert isNoThere : "The output file should cleaned-up (deleted) after test!";
@@ -74,8 +65,8 @@ public class OutputFileWriterTest {
 
     tested.write(null);
 
-    assertThat("Output fle should exist", outputFile.exists(), is(true));
-    assertThat("Output file should be a file", outputFile.isFile(), is(true));
+    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
+    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
     verifyFileContent(outputFile.getAbsolutePath(), StringUtils.EMPTY);
   }
 
@@ -86,8 +77,8 @@ public class OutputFileWriterTest {
 
     tested.write(StringUtils.EMPTY);
 
-    assertThat("Output fle should exist", outputFile.exists(), is(true));
-    assertThat("Output file should be a file", outputFile.isFile(), is(true));
+    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
+    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
     verifyFileContent(outputFile.getAbsolutePath(), StringUtils.EMPTY);
   }
 
@@ -98,8 +89,8 @@ public class OutputFileWriterTest {
 
     tested.write(SPECIAL_ENDING_CONTENT);
 
-    assertThat("Output fle should exist", outputFile.exists(), is(true));
-    assertThat("Output file should be a file", outputFile.isFile(), is(true));
+    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
+    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
     verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_ENDING_CONTENT);
   }
 
@@ -110,14 +101,14 @@ public class OutputFileWriterTest {
 
     tested.write(SPECIAL_CHARS_CONTENT);
 
-    assertThat("Output fle should exist", outputFile.exists(), is(true));
-    assertThat("Output file should be a file", outputFile.isFile(), is(true));
+    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
+    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
     verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_CHARS_CONTENT);
   }
 
   @Test
-  public void shouldLogMessageWhenFileIsNotFound() {
-    String folderPath = folder.getRoot().getAbsolutePath();
+  public void shouldLogMessageWhenFileIsNotFound(@TempDir Path tempDir) {
+    String folderPath = tempDir.toAbsolutePath().toString();
     File existingDirectory = new File(folderPath);
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
@@ -131,22 +122,22 @@ public class OutputFileWriterTest {
 
     verify(mavenLogMock, times(2)).error(errorMessageCaptor.capture());
     List<String> actual = errorMessageCaptor.getAllValues();
-    assertThat(actual.size(), equalTo(2));
+    assertThat(actual).hasSize(2);
 
     String first = actual.get(0);
-    assertThat(first, startsWith("Cannot delete '"));
-    assertThat(first, containsString(folderPath));
-    assertThat(first, endsWith("' as it exists but is not a file."));
+    assertThat(first).startsWith("Cannot delete '");
+    assertThat(first).contains(folderPath);
+    assertThat(first).endsWith("' as it exists but is not a file.");
 
     String second = actual.get(1);
-    assertThat(second, startsWith("File not found or is a folder: '"));
-    assertThat(second, containsString(folderPath));
-    assertThat(second, endsWith("'"));
+    assertThat(second).startsWith("File not found or is a folder: '");
+    assertThat(second).contains(folderPath);
+    assertThat(second).endsWith("'");
   }
 
   @Test
-  public void shouldThrowExceptionWhenFileIsNotFound() {
-    String folderPath = folder.getRoot().getAbsolutePath();
+  public void shouldThrowExceptionWhenFileIsNotFound(@TempDir Path tempDir) {
+    String folderPath = tempDir.toAbsolutePath().toString();
     File existingDirectory = new File(folderPath);
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
@@ -155,8 +146,8 @@ public class OutputFileWriterTest {
       tested.write(SPECIAL_CHARS_CONTENT);
       fail("Expected exception to be thrown");
     } catch (Exception e) {
-      assertThat(e, instanceOf(MojoExecutionException.class));
-      assertThat(e.getMessage(), containsString("File not found or is a folder"));
+      assertThat(e).isInstanceOf(MojoExecutionException.class);
+      assertThat(e.getMessage()).contains("File not found or is a folder");
     }
   }
 
@@ -171,7 +162,7 @@ public class OutputFileWriterTest {
     } finally {
       closeInputStream(is);
     }
-    assertThat("File content should be as expected!", actualContent, equalTo(expectedContent));
+    assertThat(actualContent).as("File content should be as expected!").isEqualTo(expectedContent);
   }
 
   private String read(InputStream is) {

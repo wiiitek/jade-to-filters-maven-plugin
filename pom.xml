@@ -56,8 +56,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>wiiitek-github</sonar.organization>
+    <sonar.projectKey>wiiitek-github_jade-to-filters-maven-plugin</sonar.projectKey>
+
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
 
     <version.required.maven>3.8.1</version.required.maven>
 
@@ -116,21 +120,21 @@
       </dependency>
 
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.10.1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>5.10.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.15.0</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <version>2.0.2-beta</version>
+        <version>3.25.2</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -152,12 +156,16 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
     </dependency>
   </dependencies>
 
@@ -167,7 +175,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.11.0</version>
         </plugin>
         <plugin>
           <groupId>com.github.ekryd.sortpom</groupId>
@@ -264,7 +272,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.5</version>
+          <version>0.8.11</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -292,10 +300,10 @@
         <executions>
           <execution>
             <id>sort-pom</id>
-            <phase>validate</phase>
             <goals>
               <goal>sort</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <keepBlankLines>true</keepBlankLines>
               <createBackupFile>false</createBackupFile>
@@ -311,10 +319,10 @@
         <executions>
           <execution>
             <id>check-plugins-versions</id>
-            <phase>validate</phase>
             <goals>
               <goal>display-plugin-updates</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <logOutput>false</logOutput>
               <outputFile>${project.basedir}/src/main/resources/plugins-report.txt</outputFile>
@@ -322,10 +330,10 @@
           </execution>
           <execution>
             <id>dependencies</id>
-            <phase>validate</phase>
             <goals>
               <goal>display-dependency-updates</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <logOutput>false</logOutput>
               <outputFile>${project.basedir}/src/main/resources/dependencies-report.txt</outputFile>
@@ -337,17 +345,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
+        <inherited>true</inherited>
         <executions>
           <execution>
             <id>check-modules-and-environment</id>
-            <phase>validate</phase>
             <goals>
               <goal>enforce</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <rules>
                 <!-- default rules -->
-                <dependencyConvergence />
+                <dependencyConvergence/>
                 <requireMavenVersion>
                   <version>${version.required.maven}</version>
                 </requireMavenVersion>
@@ -355,16 +364,15 @@
                   <version>1.6.0</version>
                 </requireJavaVersion>
                 <!-- Mojo extra-enforcer-rules -->
-                <banCircularDependencies />
+                <banCircularDependencies/>
                 <!-- pedantic-pom-enforcers rules -->
-                <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer" />
-                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer" />
-                <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer" />
+                <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
+                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
+                <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
               </rules>
             </configuration>
           </execution>
         </executions>
-        <inherited>true</inherited>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -372,16 +380,15 @@
         <executions>
           <execution>
             <id>check-google-style</id>
-            <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <!-- predefined -->
               <failsOnError>true</failsOnError>
               <configLocation>google_checks.xml</configLocation>
               <violationSeverity>info</violationSeverity>
-              <encoding>UTF-8</encoding>
               <includeTestSourceDirectory>true</includeTestSourceDirectory>
             </configuration>
           </execution>
@@ -398,16 +405,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>integration-test</id>
-                <goals>
-                  <goal>install</goal>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-              </execution>
-            </executions>
             <configuration>
               <debug>true</debug>
               <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
@@ -422,6 +419,16 @@
                 <goal>test-compile</goal>
               </goals>
             </configuration>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <goals>
+                  <goal>install</goal>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
@@ -474,10 +481,10 @@
             <executions>
               <execution>
                 <id>sign-artifacts</id>
-                <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <phase>verify</phase>
               </execution>
             </executions>
           </plugin>
