@@ -21,10 +21,6 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Restore Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: restore
       - name: Build and analyze
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
