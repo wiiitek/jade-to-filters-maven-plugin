@@ -11,7 +11,7 @@ This plugin reads [Jade] files and creates [filter.xml] file for [content packag
 
 To read more about the Jackrabbit Vault filters see:
 
-* [Adobe AEM documentation about package filters](https://helpx.adobe.com/pl/experience-manager/6-3/sites/administering/using/package-manager.html#PackageFilters)
+* [Adobe AEM documentation about package filters](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developer-tools/package-manager.html?lang=en#package-filters)
 * [Stackoverflow explanation](https://stackoverflow.com/a/25267312) of how filters work
 * Documentation for [plugin that generates Vault packages](http://jackrabbit.apache.org/filevault-package-maven-plugin/index.html)
 
@@ -95,6 +95,6 @@ mvn release:perform -Psources,javadoc,sign
 
 [Jade]: http://jade-lang.com/
 [filter.xml]: http://jackrabbit.apache.org/filevault/filter.html
-[content package]: https://helpx.adobe.com/experience-manager/6-3/sites/administering/using/package-manager.html
+[content package]: https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developer-tools/package-manager.html
 [comments in Jade files]: http://jade-lang.com/reference/comments
 [Maven release plugin]: http://maven.apache.org/maven-release/maven-release-plugin/index.html
