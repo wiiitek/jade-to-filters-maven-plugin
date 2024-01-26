@@ -1,6 +1,6 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-import de.neuland.jade4j.Jade4J;
+import de.neuland.pug4j.Pug4J;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ class JadeReader {
     String result = null;
     mavenLog.debug("Transforming Jade file from URL: '" + jadeFileUrl + "'.");
     try {
-      result = Jade4J.render(jadeFileUrl, new HashMap<>(), true);
+      result = Pug4J.render(jadeFileUrl, new HashMap<>(), true);
       // we don't want to have any whitespaces here because they are parsed later into XML
       result = "<filters>" + result + "</filters>";
     } catch (IOException e) {

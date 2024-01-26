@@ -4,7 +4,7 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import de.neuland.jade4j.exceptions.JadeLexerException;
+import de.neuland.pug4j.exceptions.PugLexerException;
 import java.net.URL;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.jupiter.api.Test;
@@ -72,7 +72,7 @@ class JadeReaderTest {
     JadeReader tested = new JadeReader(mavenLogMock);
     URL jadeFileUrl = getClass().getClassLoader().getResource("incorrect.jade");
 
-    assertThatExceptionOfType(JadeLexerException.class)
+    assertThatExceptionOfType(PugLexerException.class)
         .isThrownBy(() -> {
           tested.transformToXml(jadeFileUrl);
         }).withMessageMatching("The end of the string was reached with no closing bracket found.*");
