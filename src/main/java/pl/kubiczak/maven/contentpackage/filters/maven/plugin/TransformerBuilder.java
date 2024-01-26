@@ -11,16 +11,16 @@ class TransformerBuilder {
 
   private final Log mavenLog;
 
-  private final TransformerFactoryBuilder transformerFactoryBuilder;
+  private final TransformerFactory transformerFactory;
 
   private final Map<String, String> outputProperties;
 
   TransformerBuilder(
       Log mavenLog,
-      TransformerFactoryBuilder transformerFactoryBuilder
+      TransformerFactory transformerFactory
   ) {
     this.mavenLog = mavenLog;
-    this.transformerFactoryBuilder = transformerFactoryBuilder;
+    this.transformerFactory = transformerFactory;
     this.outputProperties = new LinkedHashMap<>();
   }
 
@@ -31,13 +31,12 @@ class TransformerBuilder {
 
   Transformer create()
       throws TransformerConfigurationException {
-    TransformerFactory factory = transformerFactoryBuilder.build();
     Transformer transformer;
     try {
-      transformer = factory.newTransformer();
+      transformer = transformerFactory.newTransformer();
     } catch (TransformerConfigurationException tce) {
       mavenLog.error(
-          "Error while creating transformer with factory: '" + factory + "'.", tce);
+          "Error while creating transformer with factory: '" + transformerFactory + "'.", tce);
       throw tce;
     }
     mavenLog.debug("Setting output properties: '" + outputProperties
