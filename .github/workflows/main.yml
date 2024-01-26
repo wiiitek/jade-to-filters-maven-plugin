@@ -16,5 +16,5 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
           cache: 'maven'
-      - name: Build and analyze
+      - name: Build with integration tests
         run: mvn clean package -Prun-its
