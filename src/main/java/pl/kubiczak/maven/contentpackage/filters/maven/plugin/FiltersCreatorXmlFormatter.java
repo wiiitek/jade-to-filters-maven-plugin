@@ -21,13 +21,13 @@ import org.w3c.dom.NodeList;
 /**
  * Formats XML for filter file.
  */
-class XmlFormatter {
+class FiltersCreatorXmlFormatter {
 
   private static final Integer XML_INDENT = 2;
 
   private final Log mavenLog;
 
-  public XmlFormatter(Log mavenLog) {
+  public FiltersCreatorXmlFormatter(Log mavenLog) {
     this.mavenLog = mavenLog;
   }
 

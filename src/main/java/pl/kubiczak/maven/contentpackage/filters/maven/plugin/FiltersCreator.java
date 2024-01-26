@@ -30,7 +30,7 @@ class FiltersCreator {
 
   String prettyXml() {
     mavenLog.debug("Formatting filters XML...");
-    return new XmlFormatter(mavenLog).format(filters);
+    return new FiltersCreatorXmlFormatter(mavenLog).format(filters);
   }
 
   FiltersCreator addFromFile(String jadeFilename) {

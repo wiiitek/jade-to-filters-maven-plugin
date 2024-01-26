@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class FiltersCreatorTest {
+public class FiltersCreatorXmlFormatterTest {
 
   private static final String SIMPLE_XML = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

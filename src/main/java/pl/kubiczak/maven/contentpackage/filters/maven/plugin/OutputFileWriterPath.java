@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
-class OutputFilePath {
+class OutputFileWriterPath {
 
   private final Log mavenLog;
 
@@ -13,7 +13,7 @@ class OutputFilePath {
 
   private final String path;
 
-  OutputFilePath(Log mavenLog, File file) {
+  OutputFileWriterPath(Log mavenLog, File file) {
     this.mavenLog = mavenLog;
     this.file = file;
     this.path = getPath(file);
