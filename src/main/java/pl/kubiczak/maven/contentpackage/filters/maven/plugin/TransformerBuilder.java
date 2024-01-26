@@ -11,16 +11,16 @@ class TransformerBuilder {
 
   private final Log mavenLog;
 
-  private final TransformerFactoryBuilder transformerFactoryBuilder;
+  private final TransformerFactory factory;
 
   private final Map<String, String> outputProperties;
 
   TransformerBuilder(
       Log mavenLog,
-      TransformerFactoryBuilder transformerFactoryBuilder
+      TransformerFactory transformerFactory
   ) {
     this.mavenLog = mavenLog;
-    this.transformerFactoryBuilder = transformerFactoryBuilder;
+    this.factory = transformerFactory;
     this.outputProperties = new LinkedHashMap<>();
   }
 
@@ -31,7 +31,6 @@ class TransformerBuilder {
 
   Transformer create()
       throws TransformerConfigurationException {
-    TransformerFactory factory = transformerFactoryBuilder.build();
     Transformer transformer;
     try {
       transformer = factory.newTransformer();

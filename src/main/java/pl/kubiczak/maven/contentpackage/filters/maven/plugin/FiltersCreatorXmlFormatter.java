@@ -6,6 +6,7 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
@@ -66,10 +67,11 @@ class FiltersCreatorXmlFormatter {
   }
 
   private Transformer createTransformer() throws TransformerConfigurationException {
-    TransformerFactoryBuilder transformerFactoryBuilder = new TransformerFactoryBuilder(mavenLog)
-        .addFactoryAttribute("indent-number", XML_INDENT);
+    TransformerFactory transformerFactory = new TransformerFactoryBuilder(mavenLog)
+        .addFactoryAttribute("indent-number", XML_INDENT)
+        .build();
     TransformerBuilder transformerBuilder =
-        new TransformerBuilder(mavenLog, transformerFactoryBuilder)
+        new TransformerBuilder(mavenLog, transformerFactory)
             .addOutputProperty(OutputKeys.METHOD, "xml")
             .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
             .addOutputProperty(OutputKeys.INDENT, "yes")

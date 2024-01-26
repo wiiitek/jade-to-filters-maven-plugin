@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
@@ -30,19 +31,17 @@ class OutputFileWriter {
     FileOutputStream os = null;
     Writer writer = null;
 
-    OutputFileWriterPath outputFileWriterPath = new OutputFileWriterPath(mavenLog, outputFile);
-    outputFileWriterPath.createParentDirectories();
-    outputFileWriterPath.deleteFileIfExists();
-
-    mavenLog.debug("Creating writer for :'" + outputFileWriterPath + "'");
+    OutputFileWriterHelper helper = new OutputFileWriterHelper(mavenLog, outputFile);
+    helper.createParentDirectories();
+    helper.deleteFileIfExists();
+    String path = helper.getFilePath();
+    mavenLog.debug("Prepare filesystem for writing to:'" + path + "'");
     try {
-      os = new FileOutputStream(outputFileWriterPath.get());
-      writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      checkContentAndWrite(fileContent, writer, outputFileWriterPath.get());
+      os = new FileOutputStream(path);
+      writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
+      checkContentAndWrite(fileContent, writer, path);
     } catch (FileNotFoundException fnfe) {
-      logAndThrow("File not found or is a folder: '" + outputFileWriterPath.get() + "'", fnfe);
-    } catch (UnsupportedEncodingException uee) {
-      logAndThrow("Unsupported encoding: UTF-8", uee);
+      logAndThrow("File not found or is a folder: '" + path + "'", fnfe);
     } finally {
       closeIfNotNull(writer);
       closeIfNotNull(os);
