@@ -21,13 +21,13 @@ import org.w3c.dom.NodeList;
 /**
  * Formats XML for filter file.
  */
-class XmlFormatter {
+class FiltersCreatorXmlFormatter {
 
   private static final Integer XML_INDENT = 2;
 
   private final Log mavenLog;
 
-  public XmlFormatter(Log mavenLog) {
+  public FiltersCreatorXmlFormatter(Log mavenLog) {
     this.mavenLog = mavenLog;
   }
 
@@ -66,17 +66,18 @@ class XmlFormatter {
   }
 
   private Transformer createTransformer() throws TransformerConfigurationException {
-    XmlTransformerFactory xmlTransformerFactory = new XmlTransformerFactory(mavenLog)
+    TransformerFactoryBuilder transformerFactoryBuilder = new TransformerFactoryBuilder(mavenLog)
         .addFactoryAttribute("indent-number", XML_INDENT);
-    XmlTransformer xmlTransformer = new XmlTransformer(mavenLog, xmlTransformerFactory)
-        .addOutputProperty(OutputKeys.METHOD, "xml")
-        .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
-        .addOutputProperty(OutputKeys.INDENT, "yes")
-        .addOutputProperty("{http://xml.apache.org/xslt}indent-amount", XML_INDENT.toString())
-        .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", XML_INDENT.toString())
-        // for newline after XML declaration - https://stackoverflow.com/a/18251901
-        .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
-    Transformer transformer = xmlTransformer.create();
+    TransformerBuilder transformerBuilder =
+        new TransformerBuilder(mavenLog, transformerFactoryBuilder)
+            .addOutputProperty(OutputKeys.METHOD, "xml")
+            .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
+            .addOutputProperty(OutputKeys.INDENT, "yes")
+            .addOutputProperty("{http://xml.apache.org/xslt}indent-amount", XML_INDENT.toString())
+            .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", XML_INDENT.toString())
+            // for newline after XML declaration - https://stackoverflow.com/a/18251901
+            .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+    Transformer transformer = transformerBuilder.create();
     mavenLog.debug("Transformer created");
     return transformer;
   }

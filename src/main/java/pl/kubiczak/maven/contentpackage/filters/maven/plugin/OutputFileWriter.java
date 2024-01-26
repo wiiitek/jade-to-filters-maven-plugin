@@ -30,17 +30,17 @@ class OutputFileWriter {
     FileOutputStream os = null;
     Writer writer = null;
 
-    OutputFilePath outputFilePath = new OutputFilePath(mavenLog, outputFile);
-    outputFilePath.createParentDirectories();
-    outputFilePath.deleteFileIfExists();
+    OutputFileWriterPath outputFileWriterPath = new OutputFileWriterPath(mavenLog, outputFile);
+    outputFileWriterPath.createParentDirectories();
+    outputFileWriterPath.deleteFileIfExists();
 
-    mavenLog.debug("Creating writer for :'" + outputFilePath + "'");
+    mavenLog.debug("Creating writer for :'" + outputFileWriterPath + "'");
     try {
-      os = new FileOutputStream(outputFilePath.get());
+      os = new FileOutputStream(outputFileWriterPath.get());
       writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      checkContentAndWrite(fileContent, writer, outputFilePath.get());
+      checkContentAndWrite(fileContent, writer, outputFileWriterPath.get());
     } catch (FileNotFoundException fnfe) {
-      logAndThrow("File not found or is a folder: '" + outputFilePath.get() + "'", fnfe);
+      logAndThrow("File not found or is a folder: '" + outputFileWriterPath.get() + "'", fnfe);
     } catch (UnsupportedEncodingException uee) {
       logAndThrow("Unsupported encoding: UTF-8", uee);
     } finally {

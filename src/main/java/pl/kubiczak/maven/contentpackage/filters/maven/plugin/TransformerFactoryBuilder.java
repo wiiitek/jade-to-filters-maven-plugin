@@ -10,7 +10,7 @@ import org.apache.maven.plugin.logging.Log;
 /**
  * Builds transformer for XML formatter.
  */
-class XmlTransformerFactory {
+class TransformerFactoryBuilder {
 
   private static final String EXTERNAL_REFERENCES_DENIED = "";
 
@@ -18,17 +18,17 @@ class XmlTransformerFactory {
 
   private final Map<String, Object> factoryAttributes;
 
-  XmlTransformerFactory(Log mavenLog) {
+  TransformerFactoryBuilder(Log mavenLog) {
     this.mavenLog = mavenLog;
-    this.factoryAttributes = new LinkedHashMap<String, Object>();
+    this.factoryAttributes = new LinkedHashMap<>();
   }
 
-  XmlTransformerFactory addFactoryAttribute(String key, Object value) {
+  TransformerFactoryBuilder addFactoryAttribute(String key, Object value) {
     this.factoryAttributes.put(key, value);
     return this;
   }
 
-  TransformerFactory create()
+  TransformerFactory build()
       throws TransformerConfigurationException {
     TransformerFactory factory = TransformerFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);

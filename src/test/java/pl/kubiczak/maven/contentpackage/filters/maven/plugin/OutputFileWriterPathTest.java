@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class OutputFilePathTest {
+public class OutputFileWriterPathTest {
 
   private static final String LONG_PATH_TO_FILE = "/some/path/to/a/file.xml";
 
@@ -37,7 +37,7 @@ public class OutputFilePathTest {
     String nestedFilePath = tmpFolderPath + LONG_PATH_TO_FILE;
     File outputFile = new File(nestedFilePath);
 
-    OutputFilePath tested = new OutputFilePath(mavenLogMock, outputFile);
+    OutputFileWriterPath tested = new OutputFileWriterPath(mavenLogMock, outputFile);
     tested.createParentDirectories();
 
     assertFalse(outputFile.exists(), "File should not be created on filesystem");
@@ -63,7 +63,7 @@ public class OutputFilePathTest {
     when(fileMock.isFile()).thenReturn(false);
     when(fileMock.getCanonicalPath()).thenReturn("/path.xml");
 
-    OutputFilePath tested = new OutputFilePath(mavenLogMock, fileMock);
+    OutputFileWriterPath tested = new OutputFileWriterPath(mavenLogMock, fileMock);
     tested.deleteFileIfExists();
 
     String expectedMessage = "Cannot delete '/path.xml' as it exists but is not a file.";
@@ -77,7 +77,7 @@ public class OutputFilePathTest {
     boolean created = fileOnFilesystem.createNewFile();
     assertThat(created).isTrue();
 
-    OutputFilePath tested = new OutputFilePath(mavenLogMock, fileOnFilesystem);
+    OutputFileWriterPath tested = new OutputFileWriterPath(mavenLogMock, fileOnFilesystem);
     tested.deleteFileIfExists();
 
     String filePath = fileOnFilesystem.getCanonicalPath();
@@ -92,7 +92,7 @@ public class OutputFilePathTest {
     when(fileMock.getCanonicalPath()).thenThrow(new IOException("Fake exception."));
     when(fileMock.getAbsolutePath()).thenReturn("/path.xml");
 
-    OutputFilePath tested = new OutputFilePath(mavenLogMock, fileMock);
+    OutputFileWriterPath tested = new OutputFileWriterPath(mavenLogMock, fileMock);
 
     assertThat(tested.get()).isEqualTo("/path.xml");
   }
@@ -104,7 +104,7 @@ public class OutputFilePathTest {
     when(fileMock.getCanonicalPath()).thenThrow(new IOException("Fake exception."));
     when(fileMock.getAbsolutePath()).thenThrow(new SecurityException("Fake exception."));
 
-    OutputFilePath tested = new OutputFilePath(mavenLogMock, fileMock);
+    OutputFileWriterPath tested = new OutputFileWriterPath(mavenLogMock, fileMock);
 
     String expectedMessagePrefix = "Error while getting absolute path";
     verify(mavenLogMock, times(ONCE)).error(startsWith(expectedMessagePrefix));

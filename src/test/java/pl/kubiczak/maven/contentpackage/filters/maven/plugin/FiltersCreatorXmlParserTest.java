@@ -12,7 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 @ExtendWith(MockitoExtension.class)
-public class XmlParserTest {
+public class FiltersCreatorXmlParserTest {
 
   private static final String XML_WITH_EXTERNAL_ENTITIES = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -32,13 +32,13 @@ public class XmlParserTest {
 
   @Test
   public void shouldNotParseInsecureXml() {
-    Document parsed = new XmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
+    Document parsed = new FiltersCreatorXmlParser(mavenLogMock).parse(XML_WITH_EXTERNAL_ENTITIES);
     assertThat(parsed).isNull();
   }
 
   @Test
   public void shouldParseXml() {
-    Document actual = new XmlParser(mavenLogMock).parse(XML);
+    Document actual = new FiltersCreatorXmlParser(mavenLogMock).parse(XML);
 
     Element rootElement = actual.getDocumentElement();
     assertThat(rootElement.getTagName()).isEqualTo("zażółć");

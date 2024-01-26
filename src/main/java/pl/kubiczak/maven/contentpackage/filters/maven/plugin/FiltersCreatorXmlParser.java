@@ -15,11 +15,11 @@ import org.xml.sax.SAXException;
 /**
  * Parse XML text.
  */
-class XmlParser {
+class FiltersCreatorXmlParser {
 
   private final Log mavenLog;
 
-  XmlParser(Log mavenLog) {
+  FiltersCreatorXmlParser(Log mavenLog) {
     this.mavenLog = mavenLog;
   }
 
