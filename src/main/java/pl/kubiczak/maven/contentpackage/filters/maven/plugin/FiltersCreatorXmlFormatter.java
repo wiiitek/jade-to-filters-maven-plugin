@@ -66,9 +66,10 @@ class FiltersCreatorXmlFormatter {
   }
 
   private Transformer createTransformer() throws TransformerConfigurationException {
-    XmlTransformerFactory xmlTransformerFactory = new XmlTransformerFactory(mavenLog)
+    TransformerFactoryBuilder transformerFactoryBuilder = new TransformerFactoryBuilder(mavenLog)
         .addFactoryAttribute("indent-number", XML_INDENT);
-    XmlTransformer xmlTransformer = new XmlTransformer(mavenLog, xmlTransformerFactory)
+    FiltersCreatorXmlFormatterTransformer filtersCreatorXmlFormatterTransformer = new FiltersCreatorXmlFormatterTransformer(mavenLog,
+        transformerFactoryBuilder)
         .addOutputProperty(OutputKeys.METHOD, "xml")
         .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
         .addOutputProperty(OutputKeys.INDENT, "yes")
@@ -76,7 +77,7 @@ class FiltersCreatorXmlFormatter {
         .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", XML_INDENT.toString())
         // for newline after XML declaration - https://stackoverflow.com/a/18251901
         .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
-    Transformer transformer = xmlTransformer.create();
+    Transformer transformer = filtersCreatorXmlFormatterTransformer.create();
     mavenLog.debug("Transformer created");
     return transformer;
   }

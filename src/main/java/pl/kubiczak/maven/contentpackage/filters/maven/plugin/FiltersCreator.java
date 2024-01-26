@@ -23,7 +23,7 @@ class FiltersCreator {
   FiltersCreator(Log mavenLog) {
     this.mavenLog = mavenLog;
     String xml = "<workspaceFilter version=\"1.0\"/>";
-    this.filters = new XmlParser(mavenLog).parse(xml);
+    this.filters = new FiltersCreatorXmlParser(mavenLog).parse(xml);
     // for formatting - https://stackoverflow.com/a/8438236
     this.filters.setXmlStandalone(true);
   }
@@ -58,7 +58,7 @@ class FiltersCreator {
 
   FiltersCreator addFromXml(String filterXml) {
 
-    Document filterDoc = new XmlParser(mavenLog).parse(filterXml);
+    Document filterDoc = new FiltersCreatorXmlParser(mavenLog).parse(filterXml);
     if (filterDoc == null) {
       mavenLog.warn("XML could not be parsed");
       Comment comment = filters.createComment(" some filters could not be parsed ");

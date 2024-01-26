@@ -7,28 +7,28 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import org.apache.maven.plugin.logging.Log;
 
-class XmlTransformer {
+class FiltersCreatorXmlFormatterTransformer {
 
   private final Log mavenLog;
 
-  private final XmlTransformerFactory xmlTransformerFactory;
+  private final TransformerFactoryBuilder transformerFactoryBuilder;
 
   private final Map<String, String> outputProperties;
 
-  XmlTransformer(Log mavenLog, XmlTransformerFactory xmlTransformerFactory) {
+  FiltersCreatorXmlFormatterTransformer(Log mavenLog, TransformerFactoryBuilder transformerFactoryBuilder) {
     this.mavenLog = mavenLog;
-    this.xmlTransformerFactory = xmlTransformerFactory;
+    this.transformerFactoryBuilder = transformerFactoryBuilder;
     this.outputProperties = new LinkedHashMap<String, String>();
   }
 
-  XmlTransformer addOutputProperty(String key, String value) {
+  FiltersCreatorXmlFormatterTransformer addOutputProperty(String key, String value) {
     this.outputProperties.put(key, value);
     return this;
   }
 
   Transformer create()
       throws TransformerConfigurationException {
-    TransformerFactory factory = xmlTransformerFactory.create();
+    TransformerFactory factory = transformerFactoryBuilder.create();
     Transformer transformer;
     try {
       transformer = factory.newTransformer();
