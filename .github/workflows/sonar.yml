@@ -5,7 +5,7 @@ on:
     # * is a special character in YAML so you have to quote this string
     #    - cron: '07 07 * * *'
     #    - cron: '14 14 * * *'
-    - cron: '19 19 * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   sonar-scanner:
@@ -37,5 +37,7 @@ jobs:
           fi
       - name: Run build with test coverage
         run: mvn clean package -Pwith-coverage,run-its
+        # since we have Sonar plugin in pom we can use short version instead of
+        # run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       - name:
-        run mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn sonar:sonar

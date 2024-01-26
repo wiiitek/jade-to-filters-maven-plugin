@@ -3,7 +3,7 @@ name: Main
 on: push
 
 jobs:
-  sonar-with-integration-tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,4 +26,4 @@ jobs:
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify -Prun-its org.jacoco:jacoco-maven-plugin:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn clean package -Prun-its
