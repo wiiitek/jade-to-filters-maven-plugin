@@ -15,10 +15,13 @@ class FiltersCreatorXmlFormatterTransformer {
 
   private final Map<String, String> outputProperties;
 
-  FiltersCreatorXmlFormatterTransformer(Log mavenLog, TransformerFactoryBuilder transformerFactoryBuilder) {
+  FiltersCreatorXmlFormatterTransformer(
+      Log mavenLog,
+      TransformerFactoryBuilder transformerFactoryBuilder
+  ) {
     this.mavenLog = mavenLog;
     this.transformerFactoryBuilder = transformerFactoryBuilder;
-    this.outputProperties = new LinkedHashMap<String, String>();
+    this.outputProperties = new LinkedHashMap<>();
   }
 
   FiltersCreatorXmlFormatterTransformer addOutputProperty(String key, String value) {

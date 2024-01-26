@@ -68,15 +68,15 @@ class FiltersCreatorXmlFormatter {
   private Transformer createTransformer() throws TransformerConfigurationException {
     TransformerFactoryBuilder transformerFactoryBuilder = new TransformerFactoryBuilder(mavenLog)
         .addFactoryAttribute("indent-number", XML_INDENT);
-    FiltersCreatorXmlFormatterTransformer filtersCreatorXmlFormatterTransformer = new FiltersCreatorXmlFormatterTransformer(mavenLog,
-        transformerFactoryBuilder)
-        .addOutputProperty(OutputKeys.METHOD, "xml")
-        .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
-        .addOutputProperty(OutputKeys.INDENT, "yes")
-        .addOutputProperty("{http://xml.apache.org/xslt}indent-amount", XML_INDENT.toString())
-        .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", XML_INDENT.toString())
-        // for newline after XML declaration - https://stackoverflow.com/a/18251901
-        .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+    FiltersCreatorXmlFormatterTransformer filtersCreatorXmlFormatterTransformer =
+        new FiltersCreatorXmlFormatterTransformer(mavenLog, transformerFactoryBuilder)
+            .addOutputProperty(OutputKeys.METHOD, "xml")
+            .addOutputProperty(OutputKeys.ENCODING, "UTF-8")
+            .addOutputProperty(OutputKeys.INDENT, "yes")
+            .addOutputProperty("{http://xml.apache.org/xslt}indent-amount", XML_INDENT.toString())
+            .addOutputProperty("{http://xml.apache.org/xalan}indent-amount", XML_INDENT.toString())
+            // for newline after XML declaration - https://stackoverflow.com/a/18251901
+            .addOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
     Transformer transformer = filtersCreatorXmlFormatterTransformer.create();
     mavenLog.debug("Transformer created");
     return transformer;
