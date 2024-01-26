@@ -21,7 +21,7 @@ class JadeReader {
     String result = null;
     mavenLog.debug("Transforming Jade file from URL: '" + jadeFileUrl + "'.");
     try {
-      result = Jade4J.render(jadeFileUrl, new HashMap<String, Object>(), true);
+      result = Jade4J.render(jadeFileUrl, new HashMap<>(), true);
       // we don't want to have any whitespaces here because they are parsed later into XML
       result = "<filters>" + result + "</filters>";
     } catch (IOException e) {

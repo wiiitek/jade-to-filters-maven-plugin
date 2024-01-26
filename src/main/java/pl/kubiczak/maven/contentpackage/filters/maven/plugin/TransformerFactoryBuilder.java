@@ -20,7 +20,7 @@ class TransformerFactoryBuilder {
 
   TransformerFactoryBuilder(Log mavenLog) {
     this.mavenLog = mavenLog;
-    this.factoryAttributes = new LinkedHashMap<String, Object>();
+    this.factoryAttributes = new LinkedHashMap<>();
   }
 
   TransformerFactoryBuilder addFactoryAttribute(String key, Object value) {
