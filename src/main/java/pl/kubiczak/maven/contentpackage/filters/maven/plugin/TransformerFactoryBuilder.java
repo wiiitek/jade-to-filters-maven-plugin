@@ -28,7 +28,7 @@ class TransformerFactoryBuilder {
     return this;
   }
 
-  TransformerFactory create()
+  TransformerFactory build()
       throws TransformerConfigurationException {
     TransformerFactory factory = TransformerFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
