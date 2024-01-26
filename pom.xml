@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.kubiczak</groupId>
@@ -34,7 +36,8 @@
 
   <scm>
     <connection>scm:git:https://github.com/wiiitek/jade-to-filters-maven-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git
+    </developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/wiiitek/jade-to-filters-maven-plugin</url>
   </scm>
@@ -59,6 +62,9 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>wiiitek-github</sonar.organization>
     <sonar.projectKey>wiiitek-github_jade-to-filters-maven-plugin</sonar.projectKey>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.language>java</sonar.language>
 
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -366,9 +372,12 @@
                 <!-- Mojo extra-enforcer-rules -->
                 <banCircularDependencies/>
                 <!-- pedantic-pom-enforcers rules -->
-                <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
-                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
-                <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
+                <moduleOrder
+                  implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
+                <dependencConfiguration
+                  implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
+                <pluginConfiguration
+                  implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
               </rules>
             </configuration>
           </execution>
@@ -426,6 +435,31 @@
                   <goal>install</goal>
                   <goal>integration-test</goal>
                   <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>with-jacoco</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>jacoco-prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>jacoco-report</id>
+                <goals>
+                  <goal>report</goal>
                 </goals>
               </execution>
             </executions>
