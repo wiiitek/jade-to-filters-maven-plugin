@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pl.kubiczak</groupId>
@@ -36,8 +34,7 @@
 
   <scm>
     <connection>scm:git:https://github.com/wiiitek/jade-to-filters-maven-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git
-    </developerConnection>
+    <developerConnection>scm:git:git@github.com:wiiitek/jade-to-filters-maven-plugin.git</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/wiiitek/jade-to-filters-maven-plugin</url>
   </scm>
@@ -212,6 +209,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>3.3.1</version>
           <dependencies>
@@ -221,6 +223,11 @@
               <version>8.31</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.7.0.1746</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -372,12 +379,9 @@
                 <!-- Mojo extra-enforcer-rules -->
                 <banCircularDependencies/>
                 <!-- pedantic-pom-enforcers rules -->
-                <moduleOrder
-                  implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
-                <dependencConfiguration
-                  implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
-                <pluginConfiguration
-                  implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
+                <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
+                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
+                <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
               </rules>
             </configuration>
           </execution>
@@ -402,6 +406,10 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -443,24 +451,30 @@
       </build>
     </profile>
     <profile>
-      <id>with-jacoco</id>
+      <id>with-coverage</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+              <includeNoLocationClasses>true</includeNoLocationClasses>
+              <exclude/>
+            </configuration>
             <executions>
               <execution>
                 <id>jacoco-prepare-agent</id>
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
+                <phase>initialize</phase>
               </execution>
               <execution>
                 <id>jacoco-report</id>
                 <goals>
                   <goal>report</goal>
                 </goals>
+                <phase>test</phase>
               </execution>
             </executions>
           </plugin>

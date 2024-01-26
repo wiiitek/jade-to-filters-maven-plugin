@@ -35,5 +35,7 @@ jobs:
           else
             echo "[SUCCESS] SONAR_TOKEN env variable exists"
           fi
-      - name: Run build with tests
-        run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify -Prun-its org.jacoco:jacoco-maven-plugin:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      - name: Run build with test coverage
+        run: mvn clean package -Pwith-coverage,run-its
+      - name:
+        run mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
