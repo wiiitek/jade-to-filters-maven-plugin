@@ -238,7 +238,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>3.2.3</version>
           <!--
             configured here in order to enable signing artifacts by specifying goal:
             mvn gpg:sign
