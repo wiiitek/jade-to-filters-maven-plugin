@@ -33,14 +33,13 @@ class FiltersCreatorXmlFormatter {
   }
 
   String format(Document document) {
-    String xml;
+    String xml = "";
 
-    StringWriter writer = null;
-    try {
+    try (StringWriter writer = new StringWriter()) {
+
       cleanBlankTextNodes(document);
 
       DOMSource domSource = new DOMSource(document);
-      writer = new StringWriter();
       StreamResult result = new StreamResult(writer);
 
       createTransformer().transform(domSource, result);
@@ -53,16 +52,10 @@ class FiltersCreatorXmlFormatter {
     } catch (TransformerException te) {
       mavenLog.error("Error while transforming XML document!", te);
       xml = "<!-- error while transforming XML document -->\n";
-    } finally {
-      if (writer != null) {
-        try {
-          writer.close();
-        } catch (IOException ioe) {
-          mavenLog.error("Error while closing string writer: " + ioe.getMessage(), ioe);
-        }
-      }
+    } catch (IOException ioe) {
+      mavenLog.error("Error while working with string writer.", ioe);
     }
-    // always change to linux newlines
+    // always change to Linux newlines
     return xml.replace("\r\n", "\n");
   }
 
