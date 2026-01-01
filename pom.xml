@@ -233,7 +233,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.9.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -429,21 +429,18 @@
               <pomIncludes>
                 <pomInclude>*/pom.xml</pomInclude>
               </pomIncludes>
-              <postBuildHookScript>verify</postBuildHookScript>
+              <postBuildHookScript>verify-plugin-output</postBuildHookScript>
               <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+              <!-- Specific Maven settings file for integration tests: -->
               <settingsFile>src/it/settings.xml</settingsFile>
-              <goals>
-                <goal>clean</goal>
-                <goal>test-compile</goal>
-              </goals>
+              <postBuildHookScript>verify</postBuildHookScript>
             </configuration>
             <executions>
               <execution>
                 <id>integration-test</id>
                 <goals>
                   <goal>install</goal>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
+                  <goal>run</goal>
                 </goals>
               </execution>
             </executions>
