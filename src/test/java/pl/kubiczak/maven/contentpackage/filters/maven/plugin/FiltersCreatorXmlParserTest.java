@@ -14,6 +14,7 @@ import org.w3c.dom.Element;
 @ExtendWith(MockitoExtension.class)
 class FiltersCreatorXmlParserTest {
 
+  @SuppressWarnings("LineLengthCheck")
   private static final String XML_WITH_EXTERNAL_ENTITIES = """
       <?xml version="1.0" encoding="UTF-8"?>
       <!DOCTYPE root [<!ENTITY insecure SYSTEM 'file:///etc/passwd'>]><root>&insecure;</root><workspaceFilter version="1.0">
@@ -22,7 +23,7 @@ class FiltersCreatorXmlParserTest {
       """;
 
   private static final String XML = """
-      <? xml version="1.0" encoding="UTF-8"?>
+      <?xml version="1.0" encoding="UTF-8"?>
       <zażółć version="1.0">
         <test/>
       </zażółć>
