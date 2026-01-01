@@ -129,14 +129,16 @@ class OutputFileWriterTest {
 
     String expectedPathInMessage = existingDirectory.toAbsolutePath().toString();
     String first = actual.get(0);
-    assertThat(first).startsWith("Cannot delete '");
-    assertThat(first).contains(expectedPathInMessage);
-    assertThat(first).endsWith("' as it exists but is not a file.");
+    assertThat(first)
+        .startsWith("Cannot delete '")
+        .contains(expectedPathInMessage)
+        .endsWith("' as it exists but is not a file.");
 
     String second = actual.get(1);
-    assertThat(second).startsWith("File not found or is a folder: '");
-    assertThat(second).contains(expectedPathInMessage);
-    assertThat(second).endsWith("'");
+    assertThat(second)
+        .startsWith("File not found or is a folder: '")
+        .contains(expectedPathInMessage)
+        .endsWith("'");
   }
 
   @Test

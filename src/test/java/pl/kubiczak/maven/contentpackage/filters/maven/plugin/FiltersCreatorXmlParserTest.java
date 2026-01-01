@@ -14,18 +14,20 @@ import org.w3c.dom.Element;
 @ExtendWith(MockitoExtension.class)
 class FiltersCreatorXmlParserTest {
 
-  private static final String XML_WITH_EXTERNAL_ENTITIES = ""
-      + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-      + "<!DOCTYPE root [<!ENTITY insecure SYSTEM 'file:///etc/passwd'>]><root>&insecure;</root>"
-      + "<workspaceFilter version=\"1.0\">\n"
-      + "  <value>&insecure;</value>\n"
-      + "</workspaceFilter>\n";
+  @SuppressWarnings("LineLengthCheck")
+  private static final String XML_WITH_EXTERNAL_ENTITIES = """
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE root [<!ENTITY insecure SYSTEM 'file:///etc/passwd'>]><root>&insecure;</root><workspaceFilter version="1.0">
+        <value>&insecure;</value>
+      </workspaceFilter>
+      """;
 
-  private static final String XML = ""
-      + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-      + "<zażółć version=\"1.0\">\n"
-      + "  <test/>\n"
-      + "</zażółć>\n";
+  private static final String XML = """
+      <?xml version="1.0" encoding="UTF-8"?>
+      <zażółć version="1.0">
+        <test/>
+      </zażółć>
+      """;
 
   @Mock
   private Log mavenLogMock;

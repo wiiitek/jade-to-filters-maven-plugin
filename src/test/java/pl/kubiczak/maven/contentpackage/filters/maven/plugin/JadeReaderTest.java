@@ -25,10 +25,9 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("simple-filter.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = ""
-        + "<filters>\n"
-        + "<filter root=\"/content/test\"></filter>"
-        + "</filters>";
+    String expected = """
+        <filters>
+        <filter root="/content/test"></filter></filters>""";
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -39,11 +38,10 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("two-filters.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = ""
-        + "<filters>\n"
-        + "<filter root=\"/content/test\"></filter>\n"
-        + "<filter root=\"/content/dam/test\"></filter>"
-        + "</filters>";
+    String expected = """
+        <filters>
+        <filter root="/content/test"></filter>
+        <filter root="/content/dam/test"></filter></filters>""";
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -54,18 +52,17 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = ""
-        + "<filters>\n"
-        + "<filter root=\"/content/project/dam\">\n"
-        + "  <!-- let's exclude all renditions for DAM nodes-->\n"
-        + "  <exclude pattern=\"/content/project/dam(/.*)?/renditions(/.*)?\"></exclude>\n"
-        + "  <!--\n"
-        + "  but we want to to include original rendition\n"
-        + "  so that others could be regenerated\n"
-        + "  -->\n"
-        + "  <include pattern=\"/content/project/dam(/.*)?/renditions/original\"></include>\n"
-        + "</filter>"
-        + "</filters>";
+    String expected = """
+        <filters>
+        <filter root="/content/project/dam">
+          <!-- let's exclude all renditions for DAM nodes-->
+          <exclude pattern="/content/project/dam(/.*)?/renditions(/.*)?"></exclude>
+          <!--
+          but we want to to include original rendition
+          so that others could be regenerated
+          -->
+          <include pattern="/content/project/dam(/.*)?/renditions/original"></include>
+        </filter></filters>""";
 
     assertThat(actual).isEqualTo(expected);
   }
