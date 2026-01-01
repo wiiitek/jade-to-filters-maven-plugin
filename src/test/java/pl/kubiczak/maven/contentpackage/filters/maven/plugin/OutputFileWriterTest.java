@@ -5,12 +5,11 @@ import static org.assertj.core.api.Fail.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
@@ -40,22 +39,29 @@ public class OutputFileWriterTest {
   @Captor
   ArgumentCaptor<String> errorMessageCaptor;
 
-  private File outputFile;
+  private Path outputFile;
 
   /**
    * Creates random File instance in tmp folder, but not actual file on filesystem.
    */
   @BeforeEach
-  public void createNonExistingOutputFile(@TempDir Path tempDir) throws IOException {
+  public void createsRandomPathForOutputFile(@TempDir Path tempDir) {
     String randomFileName = new RandomFilename().getNext("xml");
-    outputFile = tempDir.resolve(randomFileName).toFile();
-    assert !outputFile.exists() : "Created file should not exist";
+    outputFile = tempDir.resolve(randomFileName);
+    assertThat(Files.exists(outputFile))
+        .as("Random path should not point at any file")
+        .isFalse();
   }
 
+  /**
+   * Deletes random file after tests.
+   */
   @AfterEach
-  public void deleteCreatedFileIfExists() {
-    boolean isNoThere = !outputFile.exists() || outputFile.delete();
-    assert isNoThere : "The output file should cleaned-up (deleted) after test!";
+  public void deleteCreatedFileIfExists() throws IOException {
+    Files.deleteIfExists(outputFile);
+    assertThat(Files.exists(outputFile))
+        .as("The output file should be cleaned-up (deleted) after test!")
+        .isFalse();
   }
 
   @Test
@@ -65,9 +71,9 @@ public class OutputFileWriterTest {
 
     tested.write(null);
 
-    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
-    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
-    verifyFileContent(outputFile.getAbsolutePath(), StringUtils.EMPTY);
+    assertThat(Files.exists(outputFile)).as("Output fle should exist").isTrue();
+    assertThat(Files.isRegularFile(outputFile)).as("Output file should be a file").isTrue();
+    verifyFileContent(outputFile, StringUtils.EMPTY);
   }
 
   @Test
@@ -77,9 +83,9 @@ public class OutputFileWriterTest {
 
     tested.write(StringUtils.EMPTY);
 
-    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
-    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
-    verifyFileContent(outputFile.getAbsolutePath(), StringUtils.EMPTY);
+    assertThat(Files.exists(outputFile)).as("Output fle should exist").isTrue();
+    assertThat(Files.isRegularFile(outputFile)).as("Output file should be a file").isTrue();
+    verifyFileContent(outputFile, StringUtils.EMPTY);
   }
 
   @Test
@@ -89,9 +95,9 @@ public class OutputFileWriterTest {
 
     tested.write(SPECIAL_ENDING_CONTENT);
 
-    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
-    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
-    verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_ENDING_CONTENT);
+    assertThat(Files.exists(outputFile)).as("Output fle should exist").isTrue();
+    assertThat(Files.isRegularFile(outputFile)).as("Output file should be a file").isTrue();
+    verifyFileContent(outputFile, SPECIAL_ENDING_CONTENT);
   }
 
   @Test
@@ -101,16 +107,13 @@ public class OutputFileWriterTest {
 
     tested.write(SPECIAL_CHARS_CONTENT);
 
-    assertThat(outputFile.exists()).as("Output fle should exist").isTrue();
-    assertThat(outputFile.isFile()).as("Output file should be a file").isTrue();
-    verifyFileContent(outputFile.getAbsolutePath(), SPECIAL_CHARS_CONTENT);
+    assertThat(Files.exists(outputFile)).as("Output fle should exist").isTrue();
+    assertThat(Files.isRegularFile(outputFile)).as("Output file should be a file").isTrue();
+    verifyFileContent(outputFile, SPECIAL_CHARS_CONTENT);
   }
 
   @Test
-  public void shouldLogMessageWhenFileIsNotFound(@TempDir Path tempDir) {
-    String folderPath = tempDir.toAbsolutePath().toString();
-    File existingDirectory = new File(folderPath);
-
+  public void shouldLogMessageWhenFileIsNotFound(@TempDir Path existingDirectory) {
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
 
     try {
@@ -124,21 +127,20 @@ public class OutputFileWriterTest {
     List<String> actual = errorMessageCaptor.getAllValues();
     assertThat(actual).hasSize(2);
 
+    String expectedPathInMessage = existingDirectory.toAbsolutePath().toString();
     String first = actual.get(0);
     assertThat(first).startsWith("Cannot delete '");
-    assertThat(first).contains(folderPath);
+    assertThat(first).contains(expectedPathInMessage);
     assertThat(first).endsWith("' as it exists but is not a file.");
 
     String second = actual.get(1);
     assertThat(second).startsWith("File not found or is a folder: '");
-    assertThat(second).contains(folderPath);
+    assertThat(second).contains(expectedPathInMessage);
     assertThat(second).endsWith("'");
   }
 
   @Test
-  public void shouldThrowExceptionWhenFileIsNotFound(@TempDir Path tempDir) {
-    String folderPath = tempDir.toAbsolutePath().toString();
-    File existingDirectory = new File(folderPath);
+  public void shouldThrowExceptionWhenFileIsNotFound(@TempDir Path existingDirectory) {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
 
@@ -151,14 +153,16 @@ public class OutputFileWriterTest {
     }
   }
 
-  private void verifyFileContent(String path, String expectedContent) {
-    FileInputStream is = null;
+  private void verifyFileContent(Path path, String expectedContent) {
+    InputStream is = null;
     String actualContent = null;
     try {
-      is = new FileInputStream(path);
+      is = Files.newInputStream(path);
       actualContent = read(is);
     } catch (FileNotFoundException e) {
       fail("File " + path + "should be created!");
+    } catch (IOException e) {
+      fail("Cannot read content of file " + path);
     } finally {
       closeInputStream(is);
     }
@@ -175,7 +179,7 @@ public class OutputFileWriterTest {
     return writer.toString();
   }
 
-  private void closeInputStream(FileInputStream is) {
+  private void closeInputStream(InputStream is) {
     if (is != null) {
       try {
         is.close();

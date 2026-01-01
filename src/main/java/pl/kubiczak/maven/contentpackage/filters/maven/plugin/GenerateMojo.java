@@ -1,6 +1,7 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -49,7 +50,8 @@ public class GenerateMojo extends AbstractMojo {
       filtersCreator.addFromFile(jadeFilename);
     }
 
-    OutputFileWriter outputFileWriter = new OutputFileWriter(getLog(), outputFile);
+    Path path = outputFile.toPath();
+    OutputFileWriter outputFileWriter = new OutputFileWriter(getLog(), path);
     outputFileWriter.write(filtersCreator.prettyXml());
   }
 }
