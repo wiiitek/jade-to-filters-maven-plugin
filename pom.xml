@@ -456,8 +456,9 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <configuration>
-              <includeNoLocationClasses>true</includeNoLocationClasses>
-              <exclude/>
+              <excludes>
+                <exclude>**/HelpMojo.class</exclude>
+              </excludes>
             </configuration>
             <executions>
               <execution>
