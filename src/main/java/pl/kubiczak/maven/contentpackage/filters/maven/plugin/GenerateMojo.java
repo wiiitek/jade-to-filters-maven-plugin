@@ -50,7 +50,6 @@ public class GenerateMojo extends AbstractMojo {
       filtersCreator.addFromFile(jadeFilename);
     }
 
-    // TODO: can I use Path right from the beginning as a parameter?
     Path path = outputFile.toPath();
     OutputFileWriter outputFileWriter = new OutputFileWriter(getLog(), path);
     outputFileWriter.write(filtersCreator.prettyXml());

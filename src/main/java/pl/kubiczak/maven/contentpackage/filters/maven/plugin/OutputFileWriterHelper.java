@@ -23,29 +23,32 @@ class OutputFileWriterHelper {
 
   void createParentDirectories() throws MojoExecutionException {
     Path parent = path.getParent();
-    if (!Files.isDirectory(path)) {
-      mavenLog.info("Creating directories for path: '" + path + "'.");
+    if (!Files.exists(parent)) {
+      mavenLog.info("Creating directories for path: '" + parent + "'.");
       try {
         Files.createDirectories(parent);
-        mavenLog.debug("Directories created for path: '" + path + "'");
+        mavenLog.debug("Directories created for path: '" + parent + "'");
       } catch (IOException e) {
-        throw new MojoExecutionException("Couldn't create folder for a file: '" + path + "'", e);
+        throw new MojoExecutionException("Couldn't create folder: '" + parent + "'", e);
       }
     }
   }
 
   void deleteFileIfExists() throws MojoExecutionException {
     if (Files.exists(path)) {
-      if (!Files.isRegularFile(path)) {
-        String msg = "Cannot delete '" + path + "' as it exists but is not a file.";
-        mavenLog.error(msg);
-      } else {
+      boolean regularFile = Files.isRegularFile(path);
+      if (regularFile) {
         try {
           boolean deleted = Files.deleteIfExists(path);
-          mavenLog.debug("File '" + path + "' was deleted. Success: '" + deleted + "'.");
+          if (deleted) {
+            mavenLog.debug("File '" + path + "' was deleted.");
+          }
         } catch (IOException e) {
           throw new MojoExecutionException("Couldn't delete a file: '" + path + "'", e);
         }
+      } else {
+        String msg = "Cannot delete '" + path + "' as it exists but is not a file.";
+        mavenLog.error(msg);
       }
     }
   }

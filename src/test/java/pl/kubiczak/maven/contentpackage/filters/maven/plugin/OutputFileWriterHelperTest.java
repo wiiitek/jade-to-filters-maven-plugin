@@ -79,7 +79,7 @@ public class OutputFileWriterHelperTest {
     tested.deleteFileIfExists();
 
     String filePath = fileOnFilesystem.toAbsolutePath().toString();
-    String expectedMessage = "File '" + filePath + "' was deleted. Success: 'true'.";
+    String expectedMessage = "File '" + filePath + "' was deleted.";
     verify(mavenLogMock, times(ONCE)).debug(expectedMessage);
   }
 }
