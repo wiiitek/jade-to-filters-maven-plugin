@@ -18,6 +18,13 @@ jobs:
     steps:
       - name: Info
         run: 'echo "Running Sonar scanner on branch: ${{ inputs.currentBranchName }}"'
+      - name: Check env variable
+        run: >
+          if [[ -z "${SONAR_TOKEN}" ]]; then
+            echo "[FAILURE] Missing SONAR_TOKEN env variable"
+          else
+            echo "[SUCCESS] SONAR_TOKEN env variable exists"
+          fi
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Zulu/Azul JAVA 17
@@ -26,13 +33,12 @@ jobs:
           distribution: 'zulu'
           java-version-file: '.java-version'
           cache: 'maven'
-      - name: Check env variable
-        run: >
-          if [[ -z "${SONAR_TOKEN}" ]]; then
-            echo "[FAILURE] Missing SONAR_TOKEN env variable"
-          else
-            echo "[SUCCESS] SONAR_TOKEN env variable exists"
-          fi
+      - name: Cache SonarQube packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
       - name: Run build with test coverage
         run: mvn clean package -Pwith-coverage,run-its
         # since we have Sonar plugin in pom we can use short version instead of
