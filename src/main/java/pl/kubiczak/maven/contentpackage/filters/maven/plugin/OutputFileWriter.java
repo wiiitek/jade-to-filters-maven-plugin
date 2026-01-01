@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
@@ -20,9 +21,9 @@ class OutputFileWriter {
 
   private final Log mavenLog;
 
-  private final File outputFile;
+  private final Path outputFile;
 
-  OutputFileWriter(Log mavenLog, File outputFile) {
+  OutputFileWriter(Log mavenLog, Path outputFile) {
     this.mavenLog = mavenLog;
     this.outputFile = outputFile;
   }
