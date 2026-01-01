@@ -1,6 +1,11 @@
 name: Main
 
-on: push
+on:
+  schedule:
+    - cron: "15 15 * * 4"  # At 15:15 on Thursday
+  push:
+    branches:
+      - '*'
 
 jobs:
   build:
