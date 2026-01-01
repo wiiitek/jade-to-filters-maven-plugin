@@ -1,6 +1,4 @@
-Jade to Filters Maven Plugin
-============================
-
+# Jade to Filters Maven Plugin
 
 [![Build Status](https://github.com/wiiitek/jade-to-filters-maven-plugin/actions/workflows/main.yml/badge.svg)](https://github.com/wiiitek/jade-to-filters-maven-plugin/actions/workflows/main.yml)
 [![sonarcloud.io](https://sonarcloud.io/api/project_badges/measure?project=wiiitek-github_jade-to-filters-maven-plugin&metric=alert_status)](https://sonarcloud.io/summary/overall?id=wiiitek-github_jade-to-filters-maven-plugin)
@@ -21,8 +19,7 @@ You may have separate Maven modules for your sample content, assets and applicat
 
 However when making a release you usually want to have one single package with all parts. The filters for this package need to be in sync with the filters for submodules. This is where you can benefit from Jade to Filters Maven Plugin.
 
-Usage
------
+## Usage
 
 Add Jade file `src/main/resources/filter.jade` with filters definition
 
@@ -81,8 +78,7 @@ filter(root="/content/project")
   exclude(pattern="/content/project(/.*)?/qa(/.*)?")
 ```
 
-Release process
----------------
+## Release process 
 
 [Maven release plugin] is used for making a release for this project.
 
