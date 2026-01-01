@@ -1,5 +1,7 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -27,7 +29,7 @@ class FiltersCreatorXmlParser {
     Document document = null;
     try {
       DocumentBuilder docBuilder = createSecureFactory().newDocumentBuilder();
-      InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+      InputSource in = new InputSource(new ByteArrayInputStream(xml.getBytes(UTF_8)));
       document = docBuilder.parse(in);
     } catch (ParserConfigurationException pce) {
       logXmlException("Error while creating XML document builder.", pce, xml);

@@ -3,7 +3,6 @@ package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.BufferedWriter;
-import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,15 +61,5 @@ class OutputFileWriter {
   private void logAndThrow(String errorMessage, Exception ex) throws MojoExecutionException {
     mavenLog.error(errorMessage);
     throw new MojoExecutionException(errorMessage, ex);
-  }
-
-  private void closeIfNotNull(Closeable output) {
-    if (output != null) {
-      try {
-        output.close();
-      } catch (IOException e) {
-        //
-      }
-    }
   }
 }

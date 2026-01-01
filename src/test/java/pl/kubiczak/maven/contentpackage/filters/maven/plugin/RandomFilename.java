@@ -4,15 +4,8 @@ import java.util.Random;
 
 class RandomFilename {
 
-  private final Random random;
-
-  RandomFilename() {
-    random = new Random(System.currentTimeMillis());
-  }
-
   String getNext(String extension) {
-    Integer randomInt = new Random(System.currentTimeMillis()).nextInt();
-    long number = Math.abs(randomInt.longValue());
+    int number = new Random(System.currentTimeMillis()).nextInt(999_999_999);
     return String.format("file-%d.%s", number, extension);
   }
 }
