@@ -45,17 +45,23 @@ public class OutputFileWriterTest {
    * Creates random File instance in tmp folder, but not actual file on filesystem.
    */
   @BeforeEach
-  public void createNonExistingOutputFile(@TempDir Path tempDir) throws IOException {
+  public void createsRandomPathForOutputFile(@TempDir Path tempDir) {
     String randomFileName = new RandomFilename().getNext("xml");
     outputFile = tempDir.resolve(randomFileName);
-    assert !Files.exists(outputFile) : "Created file should not exist";
+    assertThat(Files.exists(outputFile))
+        .as("Random path should not point at any file")
+        .isFalse();
   }
 
+  /**
+   * Deletes random file after tests.
+   */
   @AfterEach
   public void deleteCreatedFileIfExists() throws IOException {
     Files.deleteIfExists(outputFile);
-    boolean isNoThere = !Files.exists(outputFile);
-    assert isNoThere : "The output file should cleaned-up (deleted) after test!";
+    assertThat(Files.exists(outputFile))
+        .as("The output file should be cleaned-up (deleted) after test!")
+        .isFalse();
   }
 
   @Test
@@ -109,7 +115,6 @@ public class OutputFileWriterTest {
   @Test
   public void shouldLogMessageWhenFileIsNotFound(@TempDir Path existingDirectory) {
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
-    String expectedPathInMessage = existingDirectory.toAbsolutePath().toString();
 
     try {
       tested.write(SPECIAL_CHARS_CONTENT);
@@ -122,6 +127,7 @@ public class OutputFileWriterTest {
     List<String> actual = errorMessageCaptor.getAllValues();
     assertThat(actual).hasSize(2);
 
+    String expectedPathInMessage = existingDirectory.toAbsolutePath().toString();
     String first = actual.get(0);
     assertThat(first).startsWith("Cannot delete '");
     assertThat(first).contains(expectedPathInMessage);

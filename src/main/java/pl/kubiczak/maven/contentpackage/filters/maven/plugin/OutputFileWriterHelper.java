@@ -18,7 +18,7 @@ class OutputFileWriterHelper {
   }
 
   String getFilePath() {
-    return path.toAbsolutePath().toString();
+    return path.toString();
   }
 
   void createParentDirectories() throws MojoExecutionException {
