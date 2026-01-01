@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class FiltersCreatorXmlFormatterTest {
+class FiltersCreatorXmlFormatterTest {
 
   private static final String SIMPLE_XML = ""
       + "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -37,7 +37,7 @@ public class FiltersCreatorXmlFormatterTest {
   private Log mavenLogMock;
 
   @Test
-  public void addFromXml_shouldAddSimpleElement() {
+  void addFromXml_shouldAddSimpleElement() {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test></test></filters>")
         .prettyXml();
@@ -45,7 +45,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromXml_shouldAddNestedElement() {
+  void addFromXml_shouldAddNestedElement() {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters><test><sub-test/></test></filters>")
         .prettyXml();
@@ -53,7 +53,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromXml_shouldAddCommentForIncorrectElement() {
+  void addFromXml_shouldAddCommentForIncorrectElement() {
     String actual = new FiltersCreator(mavenLogMock)
         .addFromXml("<filters>incorrect < XML</filters>")
         .prettyXml();
@@ -61,7 +61,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromFile_shouldAddElementFromUrl() {
+  void addFromFile_shouldAddElementFromUrl() {
     URL jadeFileUrl = getClass().getClassLoader().getResource("test.jade");
 
     String actual = new FiltersCreator(mavenLogMock)
@@ -71,7 +71,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromFile_shouldAddElementFromFilename() {
+  void addFromFile_shouldAddElementFromFilename() {
     String filePath = getClass().getClassLoader().getResource("test.jade").getPath();
 
     String actual = new FiltersCreator(mavenLogMock)
@@ -81,7 +81,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromFile_shouldAddFiltersFromTwoFiles() {
+  void addFromFile_shouldAddFiltersFromTwoFiles() {
     String filterJadeFile =
         getClass().getClassLoader().getResource("test-filter.jade").getPath();
     String damFilterJadeFile =
@@ -95,7 +95,7 @@ public class FiltersCreatorXmlFormatterTest {
   }
 
   @Test
-  public void addFromFile_shouldLogErrorForNonExistingFile() {
+  void addFromFile_shouldLogErrorForNonExistingFile() {
     String filterJadeFile =
         getClass().getClassLoader().getResource("test-filter.jade").getPath();
     String nonExistingFile =
