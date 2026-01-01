@@ -13,14 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class JadeReaderTest {
+class JadeReaderTest {
 
 
   @Mock
   private Log mavenLogMock;
 
   @Test
-  public void transformToXml_shouldTransformSimpleFilter() {
+  void transformToXml_shouldTransformSimpleFilter() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("simple-filter.jade");
@@ -34,7 +34,7 @@ public class JadeReaderTest {
   }
 
   @Test
-  public void transformToXml_shouldReadTwoFilters() {
+  void transformToXml_shouldReadTwoFilters() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("two-filters.jade");
@@ -49,7 +49,7 @@ public class JadeReaderTest {
   }
 
   @Test
-  public void transformToXml_shouldReadComments() {
+  void transformToXml_shouldReadComments() {
     JadeReader tested = new JadeReader(mavenLogMock);
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
@@ -71,7 +71,7 @@ public class JadeReaderTest {
   }
 
   @Test
-  public void transformToXml_shouldThrowExceptionForIncorrectSyntax() {
+  void transformToXml_shouldThrowExceptionForIncorrectSyntax() {
     JadeReader tested = new JadeReader(mavenLogMock);
     URL jadeFileUrl = getClass().getClassLoader().getResource("incorrect.jade");
 

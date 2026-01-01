@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class OutputFileWriterHelperTest {
+class OutputFileWriterHelperTest {
 
   private static final String LONG_PATH_TO_FILE = "some/path/to/a/file.xml";
 
@@ -29,7 +29,7 @@ public class OutputFileWriterHelperTest {
   private Log mavenLogMock;
 
   @Test
-  public void createParentDirectories_shouldNotCreateAFile(@TempDir Path tempDir)
+  void createParentDirectories_shouldNotCreateFile(@TempDir Path tempDir)
       throws MojoExecutionException, IOException {
     Path outputFilePath = tempDir.resolve(LONG_PATH_TO_FILE);
     Path parentFolder = outputFilePath.getParent();
@@ -55,7 +55,7 @@ public class OutputFileWriterHelperTest {
   }
 
   @Test
-  public void deleteFileIfExists_shouldReportIfOutputIsAFolder(@TempDir Path folder)
+  void deleteFileIfExists_shouldReportIfOutputIsFolder(@TempDir Path folder)
       throws MojoExecutionException {
     ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
 
@@ -69,7 +69,7 @@ public class OutputFileWriterHelperTest {
   }
 
   @Test
-  public void deleteFileIfExists_shouldLogIfPreviousFileWasDeleted(@TempDir Path tempDir)
+  void deleteFileIfExists_shouldLogIfPreviousFileWasDeleted(@TempDir Path tempDir)
       throws MojoExecutionException, IOException {
     Path fileOnFilesystem = tempDir.resolve("sample.xml");
     Files.createFile(fileOnFilesystem);

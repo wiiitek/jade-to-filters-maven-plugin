@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class OutputFileWriterTest {
+class OutputFileWriterTest {
 
   private static final String SPECIAL_CHARS_CONTENT = "źół\n!@#$%^&*()_+ \";\nGrüße\t";
 
@@ -45,7 +45,7 @@ public class OutputFileWriterTest {
    * Creates random File instance in tmp folder, but not actual file on filesystem.
    */
   @BeforeEach
-  public void createsRandomPathForOutputFile(@TempDir Path tempDir) {
+  void createsRandomPathForOutputFile(@TempDir Path tempDir) {
     String randomFileName = new RandomFilename().getNext("xml");
     outputFile = tempDir.resolve(randomFileName);
     assertThat(Files.exists(outputFile))
@@ -57,7 +57,7 @@ public class OutputFileWriterTest {
    * Deletes random file after tests.
    */
   @AfterEach
-  public void deleteCreatedFileIfExists() throws IOException {
+  void deleteCreatedFileIfExists() throws IOException {
     Files.deleteIfExists(outputFile);
     assertThat(Files.exists(outputFile))
         .as("The output file should be cleaned-up (deleted) after test!")
@@ -65,7 +65,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void write_shouldCreateEmptyFileForNull() throws MojoExecutionException {
+  void write_shouldCreateEmptyFileForNull() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -77,7 +77,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void write_shouldCreateFileForEmptyString() throws MojoExecutionException {
+  void write_shouldCreateFileForEmptyString() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -89,7 +89,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void write_shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
+  void write_shouldCreateFileWithNewlineAtTheEnd() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -101,7 +101,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void write_shouldCreateFileWithSpecialChars() throws MojoExecutionException {
+  void write_shouldCreateFileWithSpecialChars() throws MojoExecutionException {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, outputFile);
 
@@ -113,7 +113,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldLogMessageWhenFileIsNotFound(@TempDir Path existingDirectory) {
+  void shouldLogMessageWhenFileIsNotFound(@TempDir Path existingDirectory) {
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
 
     try {
@@ -140,7 +140,7 @@ public class OutputFileWriterTest {
   }
 
   @Test
-  public void shouldThrowExceptionWhenFileIsNotFound(@TempDir Path existingDirectory) {
+  void shouldThrowExceptionWhenFileIsNotFound(@TempDir Path existingDirectory) {
 
     OutputFileWriter tested = new OutputFileWriter(mavenLogMock, existingDirectory);
 
