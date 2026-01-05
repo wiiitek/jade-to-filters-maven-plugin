@@ -115,3 +115,11 @@ mvn release:perform -Psources,javadoc,sign
 ```bash
 mvn com.github.ekryd.sortpom:sortpom-maven-plugin:sort -Dsort.keepBlankLines -Dsort.expandEmptyElements=false  -Dsort.nrOfIndentSpace=2
 ```
+
+### SonarQube analysis
+
+```bash
+export SONAR_TOKEN=1234567890ABCDEF
+mvn clean verify -Pwith-coverage,run-its
+mvn sonar:sonar
+```
