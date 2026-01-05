@@ -107,3 +107,11 @@ mvn release:perform -Psources,javadoc,sign
 [comments in Pug files]: https://pugjs.org/language/comments.html
 [comments in Jade files]: http://jade-lang.com/reference/comments
 [Maven release plugin]: http://maven.apache.org/maven-release/maven-release-plugin/index.html
+
+## Development
+
+### Maven Sortpom Plugin
+
+```bash
+mvn com.github.ekryd.sortpom:sortpom-maven-plugin:sort -Dsort.keepBlankLines -Dsort.expandEmptyElements=false  -Dsort.nrOfIndentSpace=2
+```
