@@ -375,13 +375,13 @@
                   <version>${version.required.maven}</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>1.6.0</version>
+                  <version>17</version>
                 </requireJavaVersion>
                 <!-- Mojo extra-enforcer-rules -->
                 <banCircularDependencies/>
                 <!-- pedantic-pom-enforcers rules -->
                 <moduleOrder implementation="com.github.ferstl.maven.pomenforcers.PedanticModuleOrderEnforcer"/>
-                <dependencConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
+                <dependencyConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticDependencyConfigurationEnforcer"/>
                 <pluginConfiguration implementation="com.github.ferstl.maven.pomenforcers.PedanticPluginConfigurationEnforcer"/>
               </rules>
             </configuration>
