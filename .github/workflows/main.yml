@@ -1,11 +1,14 @@
 name: Main
 
 on:
-  schedule:
-    - cron: "15 15 * * 4"  # At 15:15 on Thursday
   push:
     branches:
-      - '*'
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+  schedule:
+    - cron: "15 15 * * 4"  # At 15:15 on Thursday
 
 jobs:
   build:
