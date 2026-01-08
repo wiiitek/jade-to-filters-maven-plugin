@@ -1,6 +1,5 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -15,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class JadeReaderTest {
 
-
   @Mock
   private Log mavenLogMock;
 
@@ -25,9 +23,11 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("simple-filter.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = """
+    String expected =
+        """
         <filters>
-        <filter root="/content/test"></filter></filters>""";
+        <filter root="/content/test"></filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -38,10 +38,12 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("two-filters.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = """
+    String expected =
+        """
         <filters>
         <filter root="/content/test"></filter>
-        <filter root="/content/dam/test"></filter></filters>""";
+        <filter root="/content/dam/test"></filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -52,7 +54,8 @@ class JadeReaderTest {
 
     URL jadeFileUrl = getClass().getClassLoader().getResource("filter-with-comment.jade");
     String actual = tested.transformToXml(jadeFileUrl);
-    String expected = """
+    String expected =
+        """
         <filters>
         <filter root="/content/project/dam">
           <!-- let's exclude all renditions for DAM nodes-->
@@ -62,7 +65,8 @@ class JadeReaderTest {
           so that others could be regenerated
           -->
           <include pattern="/content/project/dam(/.*)?/renditions/original"></include>
-        </filter></filters>""";
+        </filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }

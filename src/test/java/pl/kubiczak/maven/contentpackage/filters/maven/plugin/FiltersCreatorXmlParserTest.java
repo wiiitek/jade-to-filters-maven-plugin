@@ -1,6 +1,5 @@
 package pl.kubiczak.maven.contentpackage.filters.maven.plugin;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.maven.plugin.logging.Log;
@@ -15,14 +14,16 @@ import org.w3c.dom.Element;
 class FiltersCreatorXmlParserTest {
 
   @SuppressWarnings("LineLengthCheck")
-  private static final String XML_WITH_EXTERNAL_ENTITIES = """
+  private static final String XML_WITH_EXTERNAL_ENTITIES =
+      """
       <?xml version="1.0" encoding="UTF-8"?>
       <!DOCTYPE root [<!ENTITY insecure SYSTEM 'file:///etc/passwd'>]><root>&insecure;</root><workspaceFilter version="1.0">
         <value>&insecure;</value>
       </workspaceFilter>
       """;
 
-  private static final String XML = """
+  private static final String XML =
+      """
       <?xml version="1.0" encoding="UTF-8"?>
       <zażółć version="1.0">
         <test/>

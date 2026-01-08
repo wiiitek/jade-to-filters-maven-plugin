@@ -50,8 +50,9 @@ class FiltersCreatorXmlParser {
   }
 
   /**
-   * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md#jaxp-documentbuilderfactory-saxparserfactory-and-dom4j
-   *
+   * Creates a secure DocumentBuilderFactory.
+   * 
+   * @see <a href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md#jaxp-documentbuilderfactory-saxparserfactory-and-dom4j">OWASP XXE Prevention Cheat Sheet</a>
    * @return factory secured against external entity attacks
    */
   private DocumentBuilderFactory createSecureFactory() {

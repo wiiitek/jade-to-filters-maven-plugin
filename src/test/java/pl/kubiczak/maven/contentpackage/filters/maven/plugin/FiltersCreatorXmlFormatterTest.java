@@ -14,14 +14,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class FiltersCreatorXmlFormatterTest {
 
-  private static final String SIMPLE_XML = """
+  private static final String SIMPLE_XML =
+      """
       <?xml version="1.0" encoding="UTF-8"?>
       <workspaceFilter version="1.0">
         <test/>
       </workspaceFilter>
       """;
 
-  private static final String XML = """
+  private static final String XML =
+      """
       <?xml version="1.0" encoding="UTF-8"?>
       <workspaceFilter version="1.0">
         <filter root="/content/test">
