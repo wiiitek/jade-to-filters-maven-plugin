@@ -26,7 +26,8 @@ class JadeReaderTest {
     String expected =
         """
         <filters>
-        <filter root="/content/test"></filter></filters>""";
+        <filter root="/content/test"></filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -41,7 +42,8 @@ class JadeReaderTest {
         """
         <filters>
         <filter root="/content/test"></filter>
-        <filter root="/content/dam/test"></filter></filters>""";
+        <filter root="/content/dam/test"></filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }
@@ -63,7 +65,8 @@ class JadeReaderTest {
           so that others could be regenerated
           -->
           <include pattern="/content/project/dam(/.*)?/renditions/original"></include>
-        </filter></filters>""";
+        </filter></filters>
+        """.stripTrailing();
 
     assertThat(actual).isEqualTo(expected);
   }
