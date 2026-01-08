@@ -23,7 +23,7 @@ jobs:
           java-version-file: '.java-version'
           cache: 'maven'
       - name: Build with integration tests
-        run: 'mvn --batch-mode --no-transfer-progress clean verify -Prun-its'
+        run: 'mvn --batch-mode --no-transfer-progress clean verify -Prun-its  -Dversions.check.phase=none'
       - name: Test Report
         uses: dorny/test-reporter@v2
         if: ${{ !cancelled() }}

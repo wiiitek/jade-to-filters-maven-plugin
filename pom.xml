@@ -68,6 +68,7 @@
 
     <version.required.maven>3.8.1</version.required.maven>
 
+    <versions.check.phase>validate</versions.check.phase>
     <!--
       this property should be overwritten from commandline during release
     -->
@@ -324,7 +325,7 @@
             <goals>
               <goal>display-plugin-updates</goal>
             </goals>
-            <phase>validate</phase>
+            <phase>${versions.check.phase}</phase>
             <configuration>
               <logOutput>false</logOutput>
               <outputFile>${project.basedir}/src/main/resources/plugins-report.txt</outputFile>
@@ -335,7 +336,7 @@
             <goals>
               <goal>display-dependency-updates</goal>
             </goals>
-            <phase>validate</phase>
+            <phase>${versions.check.phase}</phase>
             <configuration>
               <logOutput>false</logOutput>
               <outputFile>${project.basedir}/src/main/resources/dependencies-report.txt</outputFile>
