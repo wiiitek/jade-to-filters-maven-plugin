@@ -25,7 +25,7 @@ jobs:
       - name: Build with integration tests
         run: 'mvn --batch-mode --no-transfer-progress clean verify -Prun-its  -Dversions.check.phase=none'
       - name: Test Report
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: ${{ !cancelled() }}
         with:
           name: Unit Tests
